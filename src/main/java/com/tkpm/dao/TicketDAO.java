@@ -2,40 +2,42 @@ package com.tkpm.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.tkpm.entities.AdminAccount;
-import com.tkpm.entities.BaseAccount;
-import com.tkpm.entities.CustomerAccount;
-import com.tkpm.entities.ManagerAccount;
+import com.tkpm.entities.Ticket;
 import com.tkpm.utils.HibernateUtil;
 
 //Using enum for applying Singleton Pattern
-public enum AccountDAO {
+public enum TicketDAO {
 
 	INSTANCE;
 	
 	private SessionFactory factory;
 	
-	private AccountDAO() {
+	private TicketDAO() {
 		factory = HibernateUtil.INSTANCE.getSessionFactory();
 	}
 	
-	//Create new account
-	public BaseAccount create(BaseAccount account) {
+	//Create list of tickets
+	public List<Ticket> create(List<Ticket> tickets) {
 		
 		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
 			
-			//Save the account to database
-			Integer id = (Integer) session.save(account);
-			
-			//Update the current id for the given account
-			account.setId(id);
+			//Iterate over all the ticket
+			tickets.forEach(ticket -> {
+				
+				//Save the tickets to database
+				Integer id = (Integer) session.save(ticket);
+				
+				//Update the current id for the given ticket
+				ticket.setId(id);
+			});
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -45,19 +47,24 @@ public enum AccountDAO {
 			session.close();
 		}
 		
-		return account;
+		return tickets;
 	}
 	
-	//Update an account
-	public BaseAccount update(BaseAccount account) {
+	//Update list of tickets
+	public List<Ticket> update(List<Ticket> tickets) {
 		
 		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
 			
-			//Update the account
-			session.update(account);
+			//Iterate over all the ticket
+			tickets.forEach(ticket -> {
+				
+				//Update each ticket
+				session.update(ticket);
+				
+			});
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -67,11 +74,11 @@ public enum AccountDAO {
 			session.close();
 		}
 		
-		return account;
+		return tickets;
 	}
 	
-	//Delete an account by the given id and class (class is based on role)
-	public int delete(Integer id, Class accountClass) {
+	//Delete an ticket by the given id
+	public int delete(List<Integer> ids) {
 
 		Session session = factory.getCurrentSession();
 		int errorCode = 0;
@@ -79,11 +86,18 @@ public enum AccountDAO {
 		try {
 			session.beginTransaction();
 			
-			BaseAccount account = (BaseAccount) session.get(accountClass, id);
+			//Iterate over each id
+			ids.forEach(id -> {
+				
+				//Try to find the ticket with the given id
+				Ticket ticket = session.get(Ticket.class, id);
+				
+				//Delete the ticket if it was existed
+				if (null !=  ticket) {
+					session.delete(ticket);
+				}
+			});
 			
-			if (null !=  account) {
-				session.delete(account);
-			}
 			
 		} catch (Exception ex) {
 			
@@ -98,17 +112,17 @@ public enum AccountDAO {
 		return errorCode;
 	}
 	
-	//Find all accounts in database with the given class (class is based on role)
-	public List<BaseAccount> findAll(Class accountClass) {
+	//Find all tickets in database
+	public List<Ticket> findAll() {
 		
 		Session session = factory.getCurrentSession();
-		List<BaseAccount> accounts = new ArrayList<>();
+		List<Ticket> tickets = new ArrayList<>();
 		
 		try {
 			session.beginTransaction();
 			
-			//Get the list of accounts
-			accounts = session.createQuery("from " + accountClass.getName()).list();
+			//Get the list of tickets
+			tickets = session.createQuery("from " + Ticket.class.getName()).list();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -118,29 +132,20 @@ public enum AccountDAO {
 			session.close();
 		}
 		
-		return accounts;
+		return tickets;
 		
 	}
 	
-	//Find account by id and class (class is based on role)
-	public BaseAccount find(Integer id, Class accountClass) {
+	//Find ticket by id
+	public Ticket find(Integer id) {
 		
 		Session session = factory.getCurrentSession();
-		BaseAccount account = null;
+		Ticket ticket = null;
 		
 		try {
 			session.beginTransaction();
 			
-			//Try to find the account base on role
-			if (accountClass.equals(CustomerAccount.class)) {
-				account = (CustomerAccount) session.get(accountClass, id);
-			} 
-			else if (accountClass.equals(ManagerAccount.class)){
-				account = (ManagerAccount) session.get(accountClass, id);
-			}
-			else if (accountClass.equals(AdminAccount.class)){
-				account = (AdminAccount) session.get(accountClass, id);
-			}
+			ticket = session.get(Ticket.class, id);
 			
 		} catch (Exception ex) {
 			
@@ -151,7 +156,7 @@ public enum AccountDAO {
 			session.close();
 		}
 	
-		return account;
+		return ticket;
 	}
 }
  

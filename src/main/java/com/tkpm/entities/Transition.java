@@ -59,6 +59,15 @@ public class Transition implements Serializable, Comparable<Transition> {
 	@Column(name = "note")
 	private String note;
 	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "identity_code")
+	private String identityCode;
+	
+	@Column(name = "phone_number")
+	private String phoneNumber;
+	
 	//Constructors
 	public Transition() {
 		super();
@@ -70,6 +79,9 @@ public class Transition implements Serializable, Comparable<Transition> {
 	public Set<Flight> getFlights() {return flights;}
 	public Integer getTransitionTime() {return transitionTime;}
 	public String getNote() {return note;}
+	public String getName() {return name;}
+	public String getIdentityCode() {return identityCode;}
+	public String getPhoneNumber() {return phoneNumber;}
 	
 	//Setters
 	public void setId(Integer id) {this.id = id;}	
@@ -77,6 +89,9 @@ public class Transition implements Serializable, Comparable<Transition> {
 	public void setFlights(Set<Flight> flights) {this.flights = flights;}
 	public void setTransitionTime(Integer transitionTime) {this.transitionTime = transitionTime;}
 	public void setNote(String note) {this.note = note;}
+	public void setName(String name) {this.name = name;}
+	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}
+	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
 
 	//Compare for using Set, by implementing Comparable
 	public int compareTo(Transition another) {

@@ -70,6 +70,15 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	@Column(name = "price")
 	private Integer price;
 	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "identity_code")
+	private String identityCode;
+	
+	@Column(name = "phone_number")
+	private String phoneNumber;
+	
 	//Constructors
 	public Ticket() {
 		super();
@@ -82,6 +91,9 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	public TicketClass getTicketClass() {return ticketClass;}
 	public CustomerAccount getCustomer() {return customer;}
 	public Integer getPrice() {return price;}
+	public String getName() {return name;}
+	public String getIdentityCode() {return identityCode;}
+	public String getPhoneNumber() {return phoneNumber;}
 
 	//Setters
 	public void setId(Integer id) {this.id = id;}
@@ -89,6 +101,9 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
 	public void setCustomer(CustomerAccount customer) {this.customer = customer;}
 	public void setPrice(Integer price) {this.price = price;}
+	public void setName(String name) {this.name = name;}
+	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}
+	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
 
 	//Compare for using Set, by implementing Comparable
 	public int compareTo(Ticket another) {

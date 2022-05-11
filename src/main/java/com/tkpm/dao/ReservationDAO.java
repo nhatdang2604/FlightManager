@@ -6,36 +6,36 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.tkpm.entities.Ticket;
+import com.tkpm.entities.Reservation;
 import com.tkpm.utils.HibernateUtil;
 
 //Using enum for applying Singleton Pattern
-public enum TicketDAO {
+public enum ReservationDAO {
 
 	INSTANCE;
 	
 	private SessionFactory factory;
 	
-	private TicketDAO() {
+	private ReservationDAO() {
 		factory = HibernateUtil.INSTANCE.getSessionFactory();
 	}
 	
-	//Create list of tickets
-	public List<Ticket> create(List<Ticket> tickets) {
+	//Create list of reservations
+	public List<Reservation> create(List<Reservation> reservations) {
 		
 		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
 			
-			//Iterate over all the ticket
-			tickets.forEach(ticket -> {
+			//Iterate over all the reservation
+			reservations.forEach(reservation -> {
 				
-				//Save the tickets to database
-				Integer id = (Integer) session.save(ticket);
+				//Save the reservations to database
+				Integer id = (Integer) session.save(reservation);
 				
-				//Update the current id for the given ticket
-				ticket.setId(id);
+				//Update the current id for the given reservation
+				reservation.setId(id);
 			});
 			
 		} catch (Exception ex) {
@@ -46,22 +46,22 @@ public enum TicketDAO {
 			session.close();
 		}
 		
-		return tickets;
+		return reservations;
 	}
 	
-	//Update list of tickets
-	public List<Ticket> update(List<Ticket> tickets) {
+	//Update list of reservations
+	public List<Reservation> update(List<Reservation> reservations) {
 		
 		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
 			
-			//Iterate over all the ticket
-			tickets.forEach(ticket -> {
+			//Iterate over all the reservation
+			reservations.forEach(reservation -> {
 				
-				//Update each ticket
-				session.update(ticket);
+				//Update each reservation
+				session.update(reservation);
 				
 			});
 			
@@ -73,10 +73,10 @@ public enum TicketDAO {
 			session.close();
 		}
 		
-		return tickets;
+		return reservations;
 	}
 	
-	//Delete an ticket by the given id
+	//Delete an reservation by the given id
 	public int delete(List<Integer> ids) {
 
 		Session session = factory.getCurrentSession();
@@ -88,12 +88,12 @@ public enum TicketDAO {
 			//Iterate over each id
 			ids.forEach(id -> {
 				
-				//Try to find the ticket with the given id
-				Ticket ticket = session.get(Ticket.class, id);
+				//Try to find the reservation with the given id
+				Reservation reservation = session.get(Reservation.class, id);
 				
-				//Delete the ticket if it was existed
-				if (null !=  ticket) {
-					session.delete(ticket);
+				//Delete the reservation if it was existed
+				if (null !=  reservation) {
+					session.delete(reservation);
 				}
 			});
 			
@@ -111,17 +111,17 @@ public enum TicketDAO {
 		return errorCode;
 	}
 	
-	//Find all tickets in database
-	public List<Ticket> findAll() {
+	//Find all reservations in database
+	public List<Reservation> findAll() {
 		
 		Session session = factory.getCurrentSession();
-		List<Ticket> tickets = new ArrayList<>();
+		List<Reservation> reservations = new ArrayList<>();
 		
 		try {
 			session.beginTransaction();
 			
-			//Get the list of tickets
-			tickets = session.createQuery("from " + Ticket.class.getName()).list();
+			//Get the list of reservations
+			reservations = session.createQuery("from " + Reservation.class.getName()).list();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -131,20 +131,20 @@ public enum TicketDAO {
 			session.close();
 		}
 		
-		return tickets;
+		return reservations;
 		
 	}
 	
-	//Find ticket by id
-	public Ticket find(Integer id) {
+	//Find reservation by id
+	public Reservation find(Integer id) {
 		
 		Session session = factory.getCurrentSession();
-		Ticket ticket = null;
+		Reservation reservation = null;
 		
 		try {
 			session.beginTransaction();
 			
-			ticket = session.get(Ticket.class, id);
+			reservation = session.get(Reservation.class, id);
 			
 		} catch (Exception ex) {
 			
@@ -155,7 +155,7 @@ public enum TicketDAO {
 			session.close();
 		}
 	
-		return ticket;
+		return reservation;
 	}
 }
  

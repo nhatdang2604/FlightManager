@@ -1,7 +1,7 @@
 package com.tkpm.dao;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.hibernate.Session;
@@ -97,20 +97,16 @@ public enum AirportDAO {
 	}
 	
 	//Find all airports in database
-	public Set<Airport> findAll() {
+	public List<Airport> findAll() {
 		
 		Session session = factory.getCurrentSession();
-		Set<Airport> airports = null;
+		List<Airport> airports = new ArrayList<>();
 		
 		try {
 			session.beginTransaction();
 			
 			//Get the list of airports
-			List<Airport> result = session.createQuery("from " + Airport.class.getName()).list();
-			
-			//Convert the list to set
-			airports = new TreeSet<>(result);
-		
+			airports = session.createQuery("from " + Airport.class.getName()).list();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

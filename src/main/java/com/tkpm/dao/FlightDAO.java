@@ -2,38 +2,37 @@ package com.tkpm.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.tkpm.entities.Transition;
+import com.tkpm.entities.Flight;
 import com.tkpm.utils.HibernateUtil;
 
 //Using enum for applying Singleton Pattern
-public enum TransitionDAO {
+public enum FlightDAO {
 
 	INSTANCE;
 	
 	private SessionFactory factory;
 	
-	private TransitionDAO() {
+	private FlightDAO() {
 		factory = HibernateUtil.INSTANCE.getSessionFactory();
 	}
 	
-	//Create new transition
-	public Transition create(Transition transition) {
+	//Create new flight
+	public Flight create(Flight flight) {
 		
 		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
 			
-			//Save the transition to database
-			Integer id = (Integer) session.save(transition);
+			//Save the flight to database
+			Integer id = (Integer) session.save(flight);
 			
-			//Update the current id for the given transition
-			transition.setId(id);
+			//Update the current id for the given flight
+			flight.setId(id);
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -43,19 +42,19 @@ public enum TransitionDAO {
 			session.close();
 		}
 		
-		return transition;
+		return flight;
 	}
 	
-	//Update an transition
-	public Transition update(Transition transition) {
+	//Update an flight
+	public Flight update(Flight flight) {
 		
 		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
 			
-			//Update the transition
-			session.update(transition);
+			//Update the flight
+			session.update(flight);
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -65,10 +64,10 @@ public enum TransitionDAO {
 			session.close();
 		}
 		
-		return transition;
+		return flight;
 	}
 	
-	//Delete an transition by the given id
+	//Delete an flight by the given id
 	public int delete(Integer id) {
 
 		Session session = factory.getCurrentSession();
@@ -77,10 +76,10 @@ public enum TransitionDAO {
 		try {
 			session.beginTransaction();
 			
-			Transition transition = session.get(Transition.class, id);
+			Flight flight = session.get(Flight.class, id);
 			
-			if (null !=  transition) {
-				session.delete(transition);
+			if (null !=  flight) {
+				session.delete(flight);
 			}
 			
 		} catch (Exception ex) {
@@ -96,17 +95,17 @@ public enum TransitionDAO {
 		return errorCode;
 	}
 	
-	//Find all transitions in database
-	public List<Transition> findAll() {
+	//Find all flights in database
+	public List<Flight> findAll() {
 		
 		Session session = factory.getCurrentSession();
-		List<Transition> transitions = new ArrayList<>();
+		List<Flight> flights = new ArrayList<>();
 		
 		try {
 			session.beginTransaction();
 			
-			//Get the list of transitions
-			transitions = session.createQuery("from " + Transition.class.getName()).list();
+			//Get the list of flights
+			flights = session.createQuery("from " + Flight.class.getName()).list();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -116,20 +115,20 @@ public enum TransitionDAO {
 			session.close();
 		}
 		
-		return transitions;
+		return flights;
 		
 	}
 	
-	//Find transition by id
-	public Transition find(Integer id) {
+	//Find flight by id
+	public Flight find(Integer id) {
 		
 		Session session = factory.getCurrentSession();
-		Transition transition = null;
+		Flight flight = null;
 		
 		try {
 			session.beginTransaction();
 			
-			transition = session.get(Transition.class, id);
+			flight = session.get(Flight.class, id);
 			
 		} catch (Exception ex) {
 			
@@ -140,7 +139,7 @@ public enum TransitionDAO {
 			session.close();
 		}
 	
-		return transition;
+		return flight;
 	}
 }
  

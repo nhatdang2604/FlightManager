@@ -19,6 +19,9 @@ public enum AccountService {
 
 	INSTANCE;
 	
+	public static final int CANCELLABLE = 0;
+	public static final int UNCANCELLABLE = 1;
+	
 	private AccountDAO accountDAO;
 	private ReservationService reservationService;
 	private PolicyService policyService;
@@ -104,7 +107,7 @@ public enum AccountService {
 		
 		//Return 1 to reject cancelling
 		if (policyService.isLateToCancel(reservation.getFlight())) {
-			return 1;
+			return UNCANCELLABLE;
 		}
 		
 		//Mark the ticket as has not booking yet
@@ -126,7 +129,7 @@ public enum AccountService {
 		reservationService.updateReservations(reservations);
 		
 		//Return 0 if cancellable
-		return 0;
+		return CANCELLABLE;
 	}
 }
  

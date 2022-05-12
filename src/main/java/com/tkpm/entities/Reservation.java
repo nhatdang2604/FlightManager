@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,10 +26,13 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	 */
 	private static final long serialVersionUID = -6565753193438714199L;
 
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
+	@OneToOne(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY)
+	@JoinColumn(name = "ticket_id")
+	private Ticket ticket;
 	
 	@ManyToOne(
 			cascade = {
@@ -88,6 +92,7 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	public CustomerAccount getCustomer() {return customer;}
 	public Integer getPrice() {return price;}
 	public LocalDate getBookDate() {return bookDate;}
+	public Ticket ticket() {return ticket;}
 
 	//Setters
 	public void setId(Integer id) {this.id = id;}
@@ -96,6 +101,7 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	public void setCustomer(CustomerAccount customer) {this.customer = customer;}
 	public void setPrice(Integer price) {this.price = price;}
 	public void setBookDate(LocalDate bookDate) {this.bookDate = bookDate;}
+	public void setTicket(Ticket ticket) {this.ticket = ticket;}
 	
 	//Compare for using Set, by implementing Comparable
 	public int compareTo(Reservation another) {

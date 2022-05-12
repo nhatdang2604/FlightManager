@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -54,6 +55,13 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 			nullable = true)
 	private TicketClass ticketClass;
 	
+	@OneToOne(
+			mappedBy = "ticket",
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			optional = true)
+	private Reservation reservation;
+	
 	@ManyToOne(
 			cascade = {
 					CascadeType.PERSIST,
@@ -79,6 +87,9 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
+	@Column(name = "is_booked")
+	private Boolean isBooked;
+	
 	//Constructors
 	public Ticket() {
 		super();
@@ -94,8 +105,10 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	public String getName() {return name;}
 	public String getIdentityCode() {return identityCode;}
 	public String getPhoneNumber() {return phoneNumber;}
-
-	//Setters
+	public Reservation getReservation() {return reservation;}
+	public Boolean getIsBooked() {return isBooked;}
+	 
+ 	//Setters
 	public void setId(Integer id) {this.id = id;}
 	public void setFlight(Flight flight) {this.flight = flight;}
 	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
@@ -104,7 +117,9 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	public void setName(String name) {this.name = name;}
 	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}
 	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
-
+	public void setReservaion(Reservation reservation) {this.reservation = reservation; }
+	public void setIsBooked(Boolean isBooked) {this.isBooked = isBooked;}
+	
 	//Compare for using Set, by implementing Comparable
 	public int compareTo(Ticket another) {
 		if (null == another) return 1;

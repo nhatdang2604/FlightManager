@@ -32,10 +32,8 @@ public enum ReservationDAO {
 			reservations.forEach(reservation -> {
 				
 				//Save the reservations to database
-				Integer id = (Integer) session.save(reservation);
+				session.save(reservation);
 				
-				//Update the current id for the given reservation
-				reservation.setId(id);
 			});
 			
 		} catch (Exception ex) {

@@ -23,7 +23,7 @@ public enum ReportService {
 		
 		BaseReport report = null;
 		
-		//Filternig the flights
+		//Filtering the flights by month and year, then get the wrapper for each flight
 		Set<Flight> flights = flightService.findAllFlights();
 		List<FlightStatisticWrapper> wrappers = flights
 				.stream()
@@ -45,7 +45,7 @@ public enum ReportService {
 		
 		BaseReport report = null;
 		
-		//Filternig the flights
+		//Filtering the flights by month and year, then get the wrapper for each flight
 		Set<Flight> flights = flightService.findAllFlights();
 		List<FlightStatisticWrapper> wrappers = flights
 				.stream()

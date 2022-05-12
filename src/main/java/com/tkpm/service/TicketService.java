@@ -3,10 +3,12 @@ package com.tkpm.service;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import com.tkpm.dao.TicketDAO;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.Ticket;
+import com.tkpm.entities.TicketClass;
 
 //Using enum for applying Singleton Pattern
 public enum TicketService {
@@ -59,5 +61,19 @@ public enum TicketService {
 		return flight.getTickets();
 	}
 	
+	//Get all the not-booked tickets with the given ticket class from a flight
+	public List<Ticket> findAvailableTicketFromFlight(Flight flight, TicketClass ticketClass) {
+		
+		//Get all the tickets from flight
+		Set<Ticket> tickets = findTicketFromFlight(flight);
+		
+		//In all tickets from flight, get all the ticket with the given class and had not been booked yet
+		List<Ticket> availableTickets = tickets
+				.stream()
+				.filter(ticket -> !ticket.getIsBooked() && ticket.getTicketClass().equals(ticketClass))
+				.collect(Collectors.toList());
+									
+		return availableTickets;
+	}
 }
  

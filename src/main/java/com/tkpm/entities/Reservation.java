@@ -25,13 +25,12 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	 * 
 	 */
 	private static final long serialVersionUID = -6565753193438714199L;
-
 	
 	@Id
 	@OneToOne(
 			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY)
-	@JoinColumn(name = "ticket_id")
+			fetch = FetchType.EAGER)
+	@JoinColumn(name = "id")
 	private Ticket ticket;
 	
 	@ManyToOne(
@@ -86,32 +85,24 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	}
 
 	//Getters
-	public Integer getId() {return id;}
+	public Ticket getTicket() {return ticket;}
 	public Flight getFlight() {return flight;}
 	public TicketClass getTicketClass() {return ticketClass;}
 	public CustomerAccount getCustomer() {return customer;}
 	public Integer getPrice() {return price;}
 	public LocalDate getBookDate() {return bookDate;}
-	public Ticket ticket() {return ticket;}
-
+	
 	//Setters
-	public void setId(Integer id) {this.id = id;}
+	public void setTicket(Ticket ticket) {this.ticket = ticket;}
 	public void setFlight(Flight flight) {this.flight = flight;}
 	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
 	public void setCustomer(CustomerAccount customer) {this.customer = customer;}
 	public void setPrice(Integer price) {this.price = price;}
 	public void setBookDate(LocalDate bookDate) {this.bookDate = bookDate;}
-	public void setTicket(Ticket ticket) {this.ticket = ticket;}
 	
 	//Compare for using Set, by implementing Comparable
 	public int compareTo(Reservation another) {
-		if (null == another) return 1;
-			
-		int result = 
-				(this.getId() > another.getId()?1:
-					(this.getId() < another.getId()? -1: 0));
-			
-		return result;
+		return this.getTicket().compareTo(another.getTicket());
 	}
 	
 }

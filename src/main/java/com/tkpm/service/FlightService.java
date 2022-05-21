@@ -74,15 +74,22 @@ public enum FlightService {
 					.collect(Collectors.toSet());
 		}
 		
-		if (null != startDate) {
+		if (null != startDate && null != endDate) {
+
+			flights = flights
+					.stream()
+					.filter(flight -> flight.getDateTime().toLocalDate().isAfter(startDate) &&
+										flight.getDateTime().toLocalDate().isBefore(endDate))
+					.collect(Collectors.toSet());
+			
+		} else if (null != startDate) {
 			
 			flights = flights
 					.stream()
 					.filter(flight -> flight.getDateTime().toLocalDate().isAfter(startDate))
-					.collect(Collectors.toSet());	
-		}
-		
-		if (null != endDate) {
+					.collect(Collectors.toSet());
+			
+		} else if (null != endDate) {
 			
 			flights = flights
 					.stream()

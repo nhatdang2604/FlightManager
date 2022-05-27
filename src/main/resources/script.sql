@@ -58,7 +58,31 @@ CREATE TABLE `admin_account` (
   	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
+DROP TABLE IF EXISTS `airport`;
+CREATE TABLE `airport` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+ 	`name` nvarchar(70) DEFAULT NULL,
+	
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `ticket_class`;
+CREATE TABLE `ticket_class` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+ 	`name` nvarchar(70) DEFAULT NULL,
+	
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `transition_airport`;
+CREATE TABLE `transition_airport` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+ 	`airport_id` int(11) NOT NULL,
+	`transition_time` int(15) DEFAULT NULL,
+	`note` nvarchar(70) DEFAULT NULL,
+ 	 CONSTRAINT `fk_transition_airport` FOREIGN KEY(`airport_id`) REFERENCES airport(`id`),
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `ministry`;
 CREATE TABLE `ministry` (

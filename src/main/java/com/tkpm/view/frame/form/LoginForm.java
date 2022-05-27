@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.tkpm.entities.User;
+import com.tkpm.service.AccountService;
 import com.tkpm.utils.HashingUtil;
 import com.tkpm.view.frame.BaseFrame;
 
@@ -160,4 +161,12 @@ public class LoginForm extends BaseFrame implements FormBehaviour {
 		super.close();
 	}
 	
+	public static void main(String[] args) {
+		LoginForm logForm = new LoginForm();
+		RegistrationForm regForm = new RegistrationForm(logForm);
+		logForm.getRegistrateButton().addActionListener(event -> {
+			regForm.open();
+		});
+		logForm.open();
+	}
 }

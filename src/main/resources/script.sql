@@ -84,6 +84,39 @@ CREATE TABLE `transition_airport` (
   	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `flight`;
+CREATE TABLE `flight` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+ 	`departure_airport_id` int(11) NOT NULL,
+	`arrival_airport_id` int(11) NOT NULL,
+	
+ 	 CONSTRAINT `fk_flight_departure` FOREIGN KEY(`departure_airport_id`) REFERENCES airport(`id`),
+	CONSTRAINT `fk_flight_arrival` FOREIGN KEY(`arrival_airport_id`) REFERENCES airport(`id`),
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `flight_detail`;
+CREATE TABLE `flight_detail` (
+  	`flight id` int(11) NOT NULL,
+ 	`departure_airport_id` int(11) NOT NULL,
+	`arrival_airport_id` int(11) NOT NULL,
+	`flight_time` int(11) DEFAULT 0,
+	`first_class_seat_size` int(11) DEFAULT 0,
+	`second_class_seat_size` int(11) DEFAULT 0,
+
+ 	 CONSTRAINT `fk_flight_detail` FOREIGN KEY(`flight_id`) REFERENCES flight(`id`),
+  	PRIMARY KEY (`flight_id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `flight_transition`;
+CREATE TABLE `flight_transition` (
+ 	`transition_airport_id` int(11) NOT NULL,
+	`flight_id` int(11) NOT NULL,
+ 	 CONSTRAINT `fk_transition_flight` FOREIGN KEY(`transition_airport_id`) REFERENCES transition_airport(`id`),
+	 CONSTRAINT `fk_flight_transition` FOREIGN KEY(`flight_id`) REFERENCES flight(`id`),
+  	PRIMARY KEY (transition_airport_id, flight_id)
+) ENGINE=InnoDB;
+
 DROP TABLE IF EXISTS `ministry`;
 CREATE TABLE `ministry` (
   `id` int(11) NOT NULL,

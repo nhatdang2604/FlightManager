@@ -49,7 +49,7 @@ public class Flight implements Serializable, Comparable<Flight> {
 					CascadeType.REFRESH},
 			fetch = FetchType.EAGER)
 	@JoinColumn(
-			name = "departure_airport", 
+			name = "departure_airport_id", 
 			referencedColumnName = "id",
 			nullable = true)
 	private Airport departureAirport;
@@ -74,7 +74,7 @@ public class Flight implements Serializable, Comparable<Flight> {
 					CascadeType.REFRESH},
 			fetch = FetchType.EAGER)
 	@JoinColumn(
-			name = "arrival_airport", 
+			name = "arrival_airport_id", 
 			referencedColumnName = "id",
 			nullable = true)
 	private Airport arrivalAirport;

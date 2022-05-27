@@ -97,7 +97,7 @@ CREATE TABLE `flight` (
 
 DROP TABLE IF EXISTS `flight_detail`;
 CREATE TABLE `flight_detail` (
-  	`flight id` int(11) NOT NULL,
+  	`flight_id` int(11) NOT NULL,
  	`departure_airport_id` int(11) NOT NULL,
 	`arrival_airport_id` int(11) NOT NULL,
 	`flight_time` int(11) DEFAULT 0,

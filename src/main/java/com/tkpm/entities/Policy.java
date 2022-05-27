@@ -23,6 +23,9 @@ public class Policy implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
+	@Column(name = "name")
+	private String name;
+	
 	@Column(name = "datatype")
 	private String datatype;
 	
@@ -38,12 +41,14 @@ public class Policy implements Serializable {
 
 	//Getters
 	public Integer getId() {return id;}
+	public String getName() {return name;}
 	public String getDatatype() {return datatype;}
 	public String getValue() {return value;}
 	public Boolean getIsApplied() {return isApplied;}
 
 	//Setters
 	public void setId(Integer id) {this.id = id;}
+	public void setName(String name) {this.name = name;}
 	public void setDatatype(String datatype) {this.datatype = datatype;}
 	public void setValue(String value) {this.value = value;}
 	public void setIsApplied(Boolean isApplied) {this.isApplied = isApplied;}

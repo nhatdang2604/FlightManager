@@ -28,13 +28,37 @@ CREATE TABLE `base_account` (
   	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS `student`;
-CREATE TABLE `student` (
-  `id` int(11) NOT NULL,
- 
-  CONSTRAINT `fk_student_base` FOREIGN KEY(`id`) REFERENCES base_user_role(`id`),
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS `customer_account`;
+CREATE TABLE `customer_account` (
+  	`id` int(11) NOT NULL,
+ 	`name` nvarchar(70) DEFAULT NULL,
+	`identity_code` nvarchar(15) DEFAULT NULL,
+	`phone_number` nvarchar(15) DEFAULT NULL,
+ 	 CONSTRAINT `fk_customer_base` FOREIGN KEY(`id`) REFERENCES base_account(`id`),
+  	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `manager_account`;
+CREATE TABLE `manager_account` (
+  	`id` int(11) NOT NULL,
+ 	`name` nvarchar(70) DEFAULT NULL,
+	`identity_code` nvarchar(15) DEFAULT NULL,
+	`phone_number` nvarchar(15) DEFAULT NULL,
+ 	 CONSTRAINT `fk_manager_base` FOREIGN KEY(`id`) REFERENCES base_account(`id`),
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `admin_account`;
+CREATE TABLE `admin_account` (
+  	`id` int(11) NOT NULL,
+ 	`name` nvarchar(70) DEFAULT NULL,
+	`identity_code` nvarchar(15) DEFAULT NULL,
+	`phone_number` nvarchar(15) DEFAULT NULL,
+ 	 CONSTRAINT `fk_admin_base` FOREIGN KEY(`id`) REFERENCES base_account(`id`),
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+
 
 DROP TABLE IF EXISTS `ministry`;
 CREATE TABLE `ministry` (

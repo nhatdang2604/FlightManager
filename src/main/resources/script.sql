@@ -117,6 +117,24 @@ CREATE TABLE `flight_transition` (
   	PRIMARY KEY (transition_airport_id, flight_id)
 ) ENGINE=InnoDB;
 
+DROP TABLE IF EXISTS `ticket`;
+CREATE TABLE `ticket` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+ 	`flight_id` int(11) NOT NULL,
+	`ticket_class_id` int(11) NOT NULL,
+	`customer_id` int(11) NOT NULL,
+	`price` int(11) DEFAULT 0,
+	`name` nvarchar(70) DEFAULT NULL,
+	`identity_code` nvarchar(15) DEFAULT NULL,
+	`phone_number` nvarchar(15) DEFAULT NULL,
+	`is_booked` boolean DEFAULT FALSE,	
+
+ 	 CONSTRAINT `fk_ticket_flight` FOREIGN KEY(`flight_id`) REFERENCES flight(`id`),
+	CONSTRAINT `fk_ticket_ticket_class` FOREIGN KEY(`ticket_class_id`) REFERENCES ticket_class(`id`),
+	CONSTRAINT `fk_ticket_customer` FOREIGN KEY(`customer_id`) REFERENCES customer_account(`id`),
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `ministry`;
 CREATE TABLE `ministry` (
   `id` int(11) NOT NULL,

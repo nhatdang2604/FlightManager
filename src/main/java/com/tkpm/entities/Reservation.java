@@ -45,19 +45,24 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 			referencedColumnName = "id",
 			nullable = true)
 	private Flight flight;
-	
-	@ManyToOne(
-			cascade = {
-					CascadeType.PERSIST,
-					CascadeType.MERGE,
-					CascadeType.DETACH,
-					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
-	@JoinColumn(
-			name = "ticket_class_id", 
-			referencedColumnName = "id",
-			nullable = true)
-	private TicketClass ticketClass;
+//	
+//	@ManyToOne(
+//			cascade = {
+//					CascadeType.PERSIST,
+//					CascadeType.MERGE,
+//					CascadeType.DETACH,
+//					CascadeType.REFRESH},
+//			fetch = FetchType.EAGER)
+//	@JoinColumn(
+//			name = "ticket_class_id", 
+//			referencedColumnName = "id",
+//			nullable = true)
+//	private TicketClass ticketClass;
+//	
+//
+//	@Column(name = "price")
+//	private Integer price;
+//	
 	
 	@ManyToOne(
 			cascade = {
@@ -72,11 +77,17 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 			nullable = true)
 	private CustomerAccount customer;
 	
-	@Column(name = "price")
-	private Integer price;
-	
 	@Column(name = "booking_date")
 	private LocalDate bookDate;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "identity_code")
+	private String identityCode;
+	
+	@Column(name = "phone_number")
+	private String phoneNumber;
 	
 	//Constructors
 	public Reservation() {
@@ -87,22 +98,29 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	//Getters
 	public Ticket getTicket() {return ticket;}
 	public Flight getFlight() {return flight;}
-	public TicketClass getTicketClass() {return ticketClass;}
+//	public TicketClass getTicketClass() {return ticketClass;}
 	public CustomerAccount getCustomer() {return customer;}
-	public Integer getPrice() {return price;}
+//	public Integer getPrice() {return price;}
 	public LocalDate getBookDate() {return bookDate;}
+	public String getName() {return name;}
+	public String getIdentityCode() {return identityCode;}
+	public String getPhoneNumber() {return phoneNumber;}
 	
 	//Setters
 	public void setTicket(Ticket ticket) {this.ticket = ticket;}
 	public void setFlight(Flight flight) {this.flight = flight;}
-	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
+//	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
 	public void setCustomer(CustomerAccount customer) {this.customer = customer;}
-	public void setPrice(Integer price) {this.price = price;}
+//	public void setPrice(Integer price) {this.price = price;}
+	public void setName(String name) {this.name = name;}
+	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}
+	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
 	public void setBookDate(LocalDate bookDate) {this.bookDate = bookDate;}
 	
 	//Compare for using Set, by implementing Comparable
 	public int compareTo(Reservation another) {
 		return this.getTicket().compareTo(another.getTicket());
 	}
-	
+
+
 }

@@ -122,7 +122,7 @@ CREATE TABLE `ticket` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
  	`flight_id` int(11) NOT NULL,
 	`ticket_class_id` int(11) NOT NULL,
-	`customer_id` int(11) NOT NULL,
+	`customer_id` int(11) DEFAULT NULL,
 	`price` int(11) DEFAULT 0,
 	`name` nvarchar(70) DEFAULT NULL,
 	`identity_code` nvarchar(15) DEFAULT NULL,
@@ -135,80 +135,34 @@ CREATE TABLE `ticket` (
   	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `ministry`;
-CREATE TABLE `ministry` (
-  `id` int(11) NOT NULL,
-  
-  CONSTRAINT `fk_ministry_base` FOREIGN KEY(`id`) REFERENCES base_user_role(`id`),
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS `reservation`;
+CREATE TABLE `reservation` (
+  	`id` int(11) NOT NULL,
+ 	`flight_id` int(11) NOT NULL,
+	`customer_id` int(11) DEFAULT NULL,
+	`name` nvarchar(70) DEFAULT NULL,
+	`identity_code` nvarchar(15) DEFAULT NULL,
+	`phone_number` nvarchar(15) DEFAULT NULL,
+	`booking_date` date DEFAULT NULL,
+
+ 	 CONSTRAINT `fk_reservation_ticket` FOREIGN KEY(`id`) REFERENCES ticket(`id`),
+	CONSTRAINT `fk_reservation_flight` FOREIGN KEY(`flight_id`) REFERENCES flight(`id`),
+	CONSTRAINT `fk_reservation_customer` FOREIGN KEY(`customer_id`) REFERENCES customer_account(`id`),
+  	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS `subject`;
-CREATE TABLE `subject` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `course_id` varchar(15) NOT NULL,
-  `name` nvarchar(45) DEFAULT NULL,
-  
-  UNIQUE (`course_id`),
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS `policy`;
+CREATE TABLE `policy` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`name` nvarchar(70) DEFAULT NULL,
+ 	`datatype` varchar(15) DEFAULT NULL,
+	`value` varchar(70) DEFAULT NULL,
+	`is_applied` boolean DEFAULT FALSE,	
+
+  	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `course`;
-CREATE TABLE `course` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`subject_id` int(11) DEFAULT NULL,
-	
-	CONSTRAINT `fk_course_subject` FOREIGN KEY(`subject_id`) REFERENCES subject(`id`),
-	
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1;
-
-DROP TABLE IF EXISTS `course_student`;
-CREATE TABLE `course_student` (
-	`course_id` int(11),
-	`student_id` int(11),
-	
-	CONSTRAINT `fk_student_course` FOREIGN KEY(`student_id`) REFERENCES student(`id`),
-	CONSTRAINT `fk_course_student` FOREIGN KEY(`course_id`) REFERENCES course(`id`),
-	PRIMARY KEY (course_id, student_id)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS `schedule`;
-CREATE TABLE `schedule` (
-	`id` int(11) NOT NULL,
-	`start_date` date DEFAULT NULL,
-	`end_date` date DEFAULT NULL,
-	`time` time DEFAULT NULL,
-	`week_day` varchar(10) DEFAULT NULL,
-	
-	CONSTRAINT `fk_schedule_course` FOREIGN KEY(`id`) REFERENCES course(`id`),
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS `subject_week`;
-CREATE TABLE `subject_week` (
-	`schedule_id` int(11) NOT NULL,
-	`week_index` int NOT NULL,
-	`date` date DEFAULT NULL,
-	
-	CONSTRAINT `fk_week_schedule` FOREIGN KEY(`schedule_id`) REFERENCES schedule(`id`),
-	PRIMARY KEY (`schedule_id`, `week_index`)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS `student_attendance_status`;
-CREATE TABLE `student_attendance_status`(
-	`student_id` int(11) NOT NULL,
-	`schedule_id` int(11) NOT NULL,
-	`week_index` int NOT NULL,
-	
-	`attendance_status` nvarchar(15) DEFAULT NULL,
-	
-	CONSTRAINT `fk_status_student` FOREIGN KEY(`student_id`)  REFERENCES student(`id`),
-	CONSTRAINT `fk_status_schedule` FOREIGN KEY(`schedule_id`) REFERENCES schedule(`id`),
-	PRIMARY KEY (`student_id`, `schedule_id`, `week_index`)
-);
-
-#Ministry with username = 'admin' and password = hashing('admin')
-INSERT INTO `user` VALUES(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Role_Ministry', true);
-INSERT INTO `base_user_role` VALUES(1, 'admin', 'admin');
-INSERT INTO `ministry` VALUES(1);
+#Admin with username = 'admin' and password = hashing('admin')
+INSERT INTO `user` VALUES(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Role_Admin');
+INSERT INTO `base_account` VALUES(1);
+INSERT INTO `admin_account` VALUES(1, NULL, NULL, NULL);

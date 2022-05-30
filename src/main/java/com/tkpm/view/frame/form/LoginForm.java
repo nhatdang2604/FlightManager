@@ -161,12 +161,4 @@ public class LoginForm extends BaseFrame implements FormBehaviour {
 		super.close();
 	}
 	
-	public static void main(String[] args) {
-		LoginForm logForm = new LoginForm();
-		RegistrationForm regForm = new RegistrationForm(logForm);
-		logForm.getRegistrateButton().addActionListener(event -> {
-			regForm.open();
-		});
-		logForm.open();
-	}
 }

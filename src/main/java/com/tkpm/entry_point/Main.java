@@ -1,5 +1,6 @@
 package com.tkpm.entry_point;
 
+import com.tkpm.view.frame.form.AirportTransitionForm;
 import com.tkpm.view.frame.form.Login;
 import com.tkpm.view.frame.form.LoginForm;
 import com.tkpm.view.frame.form.Registration;
@@ -23,7 +24,9 @@ public class Main {
 		regForm.getCancelButton().addActionListener(event -> {
 			logForm.open();
 		});
-		logForm.open();
+		//logForm.open();
+		AirportTransitionForm airportTransitionForm = new AirportTransitionForm();
+		airportTransitionForm.open();
 	}
 
 }

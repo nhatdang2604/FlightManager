@@ -14,7 +14,8 @@ public class CustomerMainFrame extends BaseMainFrame {
 		
 		featureView = new BaseFeatureView();
 		this.categories.add(new Category("Danh sách chuyến bay"));
-		this.featureViews.add(featureView);	
+		
+		this.featureViews.add(featureView);
 	}
 	
 	public CustomerMainFrame() {

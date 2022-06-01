@@ -23,7 +23,7 @@ public class BaseMainFrame extends BaseFrame {
 	protected JPanel rightPanel;
 	
 	protected List<BaseFeatureView> featureViews;
-	protected List<Category> menuPanels;
+	protected List<Category> categories;
 	
 	//Size of MainJFrame
 	final protected int HEIGHT = 700;
@@ -34,7 +34,7 @@ public class BaseMainFrame extends BaseFrame {
 		leftPanel = new JPanel();
 		basePanel = new JPanel();
 		
-		menuPanels = new ArrayList<Category>();
+		categories = new ArrayList<Category>();
 		featureViews = new ArrayList<BaseFeatureView>();
 	}
 	
@@ -45,16 +45,19 @@ public class BaseMainFrame extends BaseFrame {
 	
 	protected void initLeftPanel() {
 		
-		int size = menuPanels.size();
+		int size = categories.size();
 		
 		//Setup the left side menu
-		leftPanel.setLayout(new GridLayout(size, 1));
-		
-		//Add n button on the left side menu
-		for (int i = 0; i < size; ++i) {
-			leftPanel.add(menuPanels.get(i));
+		// Only add button to left panel, if there are more than 1 option
+		//	1 option does not need to show up the button
+		if (size > 1) {
+			leftPanel.setLayout(new GridLayout(size, 1));
+			
+			//Add n button on the left side menu
+			categories.forEach(category -> {
+				leftPanel.add(category);
+			});
 		}
-		
 	}
 	
 	protected void initRightPanel() {
@@ -66,10 +69,19 @@ public class BaseMainFrame extends BaseFrame {
 		
 		//Map the menu panels with the right panels:
 		//	When a menu panels is clicked, the right panel change the UI
-		final int size = menuPanels.size();
-		for (int i = 0; i < size; ++i) {
-			menuPanels.get(i).getButton().addActionListener(
-					new MappingFeatureActionListener(rightPanel, featureViews.get(i)));		
+		final int size = categories.size();
+		
+		//Show up the buttons
+		if (1  < size) {
+			for (int i = 0; i < size; ++i) {
+				categories.get(i).getButton().addActionListener(
+						new MappingFeatureActionListener(rightPanel, featureViews.get(i)));		
+			}
+		} else {
+			
+			//Just coloring the left panel with the category's border color,
+			//	because we don not need button if we only have 1 option
+			leftPanel.setBackground(Category.BORDER_COLOR);
 		}
 	}
 	

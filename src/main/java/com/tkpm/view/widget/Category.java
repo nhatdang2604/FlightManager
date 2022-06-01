@@ -1,5 +1,6 @@
 package com.tkpm.view.widget;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class Category extends JPanel {
 	/****Private attribute ****/
 	//Name of the Category
 	private String name;
+	
+	public static final Color BORDER_COLOR = UIManager.getColor("activeCaptionBorder");
 	
 	//The option button on the left side of main menu
 	private JButton button;
@@ -63,7 +66,7 @@ public class Category extends JPanel {
 		borders = new ArrayList<JPanel>();
 		for (int i = 0; i < 4; ++i) {
 			borders.add(new JPanel());
-			borders.get(i).setBackground(UIManager.getColor("activeCaptionBorder"));
+			borders.get(i).setBackground(BORDER_COLOR);
 		}
 		button = new JButton(name);
 		

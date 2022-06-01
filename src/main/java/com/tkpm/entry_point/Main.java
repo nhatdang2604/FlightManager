@@ -1,10 +1,8 @@
 package com.tkpm.entry_point;
 
-import com.tkpm.view.frame.form.AirportTransitionForm;
+import com.tkpm.view.frame.CustomerMainFrame;
 import com.tkpm.view.frame.form.Login;
-import com.tkpm.view.frame.form.LoginForm;
 import com.tkpm.view.frame.form.Registration;
-import com.tkpm.view.frame.form.RegistrationForm;
 
 public class Main {
 
@@ -25,8 +23,11 @@ public class Main {
 			logForm.open();
 		});
 		//logForm.open();
-		AirportTransitionForm airportTransitionForm = new AirportTransitionForm();
-		airportTransitionForm.open();
+//		AirportTransitionForm airportTransitionForm = new AirportTransitionForm();
+//		airportTransitionForm.open();
+		
+		CustomerMainFrame customerMainFrame = new CustomerMainFrame();
+		customerMainFrame.open();
 	}
 
 }

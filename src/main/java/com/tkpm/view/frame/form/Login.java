@@ -18,6 +18,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Canvas;
 
 public class Login extends BaseFrame implements FormBehaviour {
 	
@@ -47,6 +48,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 	private void initCheckbox() {
 		chckbxShowPassword = new JCheckBox("Hiện mật khẩu");
 		chckbxShowPassword.setBackground(Color.WHITE);
+		chckbxShowPassword.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		chckbxShowPassword.addActionListener((event) -> {
 				
 			//If the check box is selected
@@ -73,8 +75,8 @@ public class Login extends BaseFrame implements FormBehaviour {
 		contentPanel.setLayout(null);
 		
 		Background = new JLabel("");
-		Background.setHorizontalAlignment(SwingConstants.CENTER);
 		Background.setIcon(new ImageIcon(Login.class.getResource("/com/tkpm/view/frame/form/rafiki.jpg")));
+		Background.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		panelLogin = new JPanel();
 		panelLogin.setBorder(null);
@@ -88,12 +90,12 @@ public class Login extends BaseFrame implements FormBehaviour {
 		
 		btnLogin = new JButton("Đăng nhập");
 		btnLogin.setForeground(Color.WHITE);
-		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnLogin.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		btnLogin.setBorder(null);
 		btnLogin.setBackground(new Color(41, 97, 213));
 		
 		btnRegistrate = new JButton("Đăng ký");
-		btnRegistrate.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnRegistrate.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		btnRegistrate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnRegistrate.setMinimumSize(new Dimension(90, 30));
 		btnRegistrate.setMaximumSize(new Dimension(90, 30));
@@ -102,23 +104,24 @@ public class Login extends BaseFrame implements FormBehaviour {
 		
 		jlbUsername = new JLabel("Tên đăng nhập");
 		jlbUsername.setBackground(Color.WHITE);
-		jlbUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
+		jlbUsername.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		
 		jlbPassword = new JLabel("Mật khẩu");
 		jlbPassword.setBackground(Color.WHITE);
-		jlbPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+		jlbPassword.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		
 		jlbWarningText = new JLabel();					//No warning when start login form
 		jlbWarningText.setBackground(Color.WHITE);
 		jlbWarningText.setHorizontalAlignment(SwingConstants.CENTER);
-		jlbWarningText.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jlbWarningText.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		jlbWarningText.setForeground(Color.RED);		//Warning have red text
 		
 		txtUsername = new JTextField();
 		txtUsername.setBackground(Color.WHITE);
-		txtUsername.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtUsername.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		passtxtPassword = new JPasswordField();
+		passtxtPassword.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		initCheckbox();									//Create and add Show/Hide feature for chckbxShowPassword
 	}
 	
@@ -127,9 +130,9 @@ public class Login extends BaseFrame implements FormBehaviour {
 		Background.setBounds(375, 0, 380, 473);
 		
 		panelLogin.setBounds(0, 0, 380, 473);
-		panelRegistrate.setBounds(100, 320, 100, 30);
+		panelRegistrate.setBounds(90, 320, 100, 30);
 		
-		btnLogin.setBounds(220, 320, 100, 30);
+		btnLogin.setBounds(210, 320, 120, 30);
 		btnRegistrate.setBounds(1, 1, 98, 28);
 		
 		jlbUsername.setBounds(80, 120, 260, 30);

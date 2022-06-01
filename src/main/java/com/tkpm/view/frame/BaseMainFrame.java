@@ -11,9 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.nhatdang2604.view.action.MappingFeatureActionListener;
-import com.nhatdang2604.view.display_feature_view.BaseFeatureView;
-import com.nhatdang2604.view.widget.Category;
+import com.tkpm.view.action.MappingFeatureActionListener;
+import com.tkpm.view.feature_view.BaseFeatureView;
+import com.tkpm.view.widget.Category;
 
 
 public class BaseMainFrame extends BaseFrame {
@@ -106,7 +106,7 @@ public class BaseMainFrame extends BaseFrame {
 	protected void initMainView() {
 		
 		//Init properties of main JFrame
-		setTitle("Quản lý điểm danh");
+		setTitle("Quản lý bán vé máy bay");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(WIDTH, HEIGHT);
 		

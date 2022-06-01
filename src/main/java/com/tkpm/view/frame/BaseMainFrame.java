@@ -22,9 +22,6 @@ public class BaseMainFrame extends BaseFrame {
 	protected JPanel leftPanel;
 	protected JPanel rightPanel;
 	
-	protected Category logoutCategory;
-	protected Category changePasswordCategory;
-	
 	protected List<BaseFeatureView> featureViews;
 	protected List<Category> menuPanels;
 	
@@ -36,9 +33,6 @@ public class BaseMainFrame extends BaseFrame {
 		rightPanel = new JPanel();
 		leftPanel = new JPanel();
 		basePanel = new JPanel();
-		
-		logoutCategory = new Category("Đăng xuất");
-		changePasswordCategory = new Category("Đổi mật khẩu");
 		
 		menuPanels = new ArrayList<Category>();
 		featureViews = new ArrayList<BaseFeatureView>();
@@ -75,8 +69,7 @@ public class BaseMainFrame extends BaseFrame {
 		final int size = menuPanels.size();
 		for (int i = 0; i < size; ++i) {
 			menuPanels.get(i).getButton().addActionListener(
-					new MappingFeatureActionListener(rightPanel, featureViews.get(i)));
-				
+					new MappingFeatureActionListener(rightPanel, featureViews.get(i)));		
 		}
 	}
 	
@@ -125,14 +118,6 @@ public class BaseMainFrame extends BaseFrame {
         setContentPane(basePanel);
         setLocationRelativeTo(null);
         
-	}
-	
-	public JButton getLogoutButton() {
-		return logoutCategory.getButton();
-	}
-	
-	public JButton getChangePasswordButton() {
-		return changePasswordCategory.getButton();
 	}
 	
 	public BaseMainFrame() {

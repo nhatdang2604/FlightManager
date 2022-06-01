@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-import com.nhatdang2604.view.BaseView;
-import com.nhatdang2604.view.display_feature_view.BaseFeatureView;
+import com.tkpm.view.feature_view.BaseFeatureView;
 
 public class MappingFeatureActionListener implements ActionListener {
 

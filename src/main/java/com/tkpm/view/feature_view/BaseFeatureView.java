@@ -8,8 +8,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import com.nhatdang2604.view.BaseView;
-import com.nhatdang2604.view.display_feature_view.detail.BaseDetailView;
+import com.tkpm.view.BaseView;
+import com.tkpm.view.feature_view.detail_view.BaseDetailView;
 
 public class BaseFeatureView extends BaseView {
 	
@@ -66,11 +66,7 @@ public class BaseFeatureView extends BaseView {
 	}
 	
 	protected void setupComponents() {
-		
-//		this.headerView = new JPanel();
-//		this.detailView = new JPanel();
-//		this.centerView = new JPanel();
-		
+
 		parts = new ArrayList<>();
 		for (int i = 0; i < 3; ++i) {
 			parts.add(new BaseView());

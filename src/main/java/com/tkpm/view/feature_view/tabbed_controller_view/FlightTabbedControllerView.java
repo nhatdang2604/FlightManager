@@ -9,7 +9,7 @@ import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
 import com.tkpm.view.feature_view.table.FlightListTableView;
 
 
-public class FlightListTabbedControllerView extends BaseTabbedControllerView {
+public class FlightTabbedControllerView extends BaseTabbedControllerView {
 
 	//Tables
 	private FlightListTableView flightListTableView;
@@ -17,7 +17,7 @@ public class FlightListTabbedControllerView extends BaseTabbedControllerView {
 	//Detail views
 	private FlightListDetailView flightListDetailView;
 	
-	public FlightListTabbedControllerView(List<JPanel> backgroundParts) {
+	public FlightTabbedControllerView(List<JPanel> backgroundParts) {
 		super(backgroundParts);
 		
 		//Init for flight list tabbed

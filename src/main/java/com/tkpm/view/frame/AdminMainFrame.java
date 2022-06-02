@@ -1,6 +1,7 @@
 package com.tkpm.view.frame;
 
 import com.tkpm.view.feature_view.BaseFeatureView;
+import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.widget.Category;
 
 public class AdminMainFrame extends BaseMainFrame {
@@ -14,7 +15,7 @@ public class AdminMainFrame extends BaseMainFrame {
 	@Override
 	protected void initValueForComponents() {
 		
-		featureView = new BaseFeatureView();
+		featureView = new FlightFeatureView();
 		featureView0 = new BaseFeatureView();
 		featureView1 = new BaseFeatureView();
 		

@@ -22,11 +22,8 @@ public class FlightListDetailView extends BaseDetailView {
 		//Create buttons
 		bookButton = new JButton("Đặt vé");
 		
-		//Set new layout for detail panel, which only have 1 button
-		paddingPanels.get(2).setLayout(new BorderLayout());
-		
 		//Add Buttons to detail panel
-		paddingPanels.get(2).add(bookButton, BorderLayout.CENTER);
+		paddingPanels.get(2).add(bookButton);
 		
 	}
 	

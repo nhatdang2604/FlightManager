@@ -13,8 +13,8 @@ public class FlightListDetailView extends BaseDetailView {
 	private JButton bookButton;
 	
 	private static final String[] FIELD_NAMES = {
-			"Tình trạng ghế hạng 1",
-			"Tình trạng ghế hạng 2",
+			"Tình trạng ghế hạng 1",	//Còn/Hết
+			"Tình trạng ghế hạng 2",	//Còn/Hết
 	};
 	
 	protected void makeButtons() {
@@ -31,7 +31,7 @@ public class FlightListDetailView extends BaseDetailView {
 	}
 	
 	public FlightListDetailView() {
-		super("Sinh viên", FIELD_NAMES);
+		super("Vé chuyến bay", FIELD_NAMES);
 		makeButtons();	
 	}
 	

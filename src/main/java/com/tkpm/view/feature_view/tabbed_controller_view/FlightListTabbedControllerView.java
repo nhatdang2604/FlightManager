@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import com.nhatdang2604.view.action.ChangeTabListener;
-import com.nhatdang2604.view.display_feature_view.table.CourseTableView;
-import com.nhatdang2604.view.display_feature_view.table.SubjectTableView;
+import com.tkpm.view.action.ChangeTabListener;
 import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
 import com.tkpm.view.feature_view.table.FlightListTableView;
 

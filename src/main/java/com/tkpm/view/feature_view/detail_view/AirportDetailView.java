@@ -5,7 +5,7 @@ public class AirportDetailView extends CRUDDetailView {
 	
 	public static final String TITLE = "Sân bay";
 	
-	public AirportDetailView(String titled) {
+	public AirportDetailView() {
 		super(TITLE, null);
 	}
 	

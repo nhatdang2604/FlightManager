@@ -1,5 +1,6 @@
 package com.tkpm.view.feature_view.table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -77,7 +78,7 @@ public class AirportTableView extends JTable {
 		updateButton = new JButton(updateButtonName);
 		TableColumn updateColumn = this.getColumn(COLUMN_NAMES[UPDATE_COLUMN_INDEX]);
 		updateColumn.setCellRenderer(new ButtonRenderer(updateButtonName));
-		updateColumn.setCellEditor(new ButtonEditor(updateButton));			
+		updateColumn.setCellEditor(new ButtonEditor(updateButton));		
 	
 	}
 		
@@ -119,6 +120,22 @@ public class AirportTableView extends JTable {
 	public Airport getSelectedAirport() {
 		int index = this.getSelectedRow();
 		return airports.get(index);
+	}
+	
+	public List<Airport> getSelectedAirports() {
+		
+		//Full scan the table to get all the selected objects
+		List<Airport> result = new ArrayList<>();
+		int size = tableModel.getRowCount();
+		for (int i = 0; i < size; ++i) {
+			Boolean isSelected = (Boolean) tableModel.getValueAt(i, SELECT_COLUMN_INDEX);
+			if (null != isSelected && isSelected) {
+				result.add(airports.get(i));
+			}
+			
+		}
+		
+		return result;
 	}
 	
 	public JButton getUpdateButton() {

@@ -8,14 +8,15 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
-import com.tkpm.view.widget.MultiButtonEditor;
-import com.tkpm.view.widget.MultiButtonRenderer;
+import com.tkpm.view.widget.ButtonEditor;
+import com.tkpm.view.widget.ButtonRenderer;
 
 public class FlightCRUDTableView extends JTable {
 
@@ -25,7 +26,7 @@ public class FlightCRUDTableView extends JTable {
 	protected List<JButton> actionButtons;
 	
 	public static final String[] COLUMN_NAMES = {
-		"Chọn", "STT", "Mã chuyến bay", "Sân bay đi", "Sân bay đến", "Thời gian", "Thao tác"
+		"Chọn", "STT", "Mã chuyến bay", "Sân bay đi", "Sân bay đến", "Thời gian", "Chi tiết", "Chỉnh sửa"
 	};
 	
 	public static final int SELECT_COLUMN_INDEX = 0;
@@ -34,7 +35,8 @@ public class FlightCRUDTableView extends JTable {
 	public static final int DEPARTURE_AIRPORT_COLUMN_INDEX = 3;
 	public static final int ARRIVAL_AIRPORT_COLUMN_INDEX = 4;
 	public static final int DATETIME_COLUMN_INDEX = 5;
-	public static final int ACTION_COLUMN_INDEX = 6;
+	public static final int DETAIL_COLUMN_INDEX = 6;
+	public static final int UPDATE_COLUMN_INDEX = 7;
 	
 	public static final int DETAIL_BUTTON_INDEX = 0;
 	public static final int UPDATE_BUTTON_INDEX = 1;
@@ -47,7 +49,9 @@ public class FlightCRUDTableView extends JTable {
 			public boolean isCellEditable(int row, int column) {				
 						
 				//Make Detail button cell editable
-				if (ACTION_COLUMN_INDEX == column) {
+				if (DETAIL_COLUMN_INDEX == column ||
+					SELECT_COLUMN_INDEX == column ||
+					UPDATE_COLUMN_INDEX == column) {
 					return true;
 				}
 						
@@ -59,14 +63,20 @@ public class FlightCRUDTableView extends JTable {
 		    public Class<?> getColumnClass(int columnIndex) {
 				Class clazz = String.class;
 				switch (columnIndex) {
+				case SELECT_COLUMN_INDEX:
+					clazz = Boolean.class;
+					break;
 				case COLUMN_INDEX:
 					clazz = Integer.class;
 					break;
 				case FLIGHT_ID_COLUMN_INDEX:
 					clazz = Integer.class;
 					break;
-				case ACTION_COLUMN_INDEX:
-					clazz = Object.class;
+				case DETAIL_COLUMN_INDEX:
+					clazz = Boolean.class;
+					break;
+				case UPDATE_COLUMN_INDEX:
+					clazz = Boolean.class;
 					break;
 		      }
 		      return clazz;
@@ -87,10 +97,12 @@ public class FlightCRUDTableView extends JTable {
 				new JButton("Chi tiết"),
 				new JButton("Cập nhật")));
 		
-		TableColumn detailColumn = this.getColumn(COLUMN_NAMES[ACTION_COLUMN_INDEX]);
-		detailColumn.setCellRenderer(new MultiButtonRenderer(actionButtons));
-		detailColumn.setCellEditor(new MultiButtonEditor(actionButtons));			
-	
+		int offset = DETAIL_COLUMN_INDEX;
+		for (int i = 0; i < actionButtons.size(); ++i) {
+			TableColumn column = this.getColumn(COLUMN_NAMES[offset + i]);
+			column.setCellRenderer(new ButtonRenderer(actionButtons.get(i).getText()));
+			column.setCellEditor(new ButtonEditor(actionButtons.get(i)));
+		}
 	}
 		
 	public FlightCRUDTableView() {
@@ -127,6 +139,7 @@ public class FlightCRUDTableView extends JTable {
 					flight.getDateTime()};
 			tableModel.addRow(row);		
 		}
+		
 		return this;
 	}
 	
@@ -135,32 +148,25 @@ public class FlightCRUDTableView extends JTable {
 		return flights.get(index);
 	}
 	
+	public List<Flight> getSelectedFlights() {
+		
+		//Full scan the table to get all the selected objects
+		List<Flight> result = new ArrayList<>();
+		int size = tableModel.getRowCount();
+		for (int i = 0; i < size; ++i) {
+			Boolean isSelected = (Boolean) tableModel.getValueAt(i, SELECT_COLUMN_INDEX);
+			if (null != isSelected && isSelected) {
+				result.add(flights.get(i));
+			}
+			
+		}
+		
+		return result;
+	}
+	
 	public List<JButton> getActionButtons() {
 		return actionButtons;
 	}
 	
-	public static void main(String[] args) {
-		Flight f = new Flight();
-		Airport a = new Airport();
-		a.setName("test");
-		f.setId(123);
-		f.setDepartureAirport(a);
-		f.setArrivalAirport(a);
-		f.setDateTime(LocalDateTime.now());
-		
-		List<Flight> fs = new ArrayList<>();
-		fs.add(f);
-		
-		FlightCRUDTableView t = new FlightCRUDTableView();
-		JFrame frame = new JFrame();
-		frame.setLayout(new BorderLayout());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(t, BorderLayout.CENTER);
-		
-		
-		t.setFlights(fs);
-		t.update();
-		
-		frame.setVisible(true);
-	}
+	
 }

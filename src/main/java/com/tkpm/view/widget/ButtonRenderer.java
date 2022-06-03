@@ -11,12 +11,12 @@ public class ButtonRenderer extends JButton implements TableCellRenderer  {
 	private String name;
 	
 	public ButtonRenderer(String name) {
-	this.name = name;
-    setOpaque(true);
-  }
+		this.name = name;
+	    setOpaque(true);
+	}
   
-  @Override
-  public Component getTableCellRendererComponent(
+ 	@Override
+  	public Component getTableCellRendererComponent(
 		  JTable table, 
 		  Object value,
 		  boolean isSelected, 
@@ -24,8 +24,9 @@ public class ButtonRenderer extends JButton implements TableCellRenderer  {
 		  int row, 
 		  int column) {
 	  
-    setText(name);
+ 		setText(name);
     
     return this;
   }
+ 	
 }

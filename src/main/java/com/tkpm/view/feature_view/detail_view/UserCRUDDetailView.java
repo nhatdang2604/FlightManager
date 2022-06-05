@@ -4,7 +4,7 @@ package com.tkpm.view.feature_view.detail_view;
 public class UserCRUDDetailView extends CRUDDetailView {
 	
 	private static final String[] FIELD_NAMES = {
-			"Id",	
+			"Mã người dùng",	
 			"Tên đăng nhập",
 			"Mật khẩu (mã hóa)",
 			"Chức vụ",

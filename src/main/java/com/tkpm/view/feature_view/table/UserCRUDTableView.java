@@ -22,7 +22,7 @@ public class UserCRUDTableView extends JTable {
 	protected List<JButton> actionButtons;
 	
 	public static final String[] COLUMN_NAMES = {
-		"Chọn", "STT", "Id", "Tên đăng nhập", "Chi tiết", "Chỉnh sửa"
+		"Chọn", "STT", "Mã người dùng", "Tên đăng nhập", "Chi tiết", "Chỉnh sửa"
 	};
 	
 	public static final int SELECT_COLUMN_INDEX = 0;

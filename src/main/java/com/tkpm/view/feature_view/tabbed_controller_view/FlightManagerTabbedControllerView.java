@@ -5,28 +5,28 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.tkpm.view.action.ChangeTabListener;
-import com.tkpm.view.feature_view.detail_view.AirportDetailView;
+import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightCRUDDetailView;
-import com.tkpm.view.feature_view.table.AirportTableView;
+import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.FlightCRUDTableView;
 
 
 public class FlightManagerTabbedControllerView extends BaseTabbedControllerView {
 
 	//Tables
-	private AirportTableView airportTableView;
+	private AirportCRUDTableView airportTableView;
 	private FlightCRUDTableView flightCRUDTableView;
 	
 	//Detail views
-	private AirportDetailView airportDetailView;
+	private AirportCRUDDetailView airportDetailView;
 	private FlightCRUDDetailView flightCRUDDetailView;
 	
 	public FlightManagerTabbedControllerView(List<JPanel> backgroundParts) {
 		super(backgroundParts);
 		
 		//Init for airport CRUD feature
-		airportTableView = new AirportTableView();
-		airportDetailView = new AirportDetailView();
+		airportTableView = new AirportCRUDTableView();
+		airportDetailView = new AirportCRUDDetailView();
 		
 		//Init for flight CRUD feature
 		flightCRUDTableView = new FlightCRUDTableView();
@@ -48,8 +48,8 @@ public class FlightManagerTabbedControllerView extends BaseTabbedControllerView 
 		initOption();
 	}
 
-	public AirportTableView getAirportTableView() {return airportTableView;}
-	public AirportDetailView getAirportDetailView() {return airportDetailView;}
+	public AirportCRUDTableView getAirportTableView() {return airportTableView;}
+	public AirportCRUDDetailView getAirportDetailView() {return airportDetailView;}
 
 	public FlightCRUDTableView getFlightCRUDTableView() {return flightCRUDTableView;}
 	public FlightCRUDDetailView getFlightCRUDDetailView() {return flightCRUDDetailView;}

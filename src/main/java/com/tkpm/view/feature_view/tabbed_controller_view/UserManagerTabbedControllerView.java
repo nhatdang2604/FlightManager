@@ -5,9 +5,9 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.tkpm.view.action.ChangeTabListener;
-import com.tkpm.view.feature_view.detail_view.AirportDetailView;
+import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.UserCRUDDetailView;
-import com.tkpm.view.feature_view.table.AirportTableView;
+import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.UserCRUDTableView;
 
 

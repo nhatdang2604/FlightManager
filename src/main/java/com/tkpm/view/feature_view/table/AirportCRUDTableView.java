@@ -13,7 +13,7 @@ import com.tkpm.entities.Flight;
 import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
 
-public class AirportTableView extends JTable {
+public class AirportCRUDTableView extends JTable {
 
 	protected DefaultTableModel tableModel;
 	protected List<Airport> airports;
@@ -21,13 +21,14 @@ public class AirportTableView extends JTable {
 	protected JButton updateButton;
 	
 	public static final String[] COLUMN_NAMES = {
-		"Chọn", "STT", "Tên sân bay", "Thao tác"
+		"Chọn", "STT", "Mã sân bay", "Tên sân bay", "Thao tác"
 	};
 	
 	public static final int SELECT_COLUMN_INDEX = 0;
 	public static final int COLUMN_INDEX = 1;
-	public static final int NAME_COLUMN_INDEX = 2;
-	public static final int UPDATE_COLUMN_INDEX = 3;
+	public static final int AIRPORT_ID_INDEX = 2;
+	public static final int NAME_COLUMN_INDEX = 3;
+	public static final int UPDATE_COLUMN_INDEX = 4;
 	
 	protected void setupModelTable() {
 		//Make uneditable table
@@ -51,6 +52,9 @@ public class AirportTableView extends JTable {
 				Class clazz = String.class;
 				switch (columnIndex) {
 				case COLUMN_INDEX:
+					clazz = Integer.class;
+					break;
+				case AIRPORT_ID_INDEX:
 					clazz = Integer.class;
 					break;
 				case SELECT_COLUMN_INDEX:
@@ -82,12 +86,12 @@ public class AirportTableView extends JTable {
 	
 	}
 		
-	public AirportTableView() {
+	public AirportCRUDTableView() {
 		setupModelTable();
 		initUpdateButton();
 	}
 	
-	public AirportTableView clearData() {
+	public AirportCRUDTableView clearData() {
 		
 		//Clear the model
 		tableModel.setRowCount(0);
@@ -100,7 +104,7 @@ public class AirportTableView extends JTable {
 	}
 	
 	//Show all airport in airports to the table
-	public AirportTableView update() {
+	public AirportCRUDTableView update() {
 		
 		clearData();
 		int size = airports.size();
@@ -109,7 +113,8 @@ public class AirportTableView extends JTable {
 			Airport airport = airports.get(index);
 			Object[] row = {
 					false,
-					index + 1, 
+					index + 1,
+					airport.getId(),
 					airport.getName()};
 			
 			tableModel.addRow(row);		

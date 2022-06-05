@@ -1,42 +1,36 @@
 package com.tkpm.view.feature_view.table;
 
-import java.awt.BorderLayout;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.User;
 import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
 
 public class UserCRUDTableView extends JTable {
 
 	protected DefaultTableModel tableModel;
-	protected List<Flight> flights;
+	protected List<User> users;
 	
 	protected List<JButton> actionButtons;
 	
 	public static final String[] COLUMN_NAMES = {
-		"Chọn", "STT", "Mã chuyến bay", "Sân bay đi", "Sân bay đến", "Thời gian", "Chi tiết", "Chỉnh sửa"
+		"Chọn", "STT", "Id", "Tên đăng nhập", "Chi tiết", "Chỉnh sửa"
 	};
 	
 	public static final int SELECT_COLUMN_INDEX = 0;
 	public static final int COLUMN_INDEX = 1;
-	public static final int FLIGHT_ID_COLUMN_INDEX = 2;
-	public static final int DEPARTURE_AIRPORT_COLUMN_INDEX = 3;
-	public static final int ARRIVAL_AIRPORT_COLUMN_INDEX = 4;
-	public static final int DATETIME_COLUMN_INDEX = 5;
-	public static final int DETAIL_COLUMN_INDEX = 6;
-	public static final int UPDATE_COLUMN_INDEX = 7;
+	public static final int USER_ID_COLUMN_INDEX = 2;
+	public static final int USERNAME_COLUMN_INDEX = 3;
+	public static final int DETAIL_COLUMN_INDEX = 4;
+	public static final int UPDATE_COLUMN_INDEX = 5;
 	
 	public static final int DETAIL_BUTTON_INDEX = 0;
 	public static final int UPDATE_BUTTON_INDEX = 1;
@@ -69,7 +63,7 @@ public class UserCRUDTableView extends JTable {
 				case COLUMN_INDEX:
 					clazz = Integer.class;
 					break;
-				case FLIGHT_ID_COLUMN_INDEX:
+				case USER_ID_COLUMN_INDEX:
 					clazz = Integer.class;
 					break;
 				case DETAIL_COLUMN_INDEX:
@@ -118,45 +112,43 @@ public class UserCRUDTableView extends JTable {
 		return this;
 	}
 	
-	public void setFlights(List<Flight> flights) {
-		this.flights = flights;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 	
-	//Show all flight in flights to the table
+	//Show all object to the table
 	public UserCRUDTableView update() {
 		
 		clearData();
-		int size = flights.size();
+		int size = users.size();
 		for (int index = 0; index < size; ++index) {
 			
-			Flight flight = flights.get(index);
+			User user = users.get(index);
 			Object[] row = {
 					false,
 					index + 1, 
-					flight.getId(), 
-					flight.getDepartureAirport().getName(),
-					flight.getArrivalAirport().getName(),
-					flight.getDateTime()};
+					user.getId(), 
+					user.getUsername()};
 			tableModel.addRow(row);		
 		}
 		
 		return this;
 	}
 	
-	public Flight getSelectedFlight() {
+	public User getSelectedUser() {
 		int index = this.getSelectedRow();
-		return flights.get(index);
+		return users.get(index);
 	}
 	
-	public List<Flight> getSelectedFlights() {
+	public List<User> getSelectedUsers() {
 		
 		//Full scan the table to get all the selected objects
-		List<Flight> result = new ArrayList<>();
+		List<User> result = new ArrayList<>();
 		int size = tableModel.getRowCount();
 		for (int i = 0; i < size; ++i) {
 			Boolean isSelected = (Boolean) tableModel.getValueAt(i, SELECT_COLUMN_INDEX);
 			if (null != isSelected && isSelected) {
-				result.add(flights.get(i));
+				result.add(users.get(i));
 			}
 			
 		}

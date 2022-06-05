@@ -50,5 +50,8 @@ public class FlightManagerTabbedControllerView extends BaseTabbedControllerView 
 
 	public AirportTableView getAirportTableView() {return airportTableView;}
 	public AirportDetailView getAirportDetailView() {return airportDetailView;}
+
+	public FlightCRUDTableView getFlightCRUDTableView() {return flightCRUDTableView;}
+	public FlightCRUDDetailView getFlightCRUDDetailView() {return flightCRUDDetailView;}
 	
 }

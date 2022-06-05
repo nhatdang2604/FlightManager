@@ -9,7 +9,7 @@ public class FlightManagerFeatureView extends BaseFeatureView {
 	public FlightManagerFeatureView() {
 		super();
 		tabbedControllerView = new FlightManagerTabbedControllerView(parts);
-		
+	
 		this.setCenterView(tabbedControllerView)
 			.setDetailView(tabbedControllerView.getCurrentDetailView())
 			.setHeaderView(tabbedControllerView.getCurrentHeaderView());

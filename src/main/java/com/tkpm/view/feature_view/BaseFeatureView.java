@@ -26,7 +26,7 @@ public class BaseFeatureView extends BaseView {
 	
 	//Views for 3 parts
 	protected JPanel headerView;
-	protected BaseDetailView detailView;
+	protected JPanel detailView;
 	protected JPanel centerView;
 	
 	//Index for parts (index in List<JPanel> parts
@@ -92,7 +92,7 @@ public class BaseFeatureView extends BaseView {
 		return this;
 	}
 
-	public BaseFeatureView setDetailView(BaseDetailView detailView) {
+	public BaseFeatureView setDetailView(JPanel detailView) {
 		this.detailView = detailView;
 		return this;
 	}

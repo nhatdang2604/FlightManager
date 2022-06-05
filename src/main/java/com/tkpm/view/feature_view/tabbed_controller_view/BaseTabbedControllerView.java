@@ -20,13 +20,13 @@ public class BaseTabbedControllerView extends JPanel {
 	//parts from BaseFeatureView
 	protected List<JPanel> backgroundParts;
 	protected List<Component> centerViews;
-	protected List<BaseDetailView> detailViews;
+	protected List<JPanel> detailViews;
 	protected List<JPanel> headerViews;
 	protected List<JPanel> footerViews;
 	
 	protected JTabbedPane tabbedPanel;
 	protected Component centerView;
-	protected BaseDetailView detailView;
+	protected JPanel detailView;
 	protected JPanel headerView;
 	protected JPanel footerView;
 	
@@ -96,14 +96,14 @@ public class BaseTabbedControllerView extends JPanel {
 	
 	public JTabbedPane getTabbedPanel() {return tabbedPanel;}
 	public List<Component> getCenterViews() {return centerViews; };
-	public List<BaseDetailView> getDetailViews() {return detailViews; }
+	public List<JPanel> getDetailViews() {return detailViews; }
 	public List<JPanel> getHeaderViews() {return headerViews; }
 	
 	public Component getCurrentCenterView() {return centerView; }
-	public BaseDetailView getCurrentDetailView() {return detailView; }
+	public JPanel getCurrentDetailView() {return detailView; }
 	public JPanel getCurrentHeaderView() {return headerView; }
 	
 	public void setCurrentCenterView(Component centerView) {this.centerView = centerView; }
-	public void setCurrentDetailView(BaseDetailView detail) {detailView = detail; }
+	public void setCurrentDetailView(JPanel detail) {detailView = detail; }
 	public void setCurrentHeaderView(JPanel header) {headerView = header; }
 }

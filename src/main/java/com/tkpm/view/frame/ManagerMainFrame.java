@@ -11,18 +11,22 @@ public class ManagerMainFrame extends BaseMainFrame {
 	
 	protected BaseFeatureView featureView;
 	protected BaseFeatureView featureView0;
+	protected BaseFeatureView featureView1;
 	
 	@Override
 	protected void initValueForComponents() {
 		
 		featureView = new FlightFeatureView();
 		featureView0 = new FlightManagerFeatureView();
+		featureView1 = new BaseFeatureView();
 		
 		this.categories.add(new Category("Danh sách chuyến bay"));
 		this.categories.add(new Category("Quản lý chuyến bay"));
+		this.categories.add(new Category("Lập báo cáo chi tiết"));
 		
 		this.featureViews.add(featureView);
 		this.featureViews.add(featureView0);
+		this.featureViews.add(featureView1);
 	}
 	
 	public ManagerMainFrame() {

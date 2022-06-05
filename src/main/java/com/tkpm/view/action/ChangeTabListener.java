@@ -44,7 +44,7 @@ public class ChangeTabListener implements MouseListener  {
 		int selectedIndex = tabbedControllerView.getTabbedPanel().getSelectedIndex();
 		
 		Component centerView = tabbedControllerView.getCenterViews().get(selectedIndex);
-		BaseDetailView detailView = tabbedControllerView.getDetailViews().get(selectedIndex);
+		JPanel detailView = tabbedControllerView.getDetailViews().get(selectedIndex);
 		JPanel headerView = tabbedControllerView.getHeaderViews().get(selectedIndex);
 		
         tabbedControllerView.setCurrentCenterView(centerView);

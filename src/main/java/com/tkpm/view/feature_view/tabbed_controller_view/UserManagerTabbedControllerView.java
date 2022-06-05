@@ -27,7 +27,7 @@ public class UserManagerTabbedControllerView extends BaseTabbedControllerView {
 		userCRUDDetailView = new UserCRUDDetailView();
 		
 		//Add screen for user CRUD tab
-		this.addTable(userCRUDTableView, "Tài khoản");
+		this.addCenterAsTable(userCRUDTableView, "Tài khoản");
 		this.addDetail(userCRUDDetailView);
 		this.addHeader(new JPanel());	//dummy header
 		

@@ -33,12 +33,12 @@ public class FlightManagerTabbedControllerView extends BaseTabbedControllerView 
 		flightCRUDDetailView = new FlightCRUDDetailView();
 		
 		//Add screen for airport CRUD tab
-		this.addTable(airportTableView, "Sân bay");
+		this.addCenterAsTable(airportTableView, "Sân bay");
 		this.addDetail(airportDetailView);
 		this.addHeader(new JPanel());	//dummy header
 		
 		//Add screen for flight CRUD tab
-		this.addTable(flightCRUDTableView, "Chuyến bay");
+		this.addCenterAsTable(flightCRUDTableView, "Chuyến bay");
 		this.addDetail(flightCRUDDetailView);
 		this.addHeader(new JPanel());	//dummy header
 		

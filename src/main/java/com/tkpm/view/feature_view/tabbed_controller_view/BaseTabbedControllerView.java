@@ -1,6 +1,7 @@
 package com.tkpm.view.feature_view.tabbed_controller_view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ public class BaseTabbedControllerView extends JPanel {
 
 	//parts from BaseFeatureView
 	protected List<JPanel> backgroundParts;
-	protected List<JTable> tables;
+	protected List<Component> centerViews;
 	protected List<BaseDetailView> detailViews;
 	protected List<JPanel> headerViews;
 	protected List<JPanel> footerViews;
 	
 	protected JTabbedPane tabbedPanel;
-	protected JTable table;
+	protected Component centerView;
 	protected BaseDetailView detailView;
 	protected JPanel headerView;
 	protected JPanel footerView;
@@ -50,7 +51,7 @@ public class BaseTabbedControllerView extends JPanel {
 	
 	//Select detail, header and footer when start program
 	protected void initOption() {
-		table = tables.get(0);
+		centerView = centerViews.get(0);
 		detailView = detailViews.get(0);
 		headerView = headerViews.get(0);
 		//footerView = ...	is no need, cause we don't use footer to select
@@ -59,7 +60,7 @@ public class BaseTabbedControllerView extends JPanel {
 	protected void initComponents() {
 		
 		tabbedPanel = new JTabbedPane();
-		tables = new ArrayList<>();
+		centerViews = new ArrayList<>();
 		detailViews = new ArrayList<>();
 		headerViews = new ArrayList<>();
 		//footerViews = new ArrayList<>();	
@@ -76,8 +77,8 @@ public class BaseTabbedControllerView extends JPanel {
 		
 	}
 	
-	public void addTable(JTable table, String name) {
-		tables.add(table);
+	public void addCenterAsTable(JTable table, String name) {
+		centerViews.add(table);
 		JScrollPane scroll = new JScrollPane(
 				table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
@@ -94,15 +95,15 @@ public class BaseTabbedControllerView extends JPanel {
 	}
 	
 	public JTabbedPane getTabbedPanel() {return tabbedPanel;}
-	public List<JTable> getTables() {return tables; };
+	public List<Component> getCenterViews() {return centerViews; };
 	public List<BaseDetailView> getDetailViews() {return detailViews; }
 	public List<JPanel> getHeaderViews() {return headerViews; }
 	
-	public JTable getCurrentTable() {return table; }
+	public Component getCurrentCenterView() {return centerView; }
 	public BaseDetailView getCurrentDetailView() {return detailView; }
 	public JPanel getCurrentHeaderView() {return headerView; }
 	
-	public void setCurrentTable(JTable table) {this.table = table; }
+	public void setCurrentCenterView(Component centerView) {this.centerView = centerView; }
 	public void setCurrentDetailView(BaseDetailView detail) {detailView = detail; }
 	public void setCurrentHeaderView(JPanel header) {headerView = header; }
 }

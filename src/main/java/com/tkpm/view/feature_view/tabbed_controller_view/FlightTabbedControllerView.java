@@ -25,7 +25,7 @@ public class FlightTabbedControllerView extends BaseTabbedControllerView {
 		flightListDetailView = new FlightListDetailView();
 		
 		//Add screen for flight list
-		this.addTable(flightListTableView, "Danh sách chuyến bay");
+		this.addCenterAsTable(flightListTableView, "Danh sách chuyến bay");
 		this.addDetail(flightListDetailView);
 		this.addHeader(new JPanel());	//dummy header
 		

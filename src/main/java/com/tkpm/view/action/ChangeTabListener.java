@@ -1,12 +1,12 @@
 package com.tkpm.view.action;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JPanel;
-import javax.swing.JTable;
 
 import com.tkpm.view.feature_view.BaseFeatureView;
 import com.tkpm.view.feature_view.detail_view.BaseDetailView;
@@ -43,11 +43,11 @@ public class ChangeTabListener implements MouseListener  {
 	public void mousePressed(MouseEvent arg0) {
 		int selectedIndex = tabbedControllerView.getTabbedPanel().getSelectedIndex();
 		
-		JTable table = tabbedControllerView.getTables().get(selectedIndex);
+		Component centerView = tabbedControllerView.getCenterViews().get(selectedIndex);
 		BaseDetailView detailView = tabbedControllerView.getDetailViews().get(selectedIndex);
 		JPanel headerView = tabbedControllerView.getHeaderViews().get(selectedIndex);
 		
-        tabbedControllerView.setCurrentTable(table);
+        tabbedControllerView.setCurrentCenterView(centerView);
         tabbedControllerView.setCurrentDetailView(detailView);
         tabbedControllerView.setCurrentHeaderView(headerView);
         

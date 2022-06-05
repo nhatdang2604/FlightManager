@@ -1,7 +1,7 @@
 package com.tkpm.view.feature_view.detail_view;
 
 @SuppressWarnings("serial")
-public class AccountCRUDDetailView extends CRUDDetailView {
+public class UserCRUDDetailView extends CRUDDetailView {
 	
 	private static final String[] FIELD_NAMES = {
 			"Id",	
@@ -12,7 +12,7 @@ public class AccountCRUDDetailView extends CRUDDetailView {
 	
 	public static final String TITLE = "Tài khoản";
 	
-	public AccountCRUDDetailView() {
+	public UserCRUDDetailView() {
 		super(TITLE, FIELD_NAMES);
 	}
 	

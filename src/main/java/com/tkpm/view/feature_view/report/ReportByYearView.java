@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import com.tkpm.view.feature_view.table.ReportByYearTableView;
 
@@ -21,7 +22,8 @@ public class ReportByYearView extends JPanel{
 	private void setLayout() {
 		setLayout(new BorderLayout());
 		add(titleLabel, BorderLayout.NORTH);
-		add(table, BorderLayout.CENTER);
+		JScrollPane scroll = new JScrollPane(table);
+		add(scroll, BorderLayout.CENTER);
 	}
 	
 	public ReportByYearView() {

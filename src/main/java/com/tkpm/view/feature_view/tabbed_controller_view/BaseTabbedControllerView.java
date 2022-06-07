@@ -77,6 +77,11 @@ public class BaseTabbedControllerView extends JPanel {
 		
 	}
 	
+	public void addCenter(Component centerView, String name) {
+		centerViews.add(centerView);
+		tabbedPanel.addTab(name, centerView);
+	}
+	
 	public void addCenterAsTable(JTable table, String name) {
 		centerViews.add(table);
 		JScrollPane scroll = new JScrollPane(

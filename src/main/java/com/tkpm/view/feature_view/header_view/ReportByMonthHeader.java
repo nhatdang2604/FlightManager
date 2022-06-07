@@ -13,7 +13,7 @@ public class ReportByMonthHeader extends JPanel{
 	private JLabel titleLabel;
 	
 	private void initComponents() {
-		titleLabel = new JLabel("BÁO CÁO DOANH THU THEO THÁNG");
+		titleLabel = new JLabel("BÁO CÁO DOANH THU THÁNG");
 	}
 	
 	private void buildTitle() {
@@ -36,7 +36,7 @@ public class ReportByMonthHeader extends JPanel{
 	public void updateTitle() {
 		int month = timeModel.getMonth();
 		int year = timeModel.getYear();
-		String title = "BÁO CÁO DOANH THU THEO THÁNG";
+		String title = "BÁO CÁO DOANH THU THÁNG";
 		if (null != timeModel) {
 			title = "BÁO CÁO DOANH THU THÁNG " + month +  " NĂM " + year;
 		}

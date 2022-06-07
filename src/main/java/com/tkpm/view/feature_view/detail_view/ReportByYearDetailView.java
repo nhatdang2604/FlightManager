@@ -3,13 +3,13 @@ package com.tkpm.view.feature_view.detail_view;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.tkpm.view.model.ReportInfoModel;
 
 public class ReportByYearDetailView extends BaseReportDetailView {
 
@@ -62,6 +62,13 @@ public class ReportByYearDetailView extends BaseReportDetailView {
 		super(TITLE, DATA_FIELD_NAMES);
 		setupDataField();
 		setLayoutForDataPanel();
+	}
+
+	@Override
+	public ReportInfoModel submit() {
+		int year = Integer.parseInt(yearField.getText());
+		ReportInfoModel model = new ReportInfoModel(year, null);
+		return model;
 	}
 
 }

@@ -14,12 +14,12 @@ import com.tkpm.view.model.ReportInfoModel;
 
 public class ReportByMonthDetailView extends BaseReportDetailView {
 
-	private static final String TITLE = "Báo cáo theo năm";
+	private static final String TITLE = "Báo cáo theo tháng";
 	
 	private static final String[] DATA_FIELD_NAMES = {
-			"Năm",
+			"Tháng",
+			"Năm",	
 	};
-	
 	
 	private JTextField yearField;
 	private JComboBox<Integer> monthField;

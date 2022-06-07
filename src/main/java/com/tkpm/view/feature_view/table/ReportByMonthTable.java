@@ -12,7 +12,7 @@ public class ReportByMonthTable extends JTable {
 	protected BaseReport report;
 	
 	public static final String[] COLUMN_NAMES = {
-		"STT", "Chuyến bay số", "Số vé", "Tỉ lệ", "Doanh thu"
+		"STT", "Mã chuyến bay", "Số vé", "Tỉ lệ", "Doanh thu"
 	};
 	
 	public static final int COLUMN_INDEX = 0;

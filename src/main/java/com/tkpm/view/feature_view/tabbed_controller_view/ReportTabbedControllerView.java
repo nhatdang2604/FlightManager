@@ -6,15 +6,17 @@ import javax.swing.JPanel;
 
 import com.tkpm.view.action.ChangeTabListener;
 import com.tkpm.view.feature_view.detail_view.ReportByYearDetailView;
-import com.tkpm.view.feature_view.detail_view.UserCRUDDetailView;
-import com.tkpm.view.feature_view.report.ReportByYearView;
-import com.tkpm.view.feature_view.table.UserCRUDTableView;
+import com.tkpm.view.feature_view.header_view.ReportByYearHeader;
+import com.tkpm.view.feature_view.table.ReportByYearTable;
 
 
 public class ReportTabbedControllerView extends BaseTabbedControllerView {
 
+	//Header
+	private ReportByYearHeader reportByYearHeader;
+	
 	//Tables
-	private ReportByYearView reportByYearView;
+	private ReportByYearTable reportByYearTable;
 
 	//Detail views
 	private ReportByYearDetailView reportByYearDetailView;
@@ -23,13 +25,14 @@ public class ReportTabbedControllerView extends BaseTabbedControllerView {
 		super(backgroundParts);
 		
 		//Init for report by year feature
-		reportByYearView = new ReportByYearView();
+		reportByYearHeader = new ReportByYearHeader();
+		reportByYearTable = new ReportByYearTable();
 		reportByYearDetailView = new ReportByYearDetailView();
 		
 		//Add screen for user CRUD tab
-		this.addCenter(reportByYearView, "Báo cáo theo năm");
+		this.addCenterAsTable(reportByYearTable, "Báo cáo theo năm");
 		this.addDetail(reportByYearDetailView);
-		this.addHeader(new JPanel());	//dummy header
+		this.addHeader(reportByYearHeader);
 		
 		//Change detail panel and header panel while change tab
 		tabbedPanel.addMouseListener(new ChangeTabListener(this, backgroundParts));
@@ -37,7 +40,8 @@ public class ReportTabbedControllerView extends BaseTabbedControllerView {
 		initOption();
 	}
 
-	public ReportByYearView getReportByYearView() {return reportByYearView;}
+	public ReportByYearTable getReportByYearTable() {return reportByYearTable;}
+	public ReportByYearHeader getReportByYearHeader() {return reportByYearHeader;}
 	public ReportByYearDetailView getReportByYearDetailView() {return reportByYearDetailView;}
 	
 }

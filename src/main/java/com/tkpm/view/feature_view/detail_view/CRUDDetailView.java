@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class CRUDDetailView extends BaseDetailView {
+public class CRUDDetailView extends BaseReadOnlyDetailView {
 	
 	protected List<JButton> buttons;
 	

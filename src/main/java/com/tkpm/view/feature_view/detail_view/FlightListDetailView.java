@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class FlightListDetailView extends BaseDetailView {
+public class FlightListDetailView extends BaseReadOnlyDetailView {
 	
 	public static final int BOOK_BUTTON_INDEX = 0;
 	

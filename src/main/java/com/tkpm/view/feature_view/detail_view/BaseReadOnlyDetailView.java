@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 @SuppressWarnings("serial")
-public class BaseDetailView extends JPanel {
+public class BaseReadOnlyDetailView extends JPanel {
 	
 	protected final String title;
 	protected List<JPanel> paddingPanels;
@@ -50,7 +50,7 @@ public class BaseDetailView extends JPanel {
 		//do nothing
 	};
 	
-	public BaseDetailView(String title, String[] attributeFieldNames) {
+	public BaseReadOnlyDetailView(String title, String[] attributeFieldNames) {
 		
 		//Add titled
 		this.title = title;

@@ -13,7 +13,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import com.tkpm.view.BaseView;
-import com.tkpm.view.feature_view.detail_view.BaseDetailView;
+import com.tkpm.view.feature_view.detail_view.BaseReadOnlyDetailView;
 
 public class BaseTabbedControllerView extends JPanel {
 
@@ -90,7 +90,7 @@ public class BaseTabbedControllerView extends JPanel {
 		headerViews.add(headerView);
 	}
 	
-	public void addDetail(BaseDetailView detailView) {
+	public void addDetail(JPanel detailView) {
 		detailViews.add(detailView);
 	}
 	

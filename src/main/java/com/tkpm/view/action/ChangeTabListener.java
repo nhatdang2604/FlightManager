@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.tkpm.view.feature_view.BaseFeatureView;
-import com.tkpm.view.feature_view.detail_view.BaseDetailView;
+import com.tkpm.view.feature_view.detail_view.BaseReadOnlyDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.BaseTabbedControllerView;
 
 

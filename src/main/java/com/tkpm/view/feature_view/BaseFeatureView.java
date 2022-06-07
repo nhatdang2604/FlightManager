@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.tkpm.view.BaseView;
-import com.tkpm.view.feature_view.detail_view.BaseDetailView;
+import com.tkpm.view.feature_view.detail_view.BaseReadOnlyDetailView;
 
 public class BaseFeatureView extends BaseView {
 	

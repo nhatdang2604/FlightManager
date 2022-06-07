@@ -50,9 +50,9 @@ public class FlightStatisticWrapper {
 		return  getTotalNumberOfSeat() - getNumberOfEmptySeat();
 	}
 	
-	public Double getRatio() {
-		return (double)(getNumberOfBookedSeat()/getTotalNumberOfSeat());
-	}
+//	public Double getRatio() {
+//		return (double)(getNumberOfBookedSeat()/getTotalNumberOfSeat());
+//	}
 	
 	public Integer getTurnover() {
 		int turnover = 0;

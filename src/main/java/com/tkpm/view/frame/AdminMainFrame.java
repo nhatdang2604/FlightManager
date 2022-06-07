@@ -3,6 +3,7 @@ package com.tkpm.view.frame;
 import com.tkpm.view.feature_view.BaseFeatureView;
 import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.feature_view.FlightManagerFeatureView;
+import com.tkpm.view.feature_view.ReportFeatureView;
 import com.tkpm.view.feature_view.UserManagerFeatureView;
 import com.tkpm.view.widget.Category;
 
@@ -20,7 +21,7 @@ public class AdminMainFrame extends BaseMainFrame {
 		
 		featureView = new FlightFeatureView();
 		featureView0 = new FlightManagerFeatureView();
-		featureView1 = new BaseFeatureView();
+		featureView1 = new ReportFeatureView();
 		featureView2 = new UserManagerFeatureView();
 		
 		this.categories.add(new Category("Danh sách chuyến bay"));

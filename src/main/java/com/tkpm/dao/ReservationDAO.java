@@ -11,19 +11,17 @@ import com.tkpm.utils.HibernateUtil;
 
 //Using enum for applying Singleton Pattern
 public enum ReservationDAO {
-
-	INSTANCE;
-	
-	private SessionFactory factory;
+private SessionFactory factory;
 	
 	private ReservationDAO() {
 		factory = HibernateUtil.INSTANCE.getSessionFactory();
 	}
+	INSTANCE;
+	
+	
 	
 	//Create list of reservations
 	public List<Reservation> create(List<Reservation> reservations) {
-		
-		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
@@ -43,6 +41,8 @@ public enum ReservationDAO {
 			session.getTransaction().commit();
 			session.close();
 		}
+
+		Session session = factory.getCurrentSession();
 		
 		return reservations;
 	}
@@ -66,8 +66,10 @@ public enum ReservationDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
-		} finally {
 			session.getTransaction().commit();
+		} finally {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
 			session.close();
 		}
 		
@@ -93,6 +95,11 @@ public enum ReservationDAO {
 				if (null !=  reservation) {
 					session.delete(reservation);
 				}
+				
+				//Delete the reservation if it was existed
+				if (null ==  reservation) {
+					session.delete(reservation);
+				}
 			});
 			
 			
@@ -116,6 +123,9 @@ public enum ReservationDAO {
 		List<Reservation> reservations = new ArrayList<>();
 		
 		try {
+			//Get the list of reservations
+			reservations = session.createQuery("from " + Reservation.class.getName()).list();
+			
 			session.beginTransaction();
 			
 			//Get the list of reservations
@@ -124,9 +134,10 @@ public enum ReservationDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
-		} finally {
 			session.getTransaction().commit();
 			session.close();
+		} finally {
+			
 		}
 		
 		return reservations;
@@ -141,12 +152,12 @@ public enum ReservationDAO {
 			try {
 				session.beginTransaction();
 				
+				//Save the reservations to database
+				session.save(reservation);
+				
 				//Iterate over all the reservation
 				reservations.forEach(reservation -> {
-					
-					//Save the reservations to database
-					session.save(reservation);
-					
+
 				});
 				
 			} catch (Exception ex) {
@@ -158,8 +169,15 @@ public enum ReservationDAO {
 			}
 			
 			return reservations;
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
 		}
-		
+
 		//Update list of reservations
 		public List<Reservation> update(List<Reservation> reservations) {
 			
@@ -183,6 +201,14 @@ public enum ReservationDAO {
 				session.getTransaction().commit();
 				session.close();
 			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
 			
 			return reservations;
 		}

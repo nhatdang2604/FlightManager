@@ -133,27 +133,58 @@ public enum ReservationDAO {
 		
 	}
 	
-	//Find reservation by id
-	public Reservation find(Integer id) {
-		
-		Session session = factory.getCurrentSession();
-		Reservation reservation = null;
-		
-		try {
-			session.beginTransaction();
+	//Create list of reservations
+		public List<Reservation> create(List<Reservation> reservations) {
 			
-			reservation = session.get(Reservation.class, id);
+			Session session = factory.getCurrentSession();
 			
-		} catch (Exception ex) {
+			try {
+				session.beginTransaction();
+				
+				//Iterate over all the reservation
+				reservations.forEach(reservation -> {
+					
+					//Save the reservations to database
+					session.save(reservation);
+					
+				});
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
 			
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
-			session.getTransaction().commit();
-			session.close();
+			return reservations;
 		}
-	
-		return reservation;
-	}
+		
+		//Update list of reservations
+		public List<Reservation> update(List<Reservation> reservations) {
+			
+			Session session = factory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				
+				//Iterate over all the reservation
+				reservations.forEach(reservation -> {
+					
+					//Update each reservation
+					session.update(reservation);
+					
+				});
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			
+			return reservations;
+		}
 }
  

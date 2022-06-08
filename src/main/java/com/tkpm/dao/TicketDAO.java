@@ -16,38 +16,9 @@ public enum TicketDAO {
 	
 	private SessionFactory factory;
 	
-	private TicketDAO() {
-		factory = HibernateUtil.INSTANCE.getSessionFactory();
-	}
 	
-	//Create list of tickets
-	public List<Ticket> create(List<Ticket> tickets) {
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			session.beginTransaction();
-			
-			//Iterate over all the ticket
-			tickets.forEach(ticket -> {
-				
-				//Save the tickets to database
-				Integer id = (Integer) session.save(ticket);
-				
-				//Update the current id for the given ticket
-				ticket.setId(id);
-			});
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
-			session.getTransaction().commit();
-			session.close();
-		}
-		
-		return tickets;
-	}
+	
+	
 	
 	//Update list of tickets
 	public List<Ticket> update(List<Ticket> tickets) {
@@ -111,6 +82,35 @@ public enum TicketDAO {
 		return errorCode;
 	}
 	
+	//Create list of tickets
+		public List<Ticket> create(List<Ticket> tickets) {
+			
+			Session session = factory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				
+				//Iterate over all the ticket
+				tickets.forEach(ticket -> {
+					
+					//Save the tickets to database
+					Integer id = (Integer) session.save(ticket);
+					
+					//Update the current id for the given ticket
+					ticket.setId(id);
+				});
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			
+			return tickets;
+		}
+	
 	//Find all tickets in database
 	public List<Ticket> findAll() {
 		
@@ -135,6 +135,12 @@ public enum TicketDAO {
 		
 	}
 	
+	private TicketDAO() {
+		factory = HibernateUtil.INSTANCE.getSessionFactory();
+	}
+	
+	
+	
 	//Find ticket by id
 	public Ticket find(Integer id) {
 		
@@ -143,13 +149,7 @@ public enum TicketDAO {
 		
 		try {
 			session.beginTransaction();
-			
-			ticket = session.get(Ticket.class, id);
-			
-		} catch (Exception ex) {
-			
-			ex.printStackTrace();
-			session.getTransaction().rollback();
+
 		} finally {
 			session.getTransaction().commit();
 			session.close();
@@ -157,5 +157,8 @@ public enum TicketDAO {
 	
 		return ticket;
 	}
+	
+	//Update list of tickets
+		public List<Ticket> update(List<Ticket> tickets) {
 }
  

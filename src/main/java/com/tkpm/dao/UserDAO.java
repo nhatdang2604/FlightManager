@@ -68,16 +68,40 @@ public enum UserDAO {
 		return user;
 	}
 	
-	//Delete an user by the given id
+	//Create new user
+		public User create(User user) {
+			
+			Session session = factory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				
+				//Save the user to database
+				Integer id = (Integer) session.save(user);
+				
+				//Update the current id for the given user
+				user.setId(id);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			
+			return user;
+		}
+	
+	//Delete user by id
 	public int delete(Integer id) {
 
 		Session session = factory.getCurrentSession();
-		int errorCode = 0;
+
 		
 		try {
 			session.beginTransaction();
-			
-			User user = session.get(User.class, id);
+
 			
 			if (null !=  user) {
 				session.delete(user);
@@ -87,20 +111,38 @@ public enum UserDAO {
 			
 			ex.printStackTrace();
 			session.getTransaction().rollback();
-			errorCode = 1;
-		} finally {
+
 			session.getTransaction().commit();
-			session.close();
 		}
 	
 		return errorCode;
 	}
 	
+	//Update an user
+		public User update(User user) {
+			
+			
+			
+			try {
+				session.beginTransaction();
+				
+				//Update the user
+				session.update(user);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				Session session = factory.getCurrentSession();
+				session.getTransaction().commit();
+				session.close();
+			}
+			
+			return user;
+		}
+	
 	//Find all users in database
 	public List<User> findAll() {
-		
-		Session session = factory.getCurrentSession();
-		List<User> users = new ArrayList<>();
 		
 		try {
 			session.beginTransaction();
@@ -112,9 +154,15 @@ public enum UserDAO {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
 		} finally {
+			//Get the list of users
+			users = session.createQuery("from " + User.class.getName()).list();
+			
 			session.getTransaction().commit();
 			session.close();
 		}
+		
+		Session session = factory.getCurrentSession();
+		List<User> users = new ArrayList<>();
 		
 		return users;
 		
@@ -151,30 +199,47 @@ public enum UserDAO {
 		
 		try {
 			session.beginTransaction();
-			
+			Session session = factory.getCurrentSession();
+			User user = null;
 			//Parameterize the query
 			String param = "username";
 			
 			//Make the query
 			String query = "from " + User.class.getName() + " u where u.username = :" + param;
 			
-			user = (User) session.createQuery(query)
-					.setParameter(param, username)
-					.setMaxResults(1)
-					.stream()
-					.findFirst()
-					.orElse(null);
 			
 		} catch (Exception ex) {
-			
+			Session session = factory.getCurrentSession();
+			User user = null;
 			ex.printStackTrace();
 			session.getTransaction().rollback();
 		} finally {
-			session.getTransaction().commit();
-			session.close();
+			
 		}
 	
 		return user;	
 	}
+	
+	//Find user by id
+		public User find(Integer id) {
+			
+			Session session = factory.getCurrentSession();
+			User user = null;
+			
+			try {
+				session.beginTransaction();
+				user = session.get(User.class, id);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			session.getTransaction().commit();
+			session.close();
+			return user;
+		}
 }
  

@@ -13,38 +13,64 @@ import com.tkpm.utils.HibernateUtil;
 //Using enum for applying Singleton Pattern
 public enum TransitionDAO {
 
-	INSTANCE;
-	
-	private SessionFactory factory;
-	
 	private TransitionDAO() {
 		factory = HibernateUtil.INSTANCE.getSessionFactory();
 	}
 	
-	//Create new transition
-	public Transition create(Transition transition) {
+	private SessionFactory factory;
+	
+	//Find transition by id
+		public Transition find(Integer id) {
+			
+			Session session = factory.getCurrentSession();
+			Transition transition = null;
+			
+			try {
+				session.beginTransaction();
+				
+				transition = session.get(Transition.class, id);
+				
+			} catch (Exception ex) {
+				
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
 		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			session.beginTransaction();
-			
-			//Save the transition to database
-			Integer id = (Integer) session.save(transition);
-			
-			//Update the current id for the given transition
-			transition.setId(id);
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
-			session.getTransaction().commit();
-			session.close();
+			return transition;
 		}
+
 		
-		return transition;
-	}
+		//Delete an transition by the given id
+		public int delete(Integer id) {
+
+			Session session = factory.getCurrentSession();
+			int errorCode = 0;
+			
+			try {
+				session.beginTransaction();
+				
+				Transition transition = session.get(Transition.class, id);
+				
+				if (null !=  transition) {
+					session.delete(transition);
+				}
+				
+			} catch (Exception ex) {
+				
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+				errorCode = 1;
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+		
+			return errorCode;
+		}
+			
 	
 	//Update an transition
 	public Transition update(Transition transition) {
@@ -70,7 +96,9 @@ public enum TransitionDAO {
 	
 	//Delete an transition by the given id
 	public int delete(Integer id) {
-
+		
+		ex.printStackTrace();
+		session.getTransaction().rollback();
 		Session session = factory.getCurrentSession();
 		int errorCode = 0;
 		
@@ -92,7 +120,14 @@ public enum TransitionDAO {
 			session.getTransaction().commit();
 			session.close();
 		}
-	
+		try {
+			session.beginTransaction();
+			
+			Transition transition = session.get(Transition.class, id);
+			
+			if (null !=  transition) {
+				session.delete(transition);
+			}
 		return errorCode;
 	}
 	
@@ -120,27 +155,31 @@ public enum TransitionDAO {
 		
 	}
 	
-	//Find transition by id
-	public Transition find(Integer id) {
+	//Create new transition
+	public Transition create(Transition transition) {
 		
 		Session session = factory.getCurrentSession();
-		Transition transition = null;
 		
 		try {
 			session.beginTransaction();
 			
-			transition = session.get(Transition.class, id);
+			//Save the transition to database
+			Integer id = (Integer) session.save(transition);
+			
+			//Update the current id for the given transition
+			transition.setId(id);
 			
 		} catch (Exception ex) {
-			
 			ex.printStackTrace();
 			session.getTransaction().rollback();
 		} finally {
 			session.getTransaction().commit();
 			session.close();
 		}
-	
+		
 		return transition;
+	}
+	
 	}
 }
  

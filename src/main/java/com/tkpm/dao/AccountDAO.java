@@ -48,28 +48,6 @@ public enum AccountDAO {
 		return account;
 	}
 	
-	//Update an account
-	public BaseAccount update(BaseAccount account) {
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			session.beginTransaction();
-			
-			//Update the account
-			session.update(account);
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
-			session.getTransaction().commit();
-			session.close();
-		}
-		
-		return account;
-	}
-	
 	//Delete an account by the given id and class (class is based on role)
 	public int delete(Integer id, Class accountClass) {
 
@@ -153,5 +131,52 @@ public enum AccountDAO {
 	
 		return account;
 	}
+	
+	//Create new account
+		public BaseAccount create(BaseAccount account) {
+			
+			Session session = factory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				
+				//Save the account to database
+				Integer id = (Integer) session.save(account);
+				
+				//Update the current id for the given account
+				account.setId(id);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			
+			return account;
+		}
+		
+		//Update an account
+		public BaseAccount update(BaseAccount account) {
+			
+			Session session = factory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				
+				//Update the account
+				session.update(account);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			
+			return account;
+		}
 }
  

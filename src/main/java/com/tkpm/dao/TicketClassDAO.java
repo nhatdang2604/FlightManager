@@ -15,10 +15,10 @@ public enum TicketClassDAO {
 	INSTANCE;
 	
 	private SessionFactory factory;
-	
+	factory = HibernateUtil.INSTANCE.getSessionFactory();
+}
 	private TicketClassDAO() {
-		factory = HibernateUtil.INSTANCE.getSessionFactory();
-	}
+
 	
 	//Update an ticket class
 	public TicketClass update(TicketClass ticketClass) {
@@ -28,15 +28,16 @@ public enum TicketClassDAO {
 		try {
 			session.beginTransaction();
 			
-			//Update the ticket class
+			//Update ticket class
 			session.update(ticketClass);
 			
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
 			session.getTransaction().commit();
 			session.close();
+			
+		} finally {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
 		}
 		
 		return ticketClass;
@@ -46,21 +47,24 @@ public enum TicketClassDAO {
 	public List<TicketClass> findAll() {
 		
 		Session session = factory.getCurrentSession();
-		List<TicketClass> ticketClasses = new ArrayList<>();
+		
 		
 		try {
 			session.beginTransaction();
-			
+			List<TicketClass> ticketClasses = new ArrayList<>();
 			//Get the list of ticketClasses
-			ticketClasses = session.createQuery("from " + TicketClass.class.getName()).list();
+			
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
+			ticketClasses = session.createQuery("from " + TicketClass.class.getName()).list();
 		} finally {
-			session.getTransaction().commit();
 			session.close();
+			session.getTransaction().commit();
+			
 		}
+		Session session = factory.getCurrentSession();
 		
 		return ticketClasses;
 		
@@ -74,16 +78,14 @@ public enum TicketClassDAO {
 		
 		try {
 			session.beginTransaction();
-			
 			ticketClass = session.get(TicketClass.class, id);
 			
 		} catch (Exception ex) {
-			
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
 			session.getTransaction().commit();
 			session.close();
+		} finally {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
 		}
 	
 		return ticketClass;
@@ -96,10 +98,6 @@ public enum TicketClassDAO {
 			
 			try {
 				session.beginTransaction();
-				
-				//Save the ticketClass to database
-				Integer id = (Integer) session.save(ticketClass);
-				
 				//Update the current id for the given ticketClass
 				ticketClass.setId(id);
 				
@@ -143,22 +141,19 @@ public enum TicketClassDAO {
 			int errorCode = 0;
 			
 			try {
-				session.beginTransaction();
 				
 				TicketClass ticketClass = session.get(TicketClass.class, id);
-				
 				if (null !=  ticketClass) {
 					session.delete(ticketClass);
 				}
-				
+				session.beginTransaction();
 			} catch (Exception ex) {
-				
 				ex.printStackTrace();
-				session.getTransaction().rollback();
-				errorCode = 1;
-			} finally {
 				session.getTransaction().commit();
 				session.close();
+			} finally {
+				session.getTransaction().rollback();
+				errorCode = 1;
 			}
 		
 			return errorCode;

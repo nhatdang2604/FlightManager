@@ -14,7 +14,7 @@ import com.tkpm.entities.User;
 import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
 
-public class TransitionAirportCRUDTableView extends JTable {
+public class TransitionCRUDTableView extends JTable {
 
 	protected DefaultTableModel tableModel;
 	protected List<Transition> transitions;
@@ -93,12 +93,13 @@ public class TransitionAirportCRUDTableView extends JTable {
 		}
 	}
 		
-	public TransitionAirportCRUDTableView() {
+	public TransitionCRUDTableView() {
+		transitions = new ArrayList<>();
 		setupModelTable();
 		initDetailButton();
 	}
 	
-	public TransitionAirportCRUDTableView clearData() {
+	public TransitionCRUDTableView clearData() {
 		
 		//Clear the model
 		tableModel.setRowCount(0);
@@ -110,8 +111,12 @@ public class TransitionAirportCRUDTableView extends JTable {
 		this.transitions = transitions;
 	}
 	
+	public void addTransition(Transition transition) {
+		this.transitions.add(transition);
+	}
+	
 	//Show all object to the table
-	public TransitionAirportCRUDTableView update() {
+	public TransitionCRUDTableView update() {
 		
 		clearData();
 		int size = transitions.size();

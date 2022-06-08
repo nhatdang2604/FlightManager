@@ -1,31 +1,23 @@
 package com.tkpm.view.frame.form;
 
-import java.awt.Font;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
 import java.awt.Color;
-import javax.swing.JTextField;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.JSplitPane;
-import javax.swing.JButton;
-import java.awt.Cursor;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import javax.swing.border.LineBorder;
-
-import com.tkpm.utils.HashingUtil;
-
-import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import com.tkpm.entities.Transition;
 
 public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
@@ -186,6 +178,12 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		init();
 	}
 	
+	public AirportTransitionForm(JDialog owner) {
+		super(owner, true);
+		init();
+	}
+	
+	
 	public boolean areThereAnyEmptyStarField() {
 		
 		String airportID = txtAirportId.getText().trim();
@@ -202,8 +200,9 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	}
 
 	@Override
-	public JButton submit() {
-		// TODO Auto-generated method stub
+	public Transition submit() {
+	
+		
 		return null;
 	}
 

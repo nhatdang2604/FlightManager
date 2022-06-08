@@ -13,19 +13,13 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.JSplitPane;
+
 import javax.swing.JButton;
-import java.awt.Cursor;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
+import javax.swing.JComboBox;
 import javax.swing.border.LineBorder;
 
-import com.tkpm.utils.HashingUtil;
-
-import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
 
 public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
@@ -35,7 +29,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private JPanel panelCancel;
 	private JPanel panelInfo;
 	
-	private JTextField txtAirportId;
+	private JComboBox<String> txtAirportId;
 	private JLabel jlbTransitionTime;
 	private JTextField txtTransitionTime;
 	private JLabel jlbNote;
@@ -97,10 +91,10 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		jlbAirportId.setPreferredSize(new Dimension(55, 30));
 		jlbAirportId.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		
-		txtAirportId = new JTextField();
+		txtAirportId = new JComboBox<String>();
+		txtAirportId.setBackground(Color.WHITE);
 		txtAirportId.setPreferredSize(new Dimension(7, 30));
 		txtAirportId.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		txtAirportId.setColumns(10);
 		
 		jlbTransitionTime = new JLabel("Thời gian dừng");
 		jlbTransitionTime.setFont(new Font("Noto Sans", Font.BOLD, 16));
@@ -188,7 +182,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	
 	public boolean areThereAnyEmptyStarField() {
 		
-		String airportID = txtAirportId.getText().trim();
+		String airportID = txtAirportId.getSelectedItem().toString().trim();
 		if (null == airportID || airportID.equals("")) {
 			return true;
 		}
@@ -222,7 +216,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
 	@Override
 	public void clear() {
-		txtAirportId.setText("");
+		txtAirportId.setSelectedIndex(-1);
 		txtTransitionTime.setText("");
 		txtNote.setText("");
 	}

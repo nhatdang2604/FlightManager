@@ -30,12 +30,7 @@ public enum AccountDAO {
 		
 		try {
 			session.beginTransaction();
-			
-			//Save the account to database
-			Integer id = (Integer) session.save(account);
-			
-			//Update the current id for the given account
-			account.setId(id);
+	
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -45,6 +40,11 @@ public enum AccountDAO {
 			session.close();
 		}
 		
+		//Save the account to database
+		Integer id = (Integer) session.save(account);
+		
+		//Update the current id for the given account
+		account.setId(id);
 		return account;
 	}
 	
@@ -69,6 +69,11 @@ public enum AccountDAO {
 			session.getTransaction().rollback();
 			errorCode = 1;
 		} finally {
+			session.beginTransaction();
+			BaseAccount account = (BaseAccount) session.get(accountClass, id);
+			if (null !=  account) {
+				session.delete(account);
+			}
 			session.getTransaction().commit();
 			session.close();
 		}
@@ -83,11 +88,9 @@ public enum AccountDAO {
 		List<BaseAccount> accounts = new ArrayList<>();
 		
 		try {
-			session.beginTransaction();
-			
 			//Get the list of accounts
 			accounts = session.createQuery("from " + accountClass.getName()).list();
-			
+			session.beginTransaction();		
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
@@ -110,6 +113,26 @@ public enum AccountDAO {
 			session.beginTransaction();
 			
 			//Try to find the account base on role
+			if (accountClass.equals(CustomerAccount.class)) {
+				account = (CustomerAccount) session.get(accountClass, id);
+			} 
+			else if (accountClass.equals(ManagerAccount.class)){
+				account = (ManagerAccount) session.get(accountClass, id);
+			}
+			else if (accountClass.equals(AdminAccount.class)){
+				account = (AdminAccount) session.get(accountClass, id);
+			}
+			
+			if (accountClass.equals(CustomerAccount.class)) {
+				account = (CustomerAccount) session.get(accountClass, id);
+			} 
+			else if (accountClass.equals(ManagerAccount.class)){
+				account = (ManagerAccount) session.get(accountClass, id);
+			}
+			else if (accountClass.equals(AdminAccount.class)){
+				account = (AdminAccount) session.get(accountClass, id);
+			}
+			
 			if (accountClass.equals(CustomerAccount.class)) {
 				account = (CustomerAccount) session.get(accountClass, id);
 			} 
@@ -154,6 +177,20 @@ public enum AccountDAO {
 				session.close();
 			}
 			
+			try {
+				session.beginTransaction();
+				
+				//Update the account
+				session.update(account);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			
 			return account;
 		}
 		
@@ -161,6 +198,20 @@ public enum AccountDAO {
 		public BaseAccount update(BaseAccount account) {
 			
 			Session session = factory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				
+				//Update the account
+				session.update(account);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
 			
 			try {
 				session.beginTransaction();

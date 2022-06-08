@@ -31,19 +31,22 @@ public enum UserDAO {
 			
 			//Save the user to database
 			Integer id = (Integer) session.save(user);
-			
 			//Update the current id for the given user
 			user.setId(id);
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception ex) 
 			session.getTransaction().rollback();
 		} finally {
 			session.getTransaction().commit();
-			session.close();
 		}
 		
+	} catch (Exception ex) {
+		session.getTransaction().commit();
+		session.close();
 		return user;
+		
+	} finally {
+		ex.printStackTrace();
+		session.getTransaction().rollback();
 	}
 	
 	//Update an user
@@ -53,17 +56,17 @@ public enum UserDAO {
 		
 		try {
 			session.beginTransaction();
-			
-			//Update the user
-			session.update(user);
-			
+		
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
 			session.getTransaction().commit();
 			session.close();
+		} finally {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
 		}
+		
+		//Update the user
+		session.update(user);
 		
 		return user;
 	}
@@ -90,6 +93,11 @@ public enum UserDAO {
 				session.close();
 			}
 			
+			//Save the user to database
+			Integer id = (Integer) session.save(user);
+			
+			//Update the current id for the given user
+			user.setId(id);
 			return user;
 		}
 	
@@ -97,21 +105,15 @@ public enum UserDAO {
 	public int delete(Integer id) {
 
 		Session session = factory.getCurrentSession();
-
 		
 		try {
 			session.beginTransaction();
-
-			
 			if (null !=  user) {
 				session.delete(user);
 			}
-			
 		} catch (Exception ex) {
-			
 			ex.printStackTrace();
 			session.getTransaction().rollback();
-
 			session.getTransaction().commit();
 		}
 	
@@ -120,9 +122,13 @@ public enum UserDAO {
 	
 	//Update an user
 		public User update(User user) {
+
+			//Save the user to database
+			Integer id = (Integer) session.save(user);
 			
-			
-			
+			//Update the current id for the given user
+			user.setId(id);
+
 			try {
 				session.beginTransaction();
 				
@@ -165,7 +171,6 @@ public enum UserDAO {
 		List<User> users = new ArrayList<>();
 		
 		return users;
-		
 	}
 	
 	//Find user by id
@@ -176,11 +181,8 @@ public enum UserDAO {
 		
 		try {
 			session.beginTransaction();
-			
 			user = session.get(User.class, id);
-			
 		} catch (Exception ex) {
-			
 			ex.printStackTrace();
 			session.getTransaction().rollback();
 		} finally {
@@ -214,7 +216,8 @@ public enum UserDAO {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
 		} finally {
-			
+			//Make the query
+			String query = "from " + User.class.getName() + " u where u.username = :" + param;
 		}
 	
 		return user;	
@@ -234,6 +237,22 @@ public enum UserDAO {
 				ex.printStackTrace();
 				session.getTransaction().rollback();
 			} finally {
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			session.getTransaction().commit();
+			session.close();
+			return user;
+			try {
+				session.beginTransaction();
+				user = session.get(User.class, id);
+				
+
 				session.getTransaction().commit();
 				session.close();
 			}

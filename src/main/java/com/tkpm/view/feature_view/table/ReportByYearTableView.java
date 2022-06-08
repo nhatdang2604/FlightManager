@@ -12,7 +12,7 @@ import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
 import com.tkpm.wrapper.report.BaseReport;
 
-public class ReportByYearTable extends JTable {
+public class ReportByYearTableView extends JTable {
 
 	protected DefaultTableModel tableModel;
 	protected List<BaseReport> reportModels;
@@ -57,11 +57,11 @@ public class ReportByYearTable extends JTable {
 		
 	}
 		
-	public ReportByYearTable() {
+	public ReportByYearTableView() {
 		setupModelTable();
 	}
 	
-	public ReportByYearTable clearData() {
+	public ReportByYearTableView clearData() {
 		
 		//Clear the model
 		tableModel.setRowCount(0);
@@ -74,7 +74,7 @@ public class ReportByYearTable extends JTable {
 	}
 	
 	//Show all flight in flights to the table
-	public ReportByYearTable update() {
+	public ReportByYearTableView update() {
 		
 		clearData();
 		

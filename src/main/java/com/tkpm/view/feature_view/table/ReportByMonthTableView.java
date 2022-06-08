@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import com.tkpm.wrapper.FlightStatisticWrapper;
 import com.tkpm.wrapper.report.BaseReport;
 
-public class ReportByMonthTable extends JTable {
+public class ReportByMonthTableView extends JTable {
 
 	protected DefaultTableModel tableModel;
 	protected BaseReport report;
@@ -51,11 +51,11 @@ public class ReportByMonthTable extends JTable {
 		
 	}
 		
-	public ReportByMonthTable() {
+	public ReportByMonthTableView() {
 		setupModelTable();
 	}
 	
-	public ReportByMonthTable clearData() {
+	public ReportByMonthTableView clearData() {
 		
 		//Clear the model
 		tableModel.setRowCount(0);
@@ -68,7 +68,7 @@ public class ReportByMonthTable extends JTable {
 	}
 	
 	//Show all flight in flights to the table
-	public ReportByMonthTable update() {
+	public ReportByMonthTableView update() {
 		
 		clearData();
 		

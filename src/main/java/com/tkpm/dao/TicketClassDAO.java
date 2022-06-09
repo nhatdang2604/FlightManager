@@ -15,10 +15,35 @@ public enum TicketClassDAO {
 	INSTANCE;
 	
 	private SessionFactory factory;
-	factory = HibernateUtil.INSTANCE.getSessionFactory();
-}
+	
 	private TicketClassDAO() {
-
+		factory = HibernateUtil.INSTANCE.getSessionFactory();
+	}
+	
+	//Create new ticket class
+	public TicketClass create(TicketClass ticketClass) {
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			
+			//Save the ticketClass to database
+			Integer id = (Integer) session.save(ticketClass);
+			
+			//Update the current id for the given ticketClass
+			ticketClass.setId(id);
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+		
+		return ticketClass;
+	}
 	
 	//Update an ticket class
 	public TicketClass update(TicketClass ticketClass) {
@@ -28,43 +53,67 @@ public enum TicketClassDAO {
 		try {
 			session.beginTransaction();
 			
-			//Update ticket class
+			//Update the ticket class
 			session.update(ticketClass);
 			
 		} catch (Exception ex) {
-			session.getTransaction().commit();
-			session.close();
-			
-		} finally {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
 		}
 		
 		return ticketClass;
+	}
+	
+	//Delete an ticket class by the given id
+	public int delete(Integer id) {
+
+		Session session = factory.getCurrentSession();
+		int errorCode = 0;
+		
+		try {
+			session.beginTransaction();
+			
+			TicketClass ticketClass = session.get(TicketClass.class, id);
+			
+			if (null !=  ticketClass) {
+				session.delete(ticketClass);
+			}
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+			errorCode = 1;
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return errorCode;
 	}
 	
 	//Find all ticket classes in database
 	public List<TicketClass> findAll() {
 		
 		Session session = factory.getCurrentSession();
-		
+		List<TicketClass> ticketClasses = new ArrayList<>();
 		
 		try {
 			session.beginTransaction();
-			List<TicketClass> ticketClasses = new ArrayList<>();
-			//Get the list of ticketClasses
 			
+			//Get the list of ticketClasses
+			ticketClasses = session.createQuery("from " + TicketClass.class.getName()).list();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
-			ticketClasses = session.createQuery("from " + TicketClass.class.getName()).list();
 		} finally {
-			session.close();
 			session.getTransaction().commit();
-			
+			session.close();
 		}
-		Session session = factory.getCurrentSession();
 		
 		return ticketClasses;
 		
@@ -78,85 +127,19 @@ public enum TicketClassDAO {
 		
 		try {
 			session.beginTransaction();
+			
 			ticketClass = session.get(TicketClass.class, id);
 			
 		} catch (Exception ex) {
-			session.getTransaction().commit();
-			session.close();
-		} finally {
+			
 			ex.printStackTrace();
 			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
 		}
 	
 		return ticketClass;
 	}
-	
-	//Create new ticket class
-		public TicketClass create(TicketClass ticketClass) {
-			
-			Session session = factory.getCurrentSession();
-			
-			try {
-				session.beginTransaction();
-				//Update the current id for the given ticketClass
-				ticketClass.setId(id);
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
-			
-			return ticketClass;
-		}
-		
-		//Update an ticket class
-		public TicketClass update(TicketClass ticketClass) {
-			
-			Session session = factory.getCurrentSession();
-			
-			try {
-				session.beginTransaction();
-				
-				//Update the ticket class
-				session.update(ticketClass);
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
-			
-			return ticketClass;
-		}
-		
-		//Delete an ticket class by the given id
-		public int delete(Integer id) {
-
-			Session session = factory.getCurrentSession();
-			int errorCode = 0;
-			
-			try {
-				
-				TicketClass ticketClass = session.get(TicketClass.class, id);
-				if (null !=  ticketClass) {
-					session.delete(ticketClass);
-				}
-				session.beginTransaction();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().commit();
-				session.close();
-			} finally {
-				session.getTransaction().rollback();
-				errorCode = 1;
-			}
-		
-			return errorCode;
-		}
 }
  

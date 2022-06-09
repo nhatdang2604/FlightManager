@@ -11,17 +11,19 @@ import com.tkpm.utils.HibernateUtil;
 
 //Using enum for applying Singleton Pattern
 public enum ReservationDAO {
-private SessionFactory factory;
+
+	INSTANCE;
+	
+	private SessionFactory factory;
 	
 	private ReservationDAO() {
 		factory = HibernateUtil.INSTANCE.getSessionFactory();
 	}
-	INSTANCE;
-	
-	
 	
 	//Create list of reservations
 	public List<Reservation> create(List<Reservation> reservations) {
+		
+		Session session = factory.getCurrentSession();
 		
 		try {
 			session.beginTransaction();
@@ -41,8 +43,6 @@ private SessionFactory factory;
 			session.getTransaction().commit();
 			session.close();
 		}
-
-		Session session = factory.getCurrentSession();
 		
 		return reservations;
 	}
@@ -66,10 +66,8 @@ private SessionFactory factory;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
-			session.getTransaction().commit();
 		} finally {
-			ex.printStackTrace();
-			session.getTransaction().rollback();
+			session.getTransaction().commit();
 			session.close();
 		}
 		
@@ -95,11 +93,6 @@ private SessionFactory factory;
 				if (null !=  reservation) {
 					session.delete(reservation);
 				}
-				
-				//Delete the reservation if it was existed
-				if (null ==  reservation) {
-					session.delete(reservation);
-				}
 			});
 			
 			
@@ -123,9 +116,6 @@ private SessionFactory factory;
 		List<Reservation> reservations = new ArrayList<>();
 		
 		try {
-			//Get the list of reservations
-			reservations = session.createQuery("from " + Reservation.class.getName()).list();
-			
 			session.beginTransaction();
 			
 			//Get the list of reservations
@@ -134,83 +124,36 @@ private SessionFactory factory;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			session.getTransaction().rollback();
+		} finally {
 			session.getTransaction().commit();
 			session.close();
-		} finally {
-			
 		}
 		
 		return reservations;
 		
 	}
 	
-	//Create list of reservations
-		public List<Reservation> create(List<Reservation> reservations) {
+	//Find reservation by id
+	public Reservation find(Integer id) {
+		
+		Session session = factory.getCurrentSession();
+		Reservation reservation = null;
+		
+		try {
+			session.beginTransaction();
 			
-			Session session = factory.getCurrentSession();
-			
-			try {
-				session.beginTransaction();
-				
-				//Save the reservations to database
-				session.save(reservation);
-				
-				//Iterate over all the reservation
-				reservations.forEach(reservation -> {
-
-				});
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
-			
-			return reservations;
+			reservation = session.get(Reservation.class, id);
 			
 		} catch (Exception ex) {
+			
 			ex.printStackTrace();
 			session.getTransaction().rollback();
 		} finally {
 			session.getTransaction().commit();
 			session.close();
 		}
-
-		//Update list of reservations
-		public List<Reservation> update(List<Reservation> reservations) {
-			
-			Session session = factory.getCurrentSession();
-			
-			try {
-				session.beginTransaction();
-				
-				//Iterate over all the reservation
-				reservations.forEach(reservation -> {
-					
-					//Update each reservation
-					session.update(reservation);
-					
-				});
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
-			session.getTransaction().commit();
-			session.close();
-		}
-			
-			return reservations;
-		}
+	
+		return reservation;
+	}
 }
  

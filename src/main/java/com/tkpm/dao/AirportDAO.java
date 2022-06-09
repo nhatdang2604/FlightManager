@@ -21,6 +21,31 @@ public enum AirportDAO {
 		factory = HibernateUtil.INSTANCE.getSessionFactory();
 	}
 	
+	//Create new airport
+	public Airport create(Airport airport) {
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			
+			//Save the airport to database
+			Integer id = (Integer) session.save(airport);
+			
+			//Update the current id for the given airport
+			airport.setId(id);
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+		
+		return airport;
+	}
+	
 	//Update an airport
 	public Airport update(Airport airport) {
 		
@@ -117,52 +142,5 @@ public enum AirportDAO {
 	
 		return airport;
 	}
-	
-	//Create new airport
-		public Airport create(Airport airport) {
-			
-			Session session = factory.getCurrentSession();
-			
-			try {
-				session.beginTransaction();
-				
-				//Save the airport to database
-				Integer id = (Integer) session.save(airport);
-				
-				//Update the current id for the given airport
-				airport.setId(id);
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
-			
-			return airport;
-		}
-		
-		//Update an airport
-		public Airport update(Airport airport) {
-			
-			Session session = factory.getCurrentSession();
-			
-			try {
-				session.beginTransaction();
-				
-				//Update the airport
-				session.update(airport);
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
-			
-			return airport;
-		}
 }
  

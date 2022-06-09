@@ -11,8 +11,14 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(foreignKey=@ForeignKey(name = "fk_admin_base"))
 public class AdminAccount extends BaseAccount {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -40974366513543126L;
 
+	/**
+	 * 
+	 */
 
 	@Column(name = "name")
 	private String name;

@@ -26,9 +26,9 @@ public enum ReservationService {
 		ticketService = TicketService.INSTANCE;
 	}
 	
-	//Create new reservations
-	public Set<Reservation> createReservations(List<Reservation> reservations) {
-		return new TreeSet<>(reservationDAO.create(reservations));
+	//Delete reservations by the given ids
+	public int deleteReservations(List<Integer> ids) {
+		return reservationDAO.delete(ids);
 	}
 	
 	//Update reservations
@@ -36,9 +36,9 @@ public enum ReservationService {
 		return new TreeSet<>(reservationDAO.update(reservations));
 	}
 	
-	//Delete reservations by the given ids
-	public int deleteReservations(List<Integer> ids) {
-		return reservationDAO.delete(ids);
+	//Create new reservations
+	public Set<Reservation> createReservations(List<Reservation> reservations) {
+		return new TreeSet<>(reservationDAO.create(reservations));
 	}
 	
 	//Find all reservations in database
@@ -52,6 +52,21 @@ public enum ReservationService {
 	//Find reservations by id
 	public Reservation findReservationById(Integer id) {
 		return reservationDAO.find(id);
+	}
+	
+	//Create new reservations
+	public Set<Reservation> createReservations(List<Reservation> reservations) {
+		return new TreeSet<>(reservationDAO.create(reservations));
+	}
+	
+	//Update reservations
+	public Set<Reservation> updateReservations(List<Reservation> reservations) {
+		return new TreeSet<>(reservationDAO.update(reservations));
+	}
+	
+	//Delete reservations by the given ids
+	public int deleteReservations(List<Integer> ids) {
+		return reservationDAO.delete(ids);
 	}
 	
 	//Find all reservations from a flight

@@ -17,6 +17,32 @@ public enum UserService {
 		userDAO = UserDAO.INSTANCE;
 	}
 	
+	
+	//Update an user
+	public User updateUser(User user) {
+		return userDAO.update(user);
+	}
+	
+	//Create new user
+	public User createUser(User user) {
+		return userDAO.create(user);
+	}
+	
+	
+	//Delete an user by the given id
+	public int deleteUser(Integer id) {
+		return userDAO.delete(id);
+	}
+	
+	//Find all users in database
+	public Set<User> findAllUsers() {
+		
+		//Using set, because query in DAO only return list
+		return new TreeSet<>(userDAO.findAll());
+		
+	}
+	
+	
 	//Create new user
 	public User createUser(User user) {
 		return userDAO.create(user);
@@ -32,14 +58,6 @@ public enum UserService {
 		return userDAO.delete(id);
 	}
 	
-	//Find all users in database
-	public Set<User> findAllUsers() {
-		
-		//Using set, because query in DAO only return list
-		return new TreeSet<>(userDAO.findAll());
-		
-	}
-	
 	//Find user by id
 	public User findUserById(Integer id) {
 		return userDAO.find(id);
@@ -48,6 +66,23 @@ public enum UserService {
 	//Find user by username
 	public User findUserByUsername(String username) {
 		return userDAO.find(username);
+	}
+	
+	//Authenticate
+	public User login(User user) {
+		
+		//Find the user in the database by the username
+		User other = this.findUserByUsername(user.getUsername());
+		
+		//Return null if the username is not existed
+		if (null == other) {return null;}
+		
+		//Return null if the passwords are not matched
+		if (!user.getEncryptedPassword().equals(other.getEncryptedPassword())) {return null;}
+		
+		//Return the user if ther username and password are matched
+		return other;
+		
 	}
 	
 	//Authenticate

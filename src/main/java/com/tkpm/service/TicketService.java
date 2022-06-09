@@ -22,15 +22,15 @@ public enum TicketService {
 		ticketDAO = TicketDAO.INSTANCE;
 		flightService = FlightService.INSTANCE;
 	}
+
+	//Update tickets
+	public Set<Ticket> updateTickets(List<Ticket> tickets) {
+		return new TreeSet<>(ticketDAO.update(tickets));
+	}
 	
 	//Create new tickets
 	public Set<Ticket> createTickets(List<Ticket> tickets) {
 		return new TreeSet<>(ticketDAO.create(tickets));
-	}
-	
-	//Update tickets
-	public Set<Ticket> updateTickets(List<Ticket> tickets) {
-		return new TreeSet<>(ticketDAO.update(tickets));
 	}
 	
 	//Delete tickets by the given ids
@@ -74,6 +74,21 @@ public enum TicketService {
 				.collect(Collectors.toList());
 									
 		return availableTickets;
+	}
+	
+	//Update tickets
+	public Set<Ticket> updateTickets(List<Ticket> tickets) {
+		return new TreeSet<>(ticketDAO.update(tickets));
+	}
+	
+	//Create new tickets
+	public Set<Ticket> createTickets(List<Ticket> tickets) {
+		return new TreeSet<>(ticketDAO.create(tickets));
+	}
+	
+	//Delete tickets by the given ids
+	public int deleteTickets(List<Integer> ids) {
+		return ticketDAO.delete(ids);
 	}
 }
  

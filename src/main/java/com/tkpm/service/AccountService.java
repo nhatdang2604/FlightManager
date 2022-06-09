@@ -32,38 +32,33 @@ public enum AccountService {
 		policyService = PolicyService.INSTANCE;
 	}
 	
-	
-	//Delete an account by the given id
-	public int deleteAccount(Integer id, Class accountClass) {
-		return accountDAO.delete(id, accountClass);
+	//Create new account
+	public BaseAccount createAccount(BaseAccount account) {
+		return accountDAO.create(account);
 	}
-	
 	
 	//Update an account
 	public BaseAccount updateAccount(BaseAccount account) {
 		return accountDAO.update(account);
 	}
 	
-	
-	//Create new account
-	public BaseAccount createAccount(BaseAccount account) {
-		return accountDAO.create(account);
-	}	
-
-	//Find account by id
-	public BaseAccount findAccountById(Integer id, Class accountClass) {
-		return accountDAO.find(id, accountClass);
+	//Delete an account by the given id
+	public int deleteAccount(Integer id, Class accountClass) {
+		return accountDAO.delete(id, accountClass);
 	}
 	
-	//Find all accounts in database with the given account class
+	//Find all accounts in database with the given class
 	public Set<BaseAccount> findAllAccounts(Class accountClass) {
 		
-		//Using set, because queries in DAO only return list
+		//Using set, because query in DAO only return list
 		return new TreeSet<>(accountDAO.findAll(accountClass));
 		
 	}
 	
-	
+	//Find account by id
+	public BaseAccount findAccountById(Integer id, Class accountClass) {
+		return accountDAO.find(id, accountClass);
+	}
 	
 	public Reservation book(
 			Flight flight, TicketClass ticketClass, CustomerAccount customer,
@@ -96,12 +91,7 @@ public enum AccountService {
 		bookedReservation.getTicket().setName(name);
 		bookedReservation.getTicket().setIdentityCode(identityCode);
 		bookedReservation.getTicket().setPhoneNumber(phoneNumber);
-		bookedReservation.setBookDate(LocalDate.now());
-		bookedReservation.setCustomer(customer);
-		bookedReservation.getTicket().setCustomer(customer);
-		bookedReservation.getTicket().setName(name);
-		bookedReservation.getTicket().setIdentityCode(identityCode);
-		bookedReservation.getTicket().setPhoneNumber(phoneNumber);
+		
 		//Using list to reuse the code in service
 		List<Reservation> bookedReservations = new ArrayList<>();
 		bookedReservations.add(bookedReservation);
@@ -124,14 +114,6 @@ public enum AccountService {
 		reservation.getTicket().setIsBooked(false);
 		
 		//Clear data in the ticket and reservation
-		reservation.setBookDate(null);
-		reservation.setCustomer(null);
-		reservation.getTicket().setCustomer(null);
-		reservation.getTicket().setName(null);
-		reservation.getTicket().setIdentityCode(null);
-		reservation.getTicket().setPhoneNumber(null);
-		
-		reservation.getTicket().setIsBooked(false);
 		reservation.setBookDate(null);
 		reservation.setCustomer(null);
 		reservation.getTicket().setCustomer(null);

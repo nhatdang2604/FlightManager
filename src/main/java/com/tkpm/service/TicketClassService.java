@@ -17,33 +17,19 @@ public enum TicketClassService {
 		ticketClassDAO = TicketClassDAO.INSTANCE;
 	}
 	
+	//Create new ticket class
+	public TicketClass createTicketClass(TicketClass ticketClass) {
+		return ticketClassDAO.create(ticketClass);
+	}
+	
 	//Update a ticket class
 	public TicketClass updateTicketClass(TicketClass ticketClass) {
 		return ticketClassDAO.update(ticketClass);
 	}
 	
-	//Create new ticket class
-	public TicketClass createTicketClass(TicketClass ticketClass) {
-		return ticketClassDAO.create(ticketClass);
-	}
-
-	//Find all ticket classes in database
-	public Set<TicketClass> findAllTicketClasses() {
-		
-		//Using set, because query in DAO only return list
-		return new TreeSet<>(ticketClassDAO.findAll());
-		
-	}
-	
-	
 	//Delete a ticket class by the given id
 	public int deleteTicketClass(Integer id) {
 		return ticketClassDAO.delete(id);
-	}
-	
-	//Find ticketClass by id
-	public TicketClass findAirportById(Integer id) {
-		return ticketClassDAO.find(id);
 	}
 	
 	//Find all ticket classes in database

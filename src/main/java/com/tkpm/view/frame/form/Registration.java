@@ -31,6 +31,8 @@ import javax.swing.text.Document;
 import com.tkpm.entities.CustomerAccount;
 import com.tkpm.entities.User;
 import com.tkpm.utils.HashingUtil;
+import com.tkpm.view.component.FilledButton;
+import com.tkpm.view.component.OutlinedButton;
 
 public class Registration extends JFrame implements FormBehaviour{
 
@@ -39,7 +41,6 @@ public class Registration extends JFrame implements FormBehaviour{
 	private JPanel panelRegistrate;
 	private JPanel panelInfo;
 	private JPanel panelButton;
-	private JPanel panelCancelButton;
 	
 	private JLabel background;
 	private JLabel jlbUsername;
@@ -57,8 +58,8 @@ public class Registration extends JFrame implements FormBehaviour{
 	private JTextField txtIdentity;
 	private JTextField txtMobileNumber;
 	
-	private JButton cancelButton;
-	private JButton okButton;
+	private OutlinedButton cancelButton;
+	private FilledButton okButton;
 	
 	public static final int NO_ERROR = 0;
 	public static final int EMPTY_STAR_FIELD_ERROR = 1;
@@ -143,10 +144,6 @@ public class Registration extends JFrame implements FormBehaviour{
 		panelButton.setPreferredSize(new Dimension(260, 30));
 		panelButton.setBackground(Color.WHITE);
 		
-		panelCancelButton = new JPanel();
-		panelCancelButton.setBackground(Color.LIGHT_GRAY);
-		panelCancelButton.setLayout(null);
-		
 		background = new JLabel("");
 		background.setBackground(Color.WHITE);
 		background.setIcon(new ImageIcon(Registration.class.getResource("/com/tkpm/view/frame/form/rafiki.jpg")));
@@ -208,19 +205,15 @@ public class Registration extends JFrame implements FormBehaviour{
 		showPasswordCheckbox.setBackground(Color.WHITE);
 		showPasswordCheckbox.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
-		cancelButton = new JButton("Huỷ");
-		cancelButton.setBounds(new Rectangle(1, 1, 118, 28));
+		cancelButton = new OutlinedButton("Huỷ");
 		cancelButton.setBorderPainted(false);
-		cancelButton.setBackground(Color.WHITE);
 		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
-		okButton = new JButton("Đăng ký");
-		okButton.setPreferredSize(new Dimension(75, 30));
-		okButton.setBounds(new Rectangle(0, 0, 90, 30));
+		okButton = new FilledButton("Đăng ký");
+		okButton.setBorderPainted(false);
+		//okButton.setPreferredSize(new Dimension(75, 30));
+		//okButton.setBounds(new Rectangle(0, 0, 90, 30));
 		okButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		okButton.setForeground(Color.WHITE);
-		okButton.setBorder(null);
-		okButton.setBackground(new Color(41, 97, 213));
 		
 		warningText = new JLabel("");
 		warningText.setFont(new Font("Noto Sans", Font.PLAIN, 16));
@@ -256,8 +249,7 @@ public class Registration extends JFrame implements FormBehaviour{
 		panelInfo.add(txtMobileNumber);
 		panelInfo.add(showPasswordCheckbox);
 		panelInfo.add(panelButton);
-		panelButton.add(panelCancelButton);
-		panelCancelButton.add(cancelButton);
+		panelButton.add(cancelButton);
 		panelButton.add(okButton);
 		panelInfo.add(warningText);
 	}

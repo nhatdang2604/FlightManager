@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.tkpm.entities.User;
 import com.tkpm.utils.HashingUtil;
+import com.tkpm.view.component.Button;
+import com.tkpm.view.component.FilledButton;
+import com.tkpm.view.component.OutlinedButton;
 import com.tkpm.view.frame.BaseFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -12,6 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 import javax.swing.border.LineBorder;
@@ -27,13 +33,12 @@ public class Login extends BaseFrame implements FormBehaviour {
 	private JLabel jlbPassword;					//Label for password field
 	private JPasswordField passtxtPassword;		//Password text field
 	private JCheckBox chckbxShowPassword;		//Checkbox to show/hide password
-	private JButton btnLogin;					//Login button
-	private JButton btnRegistrate;				//Registrate button
+	private FilledButton btnLogin;				//Login button
+	private OutlinedButton btnRegistrate;		//Registrate button
 	
 	private JPanel contentPanel;
 	private JLabel Background;
 	private JPanel panelLogin;
-	private JPanel panelRegistrate;
 	
 	//Display when: 
 	//	1.) Wrong password or username: Type = 0
@@ -83,23 +88,15 @@ public class Login extends BaseFrame implements FormBehaviour {
 		panelLogin.setBackground(Color.WHITE);
 		panelLogin.setLayout(null);
 		
-		panelRegistrate = new JPanel();
-		panelRegistrate.setBorder(new LineBorder(Color.DARK_GRAY));
-		panelRegistrate.setBackground(Color.DARK_GRAY);
-		panelRegistrate.setLayout(null);
-		
-		btnLogin = new JButton("Đăng nhập");
-		btnLogin.setForeground(Color.WHITE);
+		btnLogin = new FilledButton("Đăng nhập");
+		btnLogin.setBorderPainted(false);
 		btnLogin.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		btnLogin.setBorder(null);
-		btnLogin.setBackground(new Color(41, 97, 213));
 		
-		btnRegistrate = new JButton("Đăng ký");
+		btnRegistrate = new OutlinedButton("Đăng ký");
 		btnRegistrate.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		btnRegistrate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnRegistrate.setMinimumSize(new Dimension(90, 30));
 		btnRegistrate.setMaximumSize(new Dimension(90, 30));
-		btnRegistrate.setBackground(Color.WHITE);
 		btnRegistrate.setBorderPainted(false);
 		
 		jlbUsername = new JLabel("Tên đăng nhập");
@@ -130,10 +127,9 @@ public class Login extends BaseFrame implements FormBehaviour {
 		Background.setBounds(375, 0, 380, 473);
 		
 		panelLogin.setBounds(0, 0, 380, 473);
-		panelRegistrate.setBounds(90, 320, 100, 30);
 		
-		btnLogin.setBounds(210, 320, 120, 30);
-		btnRegistrate.setBounds(1, 1, 98, 28);
+		btnLogin.setBounds(210, 320, 130, 30);
+		btnRegistrate.setBounds(80, 319, 120, 30);
 		
 		jlbUsername.setBounds(80, 120, 260, 30);
 		jlbPassword.setBounds(80, 200, 260, 30);
@@ -155,8 +151,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 		panelLogin.add(passtxtPassword);
 		panelLogin.add(chckbxShowPassword);
 		panelLogin.add(btnLogin);
-		panelLogin.add(panelRegistrate);
-		panelRegistrate.add(btnRegistrate);
+		panelLogin.add(btnRegistrate);
 		panelLogin.add(jlbWarningText);
 	}
 	
@@ -190,7 +185,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 	}
 
 	@Override
-	public JButton getSubmitButton() {return btnLogin;}
+	public Button getSubmitButton() {return btnLogin;}
 	public JButton getRegistrateButton() {return btnRegistrate;}
 
 	@Override

@@ -16,7 +16,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.border.LineBorder;
+import com.tkpm.view.component.FilledButton;
+import com.tkpm.view.component.OutlinedButton;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -26,7 +27,6 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private JLabel jlbTransitionAir;
 	private JLabel jlbAirportId;
 	private JPanel panelButton;
-	private JPanel panelCancel;
 	private JPanel panelInfo;
 	
 	private JComboBox<String> txtAirportId;
@@ -36,8 +36,8 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private JTextField txtNote;
 	private JLabel warningText;
 	
-	private JButton cancelButton;
-	private JButton okButton;
+	private OutlinedButton cancelButton;
+	private FilledButton okButton;
 	
 	public static final int NO_ERROR = 0;
 	public static final int EMPTY_STAR_FIELD_ERROR = 1;
@@ -121,19 +121,13 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		panelButton.setBorder(new EmptyBorder(10, 75, 20, 75));
 		panelButton.setLayout(new GridLayout(0, 2, 30, 0));
 		
-		panelCancel = new JPanel();
-		panelCancel.setBorder(new LineBorder(Color.DARK_GRAY));
-		panelCancel.setBackground(Color.DARK_GRAY);
-		cancelButton = new JButton("Huỷ");
-		cancelButton.setBackground(Color.WHITE);
+		cancelButton = new OutlinedButton("Huỷ");
 		cancelButton.setBorderPainted(false);
-		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 16));
+		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
-		okButton = new JButton("Thêm");
-		okButton.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		okButton = new FilledButton("Thêm");
 		okButton.setBorderPainted(false);
-		okButton.setBackground(new Color(41, 97, 213));
-		okButton.setForeground(Color.WHITE);
+		okButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		initNumberFields();
 		initButtons();
@@ -153,9 +147,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		panelInfo.add(warningText);
 		
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
-		panelButton.add(panelCancel);
-		panelCancel.setLayout(new GridLayout(0, 1, 1, 1));
-		panelCancel.add(cancelButton);
+		panelButton.add(cancelButton);
 		panelButton.add(okButton);
 	}
 	

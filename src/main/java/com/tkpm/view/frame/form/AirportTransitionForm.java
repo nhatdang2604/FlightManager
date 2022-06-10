@@ -212,6 +212,13 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		airports.forEach(airport -> airportComboBox.addItem(airport));
 	}
 	
+	public void loadModel(Transition model) {
+		this.model= model;
+		airportComboBox.setSelectedItem(model.getAirport());
+		txtTransitionTime.setText(model.getTransitionTime().toString());
+		txtNote.setText(model.getNote());
+	}
+	
 	@Override
 	public Transition submit() {
 		model.setAirport((Airport) airportComboBox.getSelectedItem());

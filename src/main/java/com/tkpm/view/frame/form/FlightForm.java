@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.security.auth.Subject;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -27,10 +26,6 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
-import com.nhatdang2604.model.entity.Course;
-import com.nhatdang2604.model.entity.Schedule;
-import com.nhatdang2604.model.entity.Student;
-import com.nhatdang2604.model.entity.SubjectWeek;
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
@@ -269,46 +264,43 @@ public class FlightForm extends JDialog {
 		numericTextFields.get(2).setText(detail.getNumberOfSecondClassSeat().toString());
 		numericTextFields.get(3).setText(detail.getPriceOfFirstClassSeat().toString());
 		numericTextFields.get(4).setText(detail.getPriceOfSecondClassSeat().toString());
-		
-		return this;
-	}
-	public FlightForm setAvailableSubjects(List<Subject> subjects) {
-		this.availableSubjects = subjects;
-		subjects.forEach(subject -> {
-			subjectComboBox.addItem(subject);
-		});
-		
-		return this;
-	}
 	
-	public Course submit() {
+		table.setTransitions(new ArrayList<>(model.getTransitions()));
+		table.update();
 		
-		model.setSubject((Subject) subjectComboBox.getSelectedItem());
-		Schedule schedule = model.getSchedule();
-		
-		Set<Student> students = addStudentForm.submit();
-		model.setStudents(students);
-		
-		if (null == schedule) {
-			schedule = new Schedule();
-			schedule.setCourse(model);
-			model.setSchedule(schedule);
-			weekForm.setModel(schedule);
+		return this;
+	}
+	public FlightForm setAirports(List<Airport> airports) {
+		for (JComboBox<Airport> cb: airportComboBoxes) {
+			cb.removeAll();
+			airports.forEach(airport -> cb.addItem(airport));
 		}
 		
-		schedule.setStartDate(startDatePicker.getDate());
-		schedule.setEndDate(endDatePicker.getDate());
-		schedule.setTime(timePicker.getTime());
-		schedule.setWeekDay((String) weekDayComboBox.getSelectedItem());
-		
-		List<SubjectWeek> weeks = weekForm.submit();
-		schedule.setSubjectWeeks(weeks);
+		return this;
+	}
 	
+	public Flight submit() {
+		
+		model.setDepartureAirport((Airport) airportComboBoxes.get(0).getSelectedItem());
+		model.setArrivalAirport((Airport) airportComboBoxes.get(1).getSelectedItem());
+		
+		model.setDateTime(flightDateTimePicker.getDateTimePermissive());
+		
+		FlightDetail detail = model.getDetail();
+		detail.setFlightTime(Integer.parseInt(numericTextFields.get(0).getText()));
+		detail.setNumberOfFirstClassSeat(Integer.parseInt(numericTextFields.get(1).getText()));
+		detail.setNumberOfSecondClassSeat(Integer.parseInt(numericTextFields.get(2).getText()));
+		detail.setPriceOfFirstClassSeat(Integer.parseInt(numericTextFields.get(3).getText()));
+		detail.setPriceOfSecondClassSeat(Integer.parseInt(numericTextFields.get(4).getText()));
+		
+		Set<Transition> transitions = new TreeSet<>(table.getTransitions());
+		model.setTransitions(transitions);
+		
 		return model;
 	}
 	
-	public AddStudentToCourseForm getAddStudentForm() {return addStudentForm;}
-	public ChangeSubjectWeekInCourseForm getWeekForm() {return weekForm;}
+	public AirportTransitionForm getTransitionForm() {return transitionForm;}
+	public TransitionCRUDTableView getTable() {return table;}
 	
 	public JButton getSubmitButton() {
 		return okButton;

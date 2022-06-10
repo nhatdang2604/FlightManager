@@ -156,6 +156,10 @@ public class TransitionCRUDTableView extends JTable {
 		return result;
 	}
 	
+	public List<Transition> getTransitions() {
+		return transitions;
+	}
+	
 	public List<JButton> getActionButtons() {
 		return actionButtons;
 	}

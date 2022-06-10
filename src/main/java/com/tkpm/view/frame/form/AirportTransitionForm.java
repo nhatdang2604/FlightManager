@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Set;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,7 +20,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.tkpm.entities.Airport;
-import com.tkpm.entities.Flight;
 import com.tkpm.entities.Transition;
 
 public class AirportTransitionForm extends JDialog implements FormBehaviour {
@@ -207,7 +206,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		return false;
 	}
 
-	public void loadAirport(Set<Airport> airports)  {
+	public void loadAirport(List<Airport> airports)  {
 		airportComboBox.removeAll();
 		airports.forEach(airport -> airportComboBox.addItem(airport));
 	}

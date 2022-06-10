@@ -40,18 +40,29 @@ public class Transition implements Serializable, Comparable<Transition> {
 			nullable = true)
 	private Airport airport;
 	
-	@ManyToMany(
+//	@ManyToMany(
+//			cascade = {
+//					CascadeType.PERSIST,
+//					CascadeType.MERGE,
+//					CascadeType.DETACH,
+//					CascadeType.REFRESH},
+//			fetch = FetchType.EAGER)
+//	@JoinTable(
+//			name = "flight_transition",
+//			joinColumns = @JoinColumn(name = "transition_airport_id"),
+//			inverseJoinColumns = @JoinColumn(name = "flight_id"))
+	@ManyToOne(
 			cascade = {
 					CascadeType.PERSIST,
 					CascadeType.MERGE,
 					CascadeType.DETACH,
 					CascadeType.REFRESH},
 			fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "flight_transition",
-			joinColumns = @JoinColumn(name = "transition_airport_id"),
-			inverseJoinColumns = @JoinColumn(name = "flight_id"))
-	private Set<Flight> flights;
+	@JoinColumn(
+			name = "flight_id", 
+			referencedColumnName = "id",
+			nullable = true)
+	private Flight flight;
 	
 	@Column(name = "transition_time")
 	private Integer transitionTime;	//Minutes
@@ -67,14 +78,14 @@ public class Transition implements Serializable, Comparable<Transition> {
 	//Getters
 	public Integer getId() {return id;}
 	public Airport getAirport() {return airport;}
-	public Set<Flight> getFlights() {return flights;}
+	public Flight getFlight() {return flight;}
 	public Integer getTransitionTime() {return transitionTime;}
 	public String getNote() {return note;}
 	
 	//Setters
 	public void setId(Integer id) {this.id = id;}	
 	public void setAirport(Airport airport) {this.airport = airport;}
-	public void setFlights(Set<Flight> flights) {this.flights = flights;}
+	public void setFlight(Flight flight) {this.flight = flight;}
 	public void setTransitionTime(Integer transitionTime) {this.transitionTime = transitionTime;}
 	public void setNote(String note) {this.note = note;}
 	

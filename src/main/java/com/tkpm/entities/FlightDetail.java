@@ -37,6 +37,12 @@ public class FlightDetail implements Serializable{
 	@Column(name = "second_class_seat_size")
 	private Integer numberOfSecondClassSeat;
 	
+	@Column(name = "first_class_seat_price")
+	private Integer priceOfFirstClassSeat;
+	
+	@Column(name = "second_class_seat_price")
+	private Integer priceOfSecondClassSeat;
+	
 	//Constructors
 	public FlightDetail() {
 		super();
@@ -48,12 +54,16 @@ public class FlightDetail implements Serializable{
 	public Integer getFlightTime() {return flightTime;}
 	public Integer getNumberOfFirstClassSeat() {return numberOfFirstClassSeat;}
 	public Integer getNumberOfSecondClassSeat() {return numberOfSecondClassSeat;}
+	public Integer getPriceOfFirstClassSeat() {return priceOfFirstClassSeat;}
+	public Integer getPriceOfSecondClassSeat() {return priceOfSecondClassSeat;}
 
 	//Setters
 	public void setFlight(Flight flight) {this.flight = flight;}
 	public void setFlightTime(Integer flightTime) {this.flightTime = flightTime;}
 	public void setNumberOfFirstClassSeat(Integer numberOfFirstClassSeat) {this.numberOfFirstClassSeat = numberOfFirstClassSeat;}
-	public void setNumberOfSecondClassSeat(Integer numberOfSecondClassSeat) {this.numberOfSecondClassSeat = numberOfSecondClassSeat;}
+	public void setNumberOfSecondClassSeat(Integer numberOfSecondClassSeat) {this.numberOfSecondClassSeat = numberOfSecondClassSeat;}	
+	public void setPriceOfFirstClassSeat(Integer priceOfFirstClassSeat) {this.priceOfFirstClassSeat = priceOfFirstClassSeat;}
+	public void setPriceOfSecondClassSeat(Integer priceOfSecondClassSeat) {this.priceOfSecondClassSeat = priceOfSecondClassSeat;}
 
 	
 }

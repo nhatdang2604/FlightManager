@@ -238,18 +238,10 @@ public class FlightForm extends JDialog {
 		model.setDepartureAirport(new Airport());
 		model.setArrivalAirport(new Airport());
 		
-		//transitionForm.set
 	}
 	
-	/**
-	 * Create the frame.
-	 */
-	public FlightForm() {
-		init();
-		initModel();
-	}
 
-	public FlightForm(Course model, JFrame owner) {
+	public FlightForm(Flight model, JFrame owner) {
 		super(owner, true);
 		init();
 		setModel(model);
@@ -263,16 +255,20 @@ public class FlightForm extends JDialog {
 	
 	
 	public JButton getOkButton() {return okButton;}
-	public JDialog setModel(Course model) {
+	public JDialog setModel(Flight model) {
 		this.model = model;
-		subjectComboBox.setSelectedItem(model.getSubject());
 		
-		Schedule schedule = model.getSchedule();
-		if (null != schedule) {
-			startDatePicker.setDate(schedule.getStartDate());
-			endDatePicker.setDate(schedule.getEndDate());
-			timePicker.setTime(schedule.getTime());
-		}
+		airportComboBoxes.get(0).setSelectedItem(model.getDepartureAirport());
+		airportComboBoxes.get(1).setSelectedItem(model.getArrivalAirport());
+		
+		flightDateTimePicker.setDateTimePermissive(model.getDateTime());
+		
+		FlightDetail detail = model.getDetail();
+		numericTextFields.get(0).setText(detail.getFlightTime().toString());
+		numericTextFields.get(1).setText(detail.getNumberOfFirstClassSeat().toString());
+		numericTextFields.get(2).setText(detail.getNumberOfSecondClassSeat().toString());
+		numericTextFields.get(3).setText(detail.getPriceOfFirstClassSeat().toString());
+		numericTextFields.get(4).setText(detail.getPriceOfSecondClassSeat().toString());
 		
 		return this;
 	}

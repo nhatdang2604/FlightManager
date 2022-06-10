@@ -106,6 +106,8 @@ CREATE TABLE `flight_detail` (
 	`flight_time` int(11) DEFAULT 0,
 	`first_class_seat_size` int(11) DEFAULT 0,
 	`second_class_seat_size` int(11) DEFAULT 0,
+	`first_class_seat_price` int(11) DEFAULT 0,
+	`second_class_seat_price` int(11) DEFAULT 0,
 
  	 CONSTRAINT `fk_flight_detail` FOREIGN KEY(`flight_id`) REFERENCES flight(`id`),
   	PRIMARY KEY (`flight_id`)

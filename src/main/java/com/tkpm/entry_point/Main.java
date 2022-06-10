@@ -24,8 +24,8 @@ public class Main {
 			logForm.open();
 		});
 		//logForm.open();
-//		AirportTransitionForm airportTransitionForm = new AirportTransitionForm();
-//		airportTransitionForm.open();
+		//AirportTransitionForm airportTransitionForm = new AirportTransitionForm();
+		//airportTransitionForm.open();
 		
 		//BaseMainFrame mainFrame = new CustomerMainFrame();
 		//BaseMainFrame mainFrame = new ManagerMainFrame();

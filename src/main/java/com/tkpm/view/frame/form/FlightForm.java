@@ -3,6 +3,8 @@ package com.tkpm.view.frame.form;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +18,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -30,6 +33,7 @@ import com.nhatdang2604.model.entity.Student;
 import com.nhatdang2604.model.entity.SubjectWeek;
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.Transition;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
@@ -46,7 +50,6 @@ public class FlightForm extends JDialog {
 	//flight time / first class seat size/ second class seat size/ first class seat price / second class seat price
 	private List<JTextField> numericTextFields;	
 	
-	
 	private JButton addTransitionButton;
 	private JButton deleteTransitionButton;
 	private TransitionCRUDTableView table;
@@ -61,16 +64,30 @@ public class FlightForm extends JDialog {
 	private static final String[] ERRORS = {
 			"",
 			"Có ít nhất một ô không có thông tin",
-	}
+			"Ô phải mang giá trị số nguyên dương",
+	};
 	
 	private static final int NO_ERROR = 0;
-	private static final int EMPTY_FIELD_ERROR = 0;
+	private static final int EMPTY_FIELD_ERROR = 1;
+	public static final int NUMBER_FIELD_ERROR = 2;
 	
 	public FlightForm setError(int errorCode) {
 		if (0 <= errorCode && errorCode < ERRORS.length) {
 			warningText.setText(ERRORS[errorCode]);
 		}
 		return this;
+	}
+	
+	//Ignore not an number value from an event
+	//	And open the flag of nan error in number field
+	private void ignoreNANValue(KeyEvent event) {
+		char character = event.getKeyChar();
+		if ((character < '0') || (character > '9') && (character != KeyEvent.VK_BACK_SPACE)) {
+			event.consume();
+			setError(NUMBER_FIELD_ERROR);
+		} else {
+			setError(NO_ERROR);
+		}
 	}
 	
 	private void initComponents() {
@@ -100,6 +117,17 @@ public class FlightForm extends JDialog {
 		transitionForm = new AirportTransitionForm(this);
 		
 		initButtons();
+		initNumericFields();
+	}
+	
+	private void initNumericFields() {
+		for (JTextField field: numericTextFields) {
+			field.addKeyListener(new KeyAdapter() {
+				   public void keyTyped(KeyEvent e) {
+					   ignoreNANValue(e);
+				   }
+			});
+		}
 	}
 	
 	private void initButtons() {
@@ -129,9 +157,19 @@ public class FlightForm extends JDialog {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		contentPane.add(footerPanel, BorderLayout.SOUTH);
-		footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		footerPanel.add(okButton);
-		footerPanel.add(cancelButton);
+		footerPanel.setLayout(new BorderLayout());
+		JPanel controlButtonPanel = new JPanel();
+		controlButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		controlButtonPanel.add(addTransitionButton);
+		controlButtonPanel.add(deleteTransitionButton);
+		JPanel confirmButtonPanel = new JPanel();
+		confirmButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		confirmButtonPanel.add(okButton);
+		confirmButtonPanel.add(cancelButton);
+		JScrollPane scroll = new JScrollPane(table);
+		footerPanel.add(controlButtonPanel, BorderLayout.NORTH);
+		footerPanel.add(scroll, BorderLayout.CENTER);
+		footerPanel.add(confirmButtonPanel, BorderLayout.SOUTH);
 		
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -157,21 +195,28 @@ public class FlightForm extends JDialog {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
-		centerPanel.add(warningText, "6, 2, center, default");
+		
 		for (int i = 0; i<labels.size(); ++i) {
 			String metaLayout = "4, " + (i+2)*2 + ", right, default";
 			centerPanel.add(labels.get(i), metaLayout);
 		}
 		
-		centerPanel.add(subjectComboBox, "6, 4, fill, default");
-		centerPanel.add(startDatePicker, "6, 6");
-		centerPanel.add(endDatePicker, "6, 8");
-		centerPanel.add(timePicker, "6, 10");
-		centerPanel.add(weekDayComboBox, "6, 12, fill, default");
-		centerPanel.add(weekButton, "6, 14, fill, default");
-		centerPanel.add(addStudentButton, "6, 16, fill, default");
+		centerPanel.add(warningText, "6, 2, center, default");
+		int offset = 2;
+		for (int i = 0; i < airportComboBoxes.size(); ++i) {
+			centerPanel.add(airportComboBoxes.get(i), "6, " + (i + offset) * 2 + ", fill, default");
+		}
+		offset += airportComboBoxes.size();
+		centerPanel.add(flightDateTimePicker, "6, " + offset * 2 + ", fill, default");
+		++offset;
+		for (int i = 0; i < numericTextFields.size(); ++i) {
+			centerPanel.add(numericTextFields.get(i), "6, " + (i + offset) * 2 + ", fill, default");
+		}
+		
 	}
 	
 	public void init() {
@@ -184,11 +229,16 @@ public class FlightForm extends JDialog {
 	}
 	
 	private void initModel() {
-		model = new Course();
-		model.setStudents(new TreeSet<Student>());
-		model.setSubject(new Subject());
-		model.setSchedule(new Schedule());
-		weekForm.setModel(model.getSchedule());
+		model = new Flight();
+		model.setTransitions(new TreeSet<>());
+		model.setReservations(new TreeSet<>());
+		model.setTickets(new TreeSet<>());
+		model.setDetail(new FlightDetail());
+		model.setDateTime(null);
+		model.setDepartureAirport(new Airport());
+		model.setArrivalAirport(new Airport());
+		
+		//transitionForm.set
 	}
 	
 	/**

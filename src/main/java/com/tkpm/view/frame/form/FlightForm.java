@@ -2,6 +2,7 @@ package com.tkpm.view.frame.form;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -34,6 +35,9 @@ import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
 public class FlightForm extends JDialog {
 
+	final protected int HEIGHT = 500;
+	final protected int WIDTH = 600;
+	
 	private JPanel centerPanel;
 	private JPanel footerPanel;
 	private JPanel contentPane;
@@ -77,7 +81,7 @@ public class FlightForm extends JDialog {
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') && (character != KeyEvent.VK_BACK_SPACE)) {
+		if ((character < '0') || (character > '9') || (character != KeyEvent.VK_BACK_SPACE)) {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
 		} else {
@@ -108,6 +112,23 @@ public class FlightForm extends JDialog {
 				new JLabel("Giá vé hạng 1"),
 				new JLabel("Giá vé hạng 2")));
 		
+		//Init datetime picker
+		flightDateTimePicker = new DateTimePicker();
+		
+		//Init airport combo boxes
+		airportComboBoxes = new ArrayList<>();
+		int numberOfAirportComboBoxes = 2;
+		for (int i = 0; i < numberOfAirportComboBoxes; ++i) {
+			airportComboBoxes.add(new JComboBox<>());
+		}
+			
+		//Init numeric fields
+		numericTextFields = new ArrayList<>();
+		int numberOfNumericField = 5;
+		for (int i = 0; i < numberOfNumericField; ++i) {
+			numericTextFields.add(new JTextField());
+		}
+		
 		table = new TransitionCRUDTableView();
 		transitionForm = new AirportTransitionForm(this);
 		
@@ -136,12 +157,16 @@ public class FlightForm extends JDialog {
 		});
 		
 		transitionForm.getSubmitButton().addActionListener((event) -> {
-			Transition transition = transitionForm.submit();
-			
-			//There is no error
-			if (null != transition) {
-				table.addTransition(transition);
-				transitionForm.close();
+			if (!transitionForm.areThereAnyEmptyStarField()) {
+				Transition transition = transitionForm.submit();
+				
+				//There is no error
+				if (null != transition) {
+					table.addTransition(transition);
+					transitionForm.close();
+				}
+			} else {
+				transitionForm.setError(AirportTransitionForm.EMPTY_STAR_FIELD_ERROR);
 			}
 		});
 		
@@ -151,21 +176,8 @@ public class FlightForm extends JDialog {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		contentPane.add(footerPanel, BorderLayout.SOUTH);
-		footerPanel.setLayout(new BorderLayout());
-		JPanel controlButtonPanel = new JPanel();
-		controlButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		controlButtonPanel.add(addTransitionButton);
-		controlButtonPanel.add(deleteTransitionButton);
-		JPanel confirmButtonPanel = new JPanel();
-		confirmButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		confirmButtonPanel.add(okButton);
-		confirmButtonPanel.add(cancelButton);
-		JScrollPane scroll = new JScrollPane(table);
-		footerPanel.add(controlButtonPanel, BorderLayout.NORTH);
-		footerPanel.add(scroll, BorderLayout.CENTER);
-		footerPanel.add(confirmButtonPanel, BorderLayout.SOUTH);
-		
+		//Center setup
+		//JScrollPane centerScroll = new JScrollPane(centerPanel);
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
@@ -212,6 +224,24 @@ public class FlightForm extends JDialog {
 			centerPanel.add(numericTextFields.get(i), "6, " + (i + offset) * 2 + ", fill, default");
 		}
 		
+		
+		//Footer setup
+		contentPane.add(footerPanel, BorderLayout.SOUTH);
+		footerPanel.setLayout(new BorderLayout());
+		JPanel controlButtonPanel = new JPanel();
+		controlButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		controlButtonPanel.add(addTransitionButton);
+		controlButtonPanel.add(deleteTransitionButton);
+		JPanel confirmButtonPanel = new JPanel();
+		confirmButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		confirmButtonPanel.add(okButton);
+		confirmButtonPanel.add(cancelButton);
+		JScrollPane tableScroll = new JScrollPane(table);
+		tableScroll.setPreferredSize(new Dimension(200, 100));
+		footerPanel.add(controlButtonPanel, BorderLayout.NORTH);
+		footerPanel.add(tableScroll, BorderLayout.CENTER);
+		footerPanel.add(confirmButtonPanel, BorderLayout.SOUTH);
+				
 	}
 	
 	public void init() {
@@ -240,12 +270,14 @@ public class FlightForm extends JDialog {
 		super(owner, true);
 		init();
 		setModel(model);
+		setSize(WIDTH, HEIGHT);
 	}
 	
 	public FlightForm(JFrame owner) {
 		super(owner, true);
 		init();
 		initModel();
+		setSize(WIDTH, HEIGHT);
 	}
 	
 	
@@ -304,5 +336,10 @@ public class FlightForm extends JDialog {
 	
 	public JButton getSubmitButton() {
 		return okButton;
+	}
+	
+	public static void main(String[] args) {
+		FlightForm form = new FlightForm(null);
+		form.setVisible(true);
 	}
 }

@@ -57,7 +57,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') && (character != KeyEvent.VK_BACK_SPACE)) {
+		if ((character < '0') || (character > '9') || (character != KeyEvent.VK_BACK_SPACE)) {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
 		} else {
@@ -90,7 +90,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		panelInfo.setBackground(Color.WHITE);
 		panelInfo.setBorder(new EmptyBorder(25, 50, 10, 50));
 		
-		jlbAirportId = new JLabel("Mã sân bay");
+		jlbAirportId = new JLabel("Sân bay (*)");
 		jlbAirportId.setPreferredSize(new Dimension(55, 30));
 		jlbAirportId.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		
@@ -99,7 +99,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		airportComboBox.setPreferredSize(new Dimension(7, 30));
 		airportComboBox.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
-		jlbTransitionTime = new JLabel("Thời gian dừng");
+		jlbTransitionTime = new JLabel("Thời gian dừng (*)");
 		jlbTransitionTime.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		
 		txtTransitionTime = new JTextField();
@@ -193,8 +193,8 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	
 	public boolean areThereAnyEmptyStarField() {
 		
-		String airportID = airportComboBox.getSelectedItem().toString().trim();
-		if (null == airportID || airportID.equals("")) {
+		Airport airport = (Airport) airportComboBox.getSelectedItem();
+		if (null == airport) {
 			return true;
 		}
 		

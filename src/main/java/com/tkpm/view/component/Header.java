@@ -17,7 +17,7 @@ import javax.swing.JButton;
 public class Header extends JPanel {
 	
 	private JButton menuButton;
-
+	
 	
 	public JButton getMenuButton() {
 		return menuButton;
@@ -31,27 +31,22 @@ public class Header extends JPanel {
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(320, 40));
 		setOpaque(false);
-		setLayout(new BorderLayout(0, 0));
+		setLayout(new BorderLayout(20, 0));
 		
-		JPanel iconPanel = new JPanel();
-		iconPanel.setBackground(getBackground());
-		iconPanel.setBorder(new EmptyBorder(4, 0, 4, 0));
-		add(iconPanel, BorderLayout.WEST);
-		iconPanel.setLayout(new GridLayout(0, 2, 10, 0));
 		
 		menuButton = new JButton("");
 		menuButton.setIcon(new ImageIcon(Header.class.getResource("/com/tkpm/view/component/menu.png")));
 		menuButton.setBorderPainted(false);
 		menuButton.setBackground(Color.WHITE);
-		iconPanel.add(menuButton);
-		
-		JLabel jlbSearchIcon = new JLabel("");
-		jlbSearchIcon.setIcon(new ImageIcon(Header.class.getResource("/com/tkpm/view/component/search.png")));
-		iconPanel.add(jlbSearchIcon);
+		add(menuButton, BorderLayout.WEST);
 		
 		SearchText searchText = new SearchText();
 		searchText.setOpaque(false);
-		add(searchText);
+		add(searchText, BorderLayout.CENTER);
+		
+		JLabel jlbSearchIcon = new JLabel("");
+		jlbSearchIcon.setIcon(new ImageIcon(Header.class.getResource("/com/tkpm/view/component/search.png")));
+		add(jlbSearchIcon, BorderLayout.EAST);
 	}
 	
 	@Override

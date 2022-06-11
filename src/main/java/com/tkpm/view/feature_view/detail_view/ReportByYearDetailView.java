@@ -1,8 +1,10 @@
 package com.tkpm.view.feature_view.detail_view;
 
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -55,6 +57,7 @@ public class ReportByYearDetailView extends BaseReportDetailView {
 		//Add data afterward
 		paddingPanels.get(1).add(warningField, "6, 2, center, default");
 		paddingPanels.get(1).add(yearField, "6, 4, fill, default");
+		
 	}
 	
 	

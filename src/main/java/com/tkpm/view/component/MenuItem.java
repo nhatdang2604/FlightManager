@@ -17,6 +17,7 @@ public class MenuItem extends JPanel {
 	
 	private JLabel jlbMenuName;
 	private boolean selected;
+	private boolean hover;
 
 	/**
 	 * Create the panel.
@@ -55,13 +56,23 @@ public class MenuItem extends JPanel {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		if (selected) {
+		if (selected || hover) {
 			Graphics2D graphics2d = (Graphics2D)g;
 			graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			graphics2d.setColor(new Color(255, 255, 255, 80));
+			if (selected) {
+				graphics2d.setColor(new Color(255, 255, 255, 80));
+			}
+			else {
+				graphics2d.setColor(new Color(255, 255, 255, 20));
+			}			
 			graphics2d.fillRoundRect(10, 0, getWidth() - 20, getHeight(), 5, 5);
 		}
 		super.paintComponent(g);
+	}
+	
+	public void setHover(boolean hover) {
+		this.hover = hover;
+		repaint();
 	}
 
 }

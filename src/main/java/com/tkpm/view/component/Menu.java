@@ -17,6 +17,13 @@ import com.tkpm.view.component.ModelMenu.MenuType;
 
 public class Menu extends JPanel {
 	
+	private EventMenuSelected eventMenuSelected;
+	
+	public void addEventMenuSelected(EventMenuSelected event) {
+		this.eventMenuSelected = event;
+		menuList.addEventMenuSelected(eventMenuSelected);
+	}
+	
 	private JPanel panelLogoApp;
 	private JLabel lbNameApp;
 	private ListMenu<ModelMenu> menuList;

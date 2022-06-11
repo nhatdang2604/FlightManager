@@ -3,7 +3,9 @@ package com.tkpm.view.frame;
 import java.util.ArrayList;
 
 import com.tkpm.view.component.FlightFeatureForm;
+import com.tkpm.view.component.FlightManagerForm;
 import com.tkpm.view.component.Menu;
+import com.tkpm.view.component.ReportManagerForm;
 import com.tkpm.view.feature_view.BaseFeatureView;
 import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.feature_view.FlightManagerFeatureView;
@@ -53,9 +55,8 @@ public class ManagerMainFrame extends BaseMain {
 		
 		listPanels = new ArrayList<>();
 		listPanels.add(new FlightFeatureForm());
-		
-		detailPanels = new ArrayList<>();
-		detailPanels.add(new FlightListDetailView());
+		listPanels.add(new FlightManagerForm());
+		listPanels.add(new ReportManagerForm());
 	}
 	
 	public ManagerMainFrame() {

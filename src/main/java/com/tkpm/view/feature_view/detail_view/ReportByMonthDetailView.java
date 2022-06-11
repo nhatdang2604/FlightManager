@@ -11,6 +11,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.tkpm.view.model.ReportInfoModel;
+import java.awt.Color;
 
 public class ReportByMonthDetailView extends BaseReportDetailView {
 
@@ -74,6 +75,8 @@ public class ReportByMonthDetailView extends BaseReportDetailView {
 	
 	public ReportByMonthDetailView() {
 		super(TITLE, DATA_FIELD_NAMES);
+		setOpaque(true);
+		setBackground(Color.WHITE);
 		setupDataField();
 		setLayoutForDataPanel();
 	}

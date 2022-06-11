@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.tkpm.view.component.EventMenuSelected;
 import com.tkpm.view.component.FlightFeatureForm;
 import com.tkpm.view.component.Header;
 import com.tkpm.view.component.Menu;
@@ -30,7 +31,6 @@ public class BaseMain extends BaseFrame {
 	protected static Menu menu;
 	protected ArrayList<String> menuNames;
 	protected ArrayList<JPanel> listPanels;
-	protected ArrayList<JPanel> detailPanels;
 	
 	
 	/**
@@ -38,13 +38,24 @@ public class BaseMain extends BaseFrame {
 	 */
 	public BaseMain() {
 		initMainComponent();
-		initCompoents();
+		initComponents();
 		
 		setContentPane(contentPane);
 		
 		contentPane.add(menu, BorderLayout.WEST);
 		contentPane.add(listPanels.get(0));
-		listPanels.get(0).add(detailPanels.get(0), BorderLayout.EAST);
+		
+		menu.addEventMenuSelected(new EventMenuSelected() {
+			
+			@Override
+			public void selected(int index) {
+				contentPane.removeAll();
+				contentPane.add(menu, BorderLayout.WEST);
+				contentPane.add(listPanels.get(index));
+				contentPane.repaint();
+				contentPane.revalidate();
+			}
+		});
 	}
 	
 	//Init value for menuPanels and featurePanels
@@ -63,7 +74,7 @@ public class BaseMain extends BaseFrame {
 		contentPane.setLayout(new BorderLayout());
 	}
 	
-	private void initCompoents() {
+	private void initComponents() {
 		initValueForComponents();
 		menu.setPreferredSize(new Dimension(215, contentPane.getHeight()));
 		menu.setVisible(false);

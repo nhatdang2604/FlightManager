@@ -1,5 +1,6 @@
 package com.tkpm.view.frame;
 
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 import com.tkpm.view.component.FlightFeatureForm;
@@ -39,14 +40,10 @@ public class CustomerMainFrame extends BaseMain {
 	protected void initValueForComponents() {
 		menuNames = new ArrayList<String>();
 		menuNames.add("Danh sách chuyến bay");
-		menuNames.add("Quản lý chuyến bay");
 		menu = new Menu(menuNames);
 		
 		listPanels = new ArrayList<>();
 		listPanels.add(new FlightFeatureForm());
-		
-		detailPanels = new ArrayList<>();
-		detailPanels.add(new FlightListDetailView());
 	}
 	
 	public CustomerMainFrame() {

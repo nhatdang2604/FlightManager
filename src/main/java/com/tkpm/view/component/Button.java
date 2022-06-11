@@ -26,6 +26,7 @@ public class Button extends JButton{
 		setContentAreaFilled(false);
 		setBounds(0, 0, 80, 40);
 		setMargin(new Insets(8, 24, 8, 24));
+		setBorderPainted(false);
 	}
 	
 	public Color getEnabledColor() {

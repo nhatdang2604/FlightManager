@@ -17,9 +17,17 @@ import javax.persistence.Table;
 public class User implements Serializable {
 	
 	public enum USER_ROLE {
-		Admin,
-		Manager,
+		
 		Customer,
+		Manager,
+		Admin;
+		
+		public static USER_ROLE convertStringToUSER_ROLE(String str) {
+			if (str.equals(Admin.name())) return Admin;
+			if (str.equals(Manager.name())) return Manager;
+			if (str.equals(Customer.name())) return Customer;
+			return null;
+		}
 	}
 	
 	/**

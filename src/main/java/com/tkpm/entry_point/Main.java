@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.UIManager;
 
 import com.tkpm.view.frame.AdminMainFrame;
+import com.tkpm.view.frame.BaseMain;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.CustomerMainFrame;
 import com.tkpm.view.frame.ManagerMainFrame;
@@ -37,6 +38,7 @@ public class Main {
 		//BaseMainFrame mainFrame = new CustomerMainFrame();
 		//BaseMainFrame mainFrame = new ManagerMainFrame();
 		BaseMainFrame mainFrame = new AdminMainFrame();
+		//BaseMain mainFrame = new BaseMain();
 		mainFrame.open();
 	}
 

@@ -90,6 +90,7 @@ public class FlightListTableView extends JTable {
 		setupModelTable();
 		initDetailButton();
 		
+		getTableHeader().setReorderingAllowed(false);		
 		// Edit table header
 		getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
 			@Override

@@ -6,6 +6,8 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
@@ -21,15 +23,10 @@ public class Menu extends JPanel {
  	
 	private int x;
 	private int y;
-	
-	public static enum MenuUserType {
-		CUSTOMER, MANAGER, ADMIN
-	}
-
 	/**
 	 * Create the panel.
 	 */
-	public Menu(MenuUserType userType) {
+	public Menu(ArrayList<String> menuNames) {
 		setBorder(new EmptyBorder(15, 0, 0, 0));
 		setOpaque(false);
 		setLayout(new BorderLayout(0, 20));
@@ -47,7 +44,7 @@ public class Menu extends JPanel {
 		
 		menuList = new ListMenu<>();
 		menuList.setOpaque(false);
-		init(userType);
+		init(menuNames);
 		add(menuList);
 	}
 	
@@ -63,21 +60,9 @@ public class Menu extends JPanel {
 	}
 	
 	
-	private void init(MenuUserType type) {
-		if (type == MenuUserType.CUSTOMER) {
-			menuList.addItem(new ModelMenu("Danh sách chuyến bay", MenuType.MENU));
-			menuList.addItem(new ModelMenu("Quản lý chuyến bay", MenuType.MENU));
-		}
-		else if (type == MenuUserType.MANAGER) {
-			menuList.addItem(new ModelMenu("Danh sách chuyến bay", MenuType.MENU));
-			menuList.addItem(new ModelMenu("Quản lý chuyến bay", MenuType.MENU));
-			menuList.addItem(new ModelMenu("Quản lý báo cáo", MenuType.MENU));
-		}
-		else {
-			menuList.addItem(new ModelMenu("Danh sách chuyến bay", MenuType.MENU));
-			menuList.addItem(new ModelMenu("Quản lý chuyến bay", MenuType.MENU));
-			menuList.addItem(new ModelMenu("Quản lý báo cáo", MenuType.MENU));
-			menuList.addItem(new ModelMenu("Quản lý tài khoản", MenuType.MENU));
+	private void init(ArrayList<String> names) {
+		for (String name : names) {
+			menuList.addItem(new ModelMenu(name, MenuType.MENU));
 		}
 	}
 }

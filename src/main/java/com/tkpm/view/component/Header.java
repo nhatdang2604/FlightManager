@@ -11,8 +11,17 @@ import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
+import java.awt.GridLayout;
+import javax.swing.JButton;
 
 public class Header extends JPanel {
+	
+	private JButton menuButton;
+
+	
+	public JButton getMenuButton() {
+		return menuButton;
+	}
 
 	/**
 	 * Create the panel.
@@ -22,11 +31,23 @@ public class Header extends JPanel {
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(320, 40));
 		setOpaque(false);
-		setLayout(new BorderLayout(10, 0));
+		setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Header.class.getResource("/com/tkpm/view/component/search.png")));
-		add(lblNewLabel, BorderLayout.WEST);
+		JPanel iconPanel = new JPanel();
+		iconPanel.setBackground(getBackground());
+		iconPanel.setBorder(new EmptyBorder(4, 0, 4, 0));
+		add(iconPanel, BorderLayout.WEST);
+		iconPanel.setLayout(new GridLayout(0, 2, 10, 0));
+		
+		menuButton = new JButton("");
+		menuButton.setIcon(new ImageIcon(Header.class.getResource("/com/tkpm/view/component/menu.png")));
+		menuButton.setBorderPainted(false);
+		menuButton.setBackground(Color.WHITE);
+		iconPanel.add(menuButton);
+		
+		JLabel jlbSearchIcon = new JLabel("");
+		jlbSearchIcon.setIcon(new ImageIcon(Header.class.getResource("/com/tkpm/view/component/search.png")));
+		iconPanel.add(jlbSearchIcon);
 		
 		SearchText searchText = new SearchText();
 		searchText.setOpaque(false);

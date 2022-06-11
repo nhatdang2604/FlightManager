@@ -37,8 +37,12 @@ public class Main {
 		
 		//BaseMainFrame mainFrame = new CustomerMainFrame();
 		//BaseMainFrame mainFrame = new ManagerMainFrame();
-		BaseMainFrame mainFrame = new AdminMainFrame();
-		//BaseMain mainFrame = new BaseMain();
+		//BaseMainFrame mainFrame = new AdminMainFrame();
+		
+		//BaseMain mainFrame = new CustomerMainFrame();
+		//BaseMain mainFrame = new ManagerMainFrame();
+		BaseMain mainFrame = new AdminMainFrame();
+		
 		mainFrame.open();
 	}
 

@@ -143,7 +143,6 @@ public class AirportForm extends JDialog implements FormBehaviour {
 	
 	public boolean areThereAnyEmptyStarField() {
 		
-		
 		String airportName = txtAirportName.getText().trim();
 		if (null == airportName || airportName.equals("")) {
 			return true;

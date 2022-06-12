@@ -46,7 +46,7 @@ public class CustomerController {
 		reservationService = ReservationService.INSTANCE;
 		ticketService = TicketService.INSTANCE;
 		policyService = PolicyService.INSTANCE;
-		initFeatures();
+		//initFeatures();
 	}
 	
 	protected void initFeatures() {
@@ -154,6 +154,7 @@ public class CustomerController {
 	
 	
 	public void run() {
+		initFeatures();
 		mainFrame.open();
 	}
 }

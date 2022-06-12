@@ -1,7 +1,6 @@
 package com.tkpm.service;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import com.tkpm.dao.AirportDAO;
 import com.tkpm.entities.Airport;
@@ -33,10 +32,9 @@ public enum AirportService {
 	}
 	
 	//Find all airports in database
-	public Set<Airport> findAllAirports() {
+	public List<Airport> findAllAirports() {
 		
-		//Using set, because query in DAO only return list
-		return new TreeSet<>(airportDAO.findAll());
+		return airportDAO.findAll();
 		
 	}
 	

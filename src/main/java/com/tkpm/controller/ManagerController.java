@@ -16,11 +16,16 @@ import com.tkpm.view.frame.form.AirportForm;
 
 public class ManagerController extends CustomerController {
 
+	//Forms
+	protected AirportForm airportForm;
+	
+	//Services
 	protected AirportService airportService;
 	
 	public ManagerController(BaseMainFrame mainFrame) {
 		super(mainFrame);
 		airportService = AirportService.INSTANCE;
+		airportForm = new AirportForm(mainFrame);
 	}
 
 	@Override
@@ -52,27 +57,26 @@ public class ManagerController extends CustomerController {
 	protected void initAirportCreate(FlightManagerTabbedControllerView controllerView) {
 		AirportCRUDDetailView detail = controllerView.getAirporCRUDDetailView();
 		
+		//Init "Create airport" button
 		detail.getButtons().get(CRUDDetailView.CREATE_BUTTON_INDEX).addActionListener(event -> {
-			AirportForm form = new AirportForm(mainFrame);
-			form.setTitle("Tạo chuyến bay");
-			initAirportCreateForm(form, controllerView);	
+			airportForm.setTitle("Tạo chuyến bay");
+			airportForm.open();
 		});
-	}
-
-	protected void initAirportCreateForm(AirportForm form, FlightManagerTabbedControllerView controllerView) {
-		form.getSubmitButton().addActionListener(event -> {
+		
+		//Init submit button of the airport form
+		airportForm.getSubmitButton().addActionListener(event -> {
 			
 			//Validate the form
-			if (form.areThereAnyEmptyStarField()) {
-				form.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
+			if (airportForm.areThereAnyEmptyStarField()) {
+				airportForm.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
 				return;
 			}
 			
 			//Check if there is an airport with the same name existed
-			Airport airport = form.submit();
+			Airport airport = airportForm.submit();
 			Airport testAirport = airportService.findAirportByName(airport.getName());
 			if (null != testAirport) {
-				form.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
+				airportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
 				return;
 			}
 			
@@ -83,14 +87,13 @@ public class ManagerController extends CustomerController {
 			initAirportRead(controllerView);
 			
 			//Close the form
-			form.close();
+			airportForm.close();
 			
 		});
-		
 	}
 	
 	protected void initAirportRead(FlightManagerTabbedControllerView controllerView) {
-		List<Airport> airports = new ArrayList<>(airportService.findAllAirports());
+		List<Airport> airports = airportService.findAllAirports();
 		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
 		table.setAirports(airports);
 		table.update();

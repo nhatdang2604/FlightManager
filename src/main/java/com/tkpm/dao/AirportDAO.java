@@ -106,7 +106,7 @@ public enum AirportDAO {
 			session.beginTransaction();
 			
 			//Get the list of airports
-			airports = session.createQuery("from " + Airport.class.getName()).list();
+			airports = session.createQuery("from " + Airport.class.getName(), Airport.class).getResultList();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

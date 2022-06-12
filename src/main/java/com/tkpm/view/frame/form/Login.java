@@ -90,17 +90,15 @@ public class Login extends BaseFrame implements FormBehaviour {
 		
 		btnLogin = new JButton("Đăng nhập");
 		btnLogin.setForeground(Color.WHITE);
-		btnLogin.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		btnLogin.setBorder(null);
 		btnLogin.setBackground(new Color(41, 97, 213));
 		
 		btnRegistrate = new JButton("Đăng ký");
-		btnRegistrate.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		btnRegistrate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnRegistrate.setMinimumSize(new Dimension(90, 30));
-		btnRegistrate.setMaximumSize(new Dimension(90, 30));
-		btnRegistrate.setBackground(Color.WHITE);
-		btnRegistrate.setBorderPainted(false);
+//		btnRegistrate.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+//		btnRegistrate.setAlignmentX(Component.CENTER_ALIGNMENT);
+//		btnRegistrate.setMinimumSize(new Dimension(90, 30));
+//		btnRegistrate.setMaximumSize(new Dimension(90, 30));
+//		btnRegistrate.setBackground(Color.WHITE);
+//		btnRegistrate.setBorderPainted(false);
 		
 		jlbUsername = new JLabel("Tên đăng nhập");
 		jlbUsername.setBackground(Color.WHITE);

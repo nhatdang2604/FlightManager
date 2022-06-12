@@ -1,5 +1,9 @@
 package com.tkpm.entry_point;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.tkpm.view.frame.AdminMainFrame;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.form.Login;
@@ -8,6 +12,14 @@ import com.tkpm.view.frame.form.Registration;
 public class Main {
 
 	public static void main(String[] args) {
+		
+		try {
+			UIManager.setLookAndFeel(new FlatIntelliJLaf());
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//LoginForm logForm = new LoginForm();
 		Login logForm = new Login();
 		//RegistrationForm regForm = new RegistrationForm(logForm);

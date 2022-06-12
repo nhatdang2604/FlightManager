@@ -241,6 +241,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
 	@Override
 	public void clear() {
+		airportComboBox.setSelectedIndex(-1);
 		txtTransitionTime.setText("");
 		txtNote.setText("");
 	}

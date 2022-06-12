@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +34,7 @@ import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.Transition;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
-public class FlightForm extends JDialog {
+public class FlightForm extends JDialog implements FormBehaviour {
 
 	final protected int HEIGHT = 500;
 	final protected int WIDTH = 600;
@@ -64,12 +65,16 @@ public class FlightForm extends JDialog {
 			"",
 			"Có ít nhất một ô không có thông tin",
 			"Ô phải mang giá trị số nguyên dương",
+			"Sân bay đi và sân bay đến không được giống nhau",
 	};
 	
-	private static final int NO_ERROR = 0;
-	private static final int EMPTY_FIELD_ERROR = 1;
+	public static final int NO_ERROR = 0;
+	public static final int EMPTY_FIELD_ERROR = 1;
 	public static final int NUMBER_FIELD_ERROR = 2;
+	public static final int AIRPORT_MATCH_ERROR = 3;
 	
+	
+	@Override
 	public FlightForm setError(int errorCode) {
 		if (0 <= errorCode && errorCode < ERRORS.length) {
 			warningText.setText(ERRORS[errorCode]);
@@ -103,14 +108,14 @@ public class FlightForm extends JDialog {
 		
 		centerPanel = new JPanel();
 		labels = new ArrayList<>(Arrays.asList(
-				new JLabel("Sân bay đi"),
-				new JLabel("Sân bay đến"),
-				new JLabel("Ngày - giờ"),
-				new JLabel("Thời gian bay"),
-				new JLabel("Số lượng ghế hạng 1"),
-				new JLabel("Số lượng ghế hạng 2"),
-				new JLabel("Giá vé hạng 1"),
-				new JLabel("Giá vé hạng 2")));
+				new JLabel("Sân bay đi (*)"),
+				new JLabel("Sân bay đến (*)"),
+				new JLabel("Ngày - giờ (*)"),
+				new JLabel("Thời gian bay (*)"),
+				new JLabel("Số lượng ghế hạng 1 (*)"),
+				new JLabel("Số lượng ghế hạng 2 (*)"),
+				new JLabel("Giá vé hạng 1 (*)"),
+				new JLabel("Giá vé hạng 2 (*)")));
 		
 		//Init datetime picker
 		flightDateTimePicker = new DateTimePicker();
@@ -335,6 +340,65 @@ public class FlightForm extends JDialog {
 	
 	public JButton getSubmitButton() {
 		return okButton;
+	}
+	
+	public boolean areThereAnyEmptyStarField() {
+		
+		for (JComboBox<Airport> cb: airportComboBoxes) {
+			Airport airport = (Airport) cb.getSelectedItem();
+			if (null == airport) {
+				return true;
+			}
+		}
+		
+		LocalDateTime datetime = flightDateTimePicker.getDateTimePermissive();
+		if (null == datetime) {
+			return true;
+		}
+		
+		for (JTextField field: numericTextFields) {
+			String value = field.getText().trim();
+			if (null == value || value.equals("")) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public boolean areTheseAirportMatch() {
+		
+		Airport departure = (Airport) airportComboBoxes.get(0).getSelectedItem();
+		Airport arrival = (Airport) airportComboBoxes.get(1).getSelectedItem();
+		
+		if (departure.getId().equals(arrival.getId())) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void clear() {
+		airportComboBoxes.get(0).setSelectedIndex(-1);
+		airportComboBoxes.get(1).setSelectedIndex(-1);
+		flightDateTimePicker.setDateTimePermissive(LocalDateTime.now());
+		for (JTextField field: numericTextFields) {
+			field.setText("0");
+		}
+		
+		table.clearData();
+		transitionForm.clear();
+	}
+
+	@Override
+	public void close() {
+		setVisible(false);
+	}
+	
+	public void open() {
+		clear();
+		setVisible(true);
 	}
 	
 	public static void main(String[] args) {

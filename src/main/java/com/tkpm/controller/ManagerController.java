@@ -213,7 +213,7 @@ public class ManagerController extends CustomerController {
 		updateFlightForm.setTitle("Cập nhật chuyến bay");
 		
 		initFlightClickRowDisplayDetail(controllerView);
-//		initFlightCreate(controllerView);
+		initFlightCreate(controllerView);
 //		initFlightRead(controllerView);
 //		initFlightUpdate(controllerView);
 //		initFlightDelete(controllerView);
@@ -232,6 +232,58 @@ public class ManagerController extends CustomerController {
 			}
 		});
 	}
+	
+	protected void initFlightCreate(FlightManagerTabbedControllerView controllerView) {
+		FlightCRUDDetailView detail = controllerView.getFlightCRUDDetailView();
+		
+		//Init "Create flight" button
+		detail.getButtons().get(CRUDDetailView.CREATE_BUTTON_INDEX).addActionListener(event -> {
+			
+			//Load the airport to choose for the form
+			List<Airport>  airports = airportService.findAllAirports();
+			createFlightForm.setAirports(airports);
+			
+			//Open the form
+			createFlightForm.open();
+		});
+		
+		//Init submit button of the flight form
+		createFlightForm.getSubmitButton().addActionListener(event -> {
+			
+			//Validate the form
+			if (createFlightForm.areThereAnyEmptyStarField()) {
+				createFlightForm.setError(FlightForm.EMPTY_FIELD_ERROR);
+				return;
+			}
+			
+			if (createFlightForm.areTheseAirportMatch()) {
+				createFlightForm.setError(FlightForm.AIRPORT_MATCH_ERROR);
+				return;
+			}
+			
+			//TODO:
+			
+//			//Check if there is an airport with the same name existed
+//			Airport airport = createAirportForm.submit();
+//			Airport testAirport = airportService.findAirportByName(airport.getName());
+//			if (null != testAirport) {
+//				createAirportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
+//				return;
+//			}
+//			
+//			//validate success case
+//			airport = airportService.createAirport(airport);
+//			
+//			//Update the table view
+//			initAirportRead(controllerView);
+			
+			//Close the form
+			createFlightForm.setError(AirportForm.NO_ERROR);
+			createFlightForm.close();
+			
+		});
+	}
+	
 	
 	protected void initReportFeatures() {
 		initReportByMonthFeature();

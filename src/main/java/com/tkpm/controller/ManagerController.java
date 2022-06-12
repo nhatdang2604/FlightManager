@@ -6,21 +6,27 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 
 import com.tkpm.entities.Airport;
+import com.tkpm.entities.Flight;
 import com.tkpm.service.AirportService;
 import com.tkpm.view.feature_view.FlightManagerFeatureView;
 import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.CRUDDetailView;
+import com.tkpm.view.feature_view.detail_view.FlightCRUDDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightManagerTabbedControllerView;
 import com.tkpm.view.feature_view.table.AirportCRUDTableView;
+import com.tkpm.view.feature_view.table.FlightCRUDTableView;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.ManagerMainFrame;
 import com.tkpm.view.frame.form.AirportForm;
+import com.tkpm.view.frame.form.FlightForm;
 
 public class ManagerController extends CustomerController {
 
 	//Forms
 	protected AirportForm createAirportForm;
 	protected AirportForm updateAirportForm;
+	protected FlightForm createFlightForm;
+	protected FlightForm updateFlightForm;
 	
 	//Services
 	protected AirportService airportService;
@@ -41,22 +47,21 @@ public class ManagerController extends CustomerController {
 	}
 	
 	protected void initFlightManagerFeatures() {
-		initAirportCRUDFeature();
-		initFlightCRUDFeature();
-	}
-	
-	protected void initAirportCRUDFeature() {
-		
-		createAirportForm = new AirportForm(mainFrame);
-		updateAirportForm = new AirportForm(mainFrame);
-		createAirportForm.setTitle("Tạo sân bay");
-		updateAirportForm.setTitle("Cập nhật sân bay");
-		
 		FlightManagerFeatureView featureView = (FlightManagerFeatureView) mainFrame
 				.getFeatureViews()
 				.get(ManagerMainFrame.FLIGHT_MANAGER_FEATURE_INDEX);
 		
 		FlightManagerTabbedControllerView controllerView = featureView.getTabbedControllerView();
+		
+		initAirportCRUDFeature(controllerView);
+		initFlightCRUDFeature(controllerView);
+	}
+	
+	protected void initAirportCRUDFeature(FlightManagerTabbedControllerView controllerView) {
+		createAirportForm = new AirportForm(mainFrame);
+		updateAirportForm = new AirportForm(mainFrame);
+		createAirportForm.setTitle("Tạo sân bay");
+		updateAirportForm.setTitle("Cập nhật sân bay");
 		
 		initAirportClickRowDisplayDetail(controllerView);
 		initAirportCreate(controllerView);
@@ -201,8 +206,31 @@ public class ManagerController extends CustomerController {
 		});
 	}
 	
-	protected void initFlightCRUDFeature() {
-		//TODO:
+	protected void initFlightCRUDFeature(FlightManagerTabbedControllerView controllerView) {
+		createFlightForm = new FlightForm(mainFrame);
+		updateFlightForm = new FlightForm(mainFrame);
+		createFlightForm.setTitle("Tạo chuyến bay");
+		updateFlightForm.setTitle("Cập nhật chuyến bay");
+		
+		initFlightClickRowDisplayDetail(controllerView);
+//		initFlightCreate(controllerView);
+//		initFlightRead(controllerView);
+//		initFlightUpdate(controllerView);
+//		initFlightDelete(controllerView);
+	}
+	
+	protected void initFlightClickRowDisplayDetail(FlightManagerTabbedControllerView controllerView) {
+		FlightCRUDDetailView detail = controllerView.getFlightCRUDDetailView();
+		FlightCRUDTableView table = controllerView.getFlightCRUDTableView();
+		
+		table.getSelectionModel().addListSelectionListener(event -> {
+			if (table.getSelectedRow() > -1) {
+				Flight flight = table.getSelectedFlight();
+				if (null != flight) {
+					detail.setDataToDetailPanel(flight);
+				}
+			}
+		});
 	}
 	
 	protected void initReportFeatures() {

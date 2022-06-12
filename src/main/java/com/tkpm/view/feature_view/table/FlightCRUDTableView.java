@@ -26,17 +26,15 @@ public class FlightCRUDTableView extends JTable {
 	protected List<JButton> actionButtons;
 	
 	public static final String[] COLUMN_NAMES = {
-		"Chọn", "STT", "Mã chuyến bay", "Sân bay đi", "Sân bay đến", "Thời gian", "Chi tiết", "Chỉnh sửa"
+		"Chọn", "STT", "Mã chuyến bay", "Thời gian", "Chi tiết", "Chỉnh sửa"
 	};
 	
 	public static final int SELECT_COLUMN_INDEX = 0;
 	public static final int COLUMN_INDEX = 1;
 	public static final int FLIGHT_ID_COLUMN_INDEX = 2;
-	public static final int DEPARTURE_AIRPORT_COLUMN_INDEX = 3;
-	public static final int ARRIVAL_AIRPORT_COLUMN_INDEX = 4;
-	public static final int DATETIME_COLUMN_INDEX = 5;
-	public static final int DETAIL_COLUMN_INDEX = 6;
-	public static final int UPDATE_COLUMN_INDEX = 7;
+	public static final int DATETIME_COLUMN_INDEX = 3;
+	public static final int DETAIL_COLUMN_INDEX = 4;
+	public static final int UPDATE_COLUMN_INDEX = 5;
 	
 	public static final int DETAIL_BUTTON_INDEX = 0;
 	public static final int UPDATE_BUTTON_INDEX = 1;
@@ -134,8 +132,6 @@ public class FlightCRUDTableView extends JTable {
 					false,
 					index + 1, 
 					flight.getId(), 
-					flight.getDepartureAirport().getName(),
-					flight.getArrivalAirport().getName(),
 					flight.getDateTime()};
 			tableModel.addRow(row);		
 		}
@@ -145,6 +141,7 @@ public class FlightCRUDTableView extends JTable {
 	
 	public Flight getSelectedFlight() {
 		int index = this.getSelectedRow();
+		if (-1 == index) return null;
 		return flights.get(index);
 	}
 	

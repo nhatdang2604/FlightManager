@@ -46,5 +46,9 @@ public enum AirportService {
 	public Airport findAirportByName(String name) {
 		return airportDAO.find(name);
 	}
+
+	public int deleteAirports(List<Integer> ids) {
+		return airportDAO.delete(ids);
+	}
 }
  

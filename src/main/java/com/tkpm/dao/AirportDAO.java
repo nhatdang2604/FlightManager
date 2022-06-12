@@ -172,5 +172,35 @@ public enum AirportDAO {
 	
 		return airport;
 	}
+
+	public int delete(List<Integer> ids) {
+
+		Session session = factory.getCurrentSession();
+		int errorCode = 0;
+		
+		try {
+			session.beginTransaction();
+			
+			ids.forEach(id -> {
+				Airport airport = session.get(Airport.class, id);
+				
+				if (null !=  airport) {
+					session.delete(airport);
+				}
+			});
+			
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+			errorCode = 1;
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return errorCode;
+	}
 }
  

@@ -15,4 +15,5 @@ public class FlightCRUDDetailView extends CRUDDetailView {
 		super(TITLE, FIELD_NAMES);
 	}
 	
+
 }

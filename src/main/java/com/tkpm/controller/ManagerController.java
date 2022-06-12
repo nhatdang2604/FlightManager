@@ -1,7 +1,9 @@
 package com.tkpm.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.swing.JOptionPane;
 
 import com.tkpm.entities.Airport;
 import com.tkpm.service.AirportService;
@@ -56,11 +58,26 @@ public class ManagerController extends CustomerController {
 		
 		FlightManagerTabbedControllerView controllerView = featureView.getTabbedControllerView();
 		
-		
+		initAirportClickRowDisplayDetail(controllerView);
 		initAirportCreate(controllerView);
 		initAirportRead(controllerView);
 		initAirportUpdate(controllerView);
+		initAirportDelete(controllerView);
 	};
+	
+	protected void initAirportClickRowDisplayDetail(FlightManagerTabbedControllerView controllerView) {
+		AirportCRUDDetailView detail = controllerView.getAirporCRUDDetailView();
+		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
+		
+		table.getSelectionModel().addListSelectionListener(event -> {
+			if (table.getSelectedRow() > -1) {
+				Airport airport = table.getSelectedAirport();
+				if (null != airport) {
+					detail.setDataToDetailPanel(airport);
+				}
+			}
+		});
+	}
 	
 	protected void initAirportCreate(FlightManagerTabbedControllerView controllerView) {
 		AirportCRUDDetailView detail = controllerView.getAirporCRUDDetailView();
@@ -148,8 +165,40 @@ public class ManagerController extends CustomerController {
 		
 	}
 	
-	protected void initAirportDelete() {
+	protected void initAirportDelete(FlightManagerTabbedControllerView controllerView) {
+		AirportCRUDDetailView detail = controllerView.getAirporCRUDDetailView();
+		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
 		
+		//Init "Delete airport" button
+		detail.getButtons().get(CRUDDetailView.DELETE_BUTTON_INDEX).addActionListener(event -> {
+			
+			int input = JOptionPane.showConfirmDialog(mainFrame,
+	        		"Bạn có chắc chắn muốn xóa ?\nDữ liệu bị xóa sẽ không thể khôi phục lại được.",
+	        		"Xóa",
+	        		JOptionPane.YES_NO_OPTION);
+			
+			if (JOptionPane.YES_OPTION == input) {
+				List<Airport> airports = table.getSelectedAirports();
+				
+				//Get the id from the airport
+				List<Integer> ids = airports
+						.stream()
+						.map(airport -> airport.getId())
+						.collect(Collectors.toList());
+				
+				//Delete thoose airports
+				airportService.deleteAirports(ids);
+				
+				//Update the table view
+				initAirportRead(controllerView);
+				
+				//Success message
+				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
+			}
+			
+			
+			
+		});
 	}
 	
 	protected void initFlightCRUDFeature() {

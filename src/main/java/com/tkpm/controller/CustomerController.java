@@ -50,12 +50,12 @@ public class CustomerController {
 	}
 	
 	protected void initFeatures() {
-		initFlightFeature();
+		initFlightFeatures();
 	}
 	
 	
-	protected void initFlightFeature() {
-		initListFlight();
+	protected void initFlightFeatures() {
+		initListFlightFeature();
 	}
 	
 	private void initTicketForm(TicketForm form) {
@@ -98,7 +98,7 @@ public class CustomerController {
 		});
 	}
 	
-	protected void initListFlight() {
+	protected void initListFlightFeature() {
 		FlightFeatureView featureView = (FlightFeatureView) mainFrame
 				.getFeatureViews()
 				.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);

@@ -54,29 +54,27 @@ public enum ReservationService {
 		return reservationDAO.find(id);
 	}
 	
-	//Find all reservations from a flight
-	public Set<Reservation> findReservationFromFlight(Flight flight) {
-		
-		if (null == flight.getReservations()) {
-			flight = flightService.findFlightById(flight.getId());
-		}
-		
-		return flight.getReservations();
-	}
-	
-	//Get all the not-booked reservation with the given ticket class from a flight
-	public List<Reservation> findAvailableReservationsFromFlight(Flight flight, TicketClass ticketClass) {
-		
-		//Get all the availalbe tickets from a flight with the given ticket class
-		List<Ticket> tickets = ticketService.findAvailableTicketsFromFlight(flight, ticketClass);
-		
-		//From the got tickets, get all the reservations
-		List<Reservation> reservations = tickets
-				.stream()
-				.map(ticket -> ticket.getReservation())
-				.collect(Collectors.toList());
-		
-		return reservations;
-	}
+//	//Find all reservations from a flight
+//	public Set<Reservation> findReservationFromFlight(Flight flight) {
+//		
+//		if (null == flight) return null;
+//		
+//		return reservationDAO.find(flight);
+//	}
+//	
+//	//Get all the not-booked reservation with the given ticket class from a flight
+//	public List<Reservation> findAvailableReservationsFromFlight(Flight flight, TicketClass ticketClass) {
+//		
+//		//Get all the availalbe tickets from a flight with the given ticket class
+//		List<Ticket> tickets = ticketService.findAvailableTicketsFromFlight(flight, ticketClass);
+//		
+//		//From the got tickets, get all the reservations
+//		List<Reservation> reservations = tickets
+//				.stream()
+//				.map(ticket -> ticket.getReservation())
+//				.collect(Collectors.toList());
+//		
+//		return reservations;
+//	}
 }
  

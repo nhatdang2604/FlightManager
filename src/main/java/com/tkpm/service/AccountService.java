@@ -60,53 +60,53 @@ public enum AccountService {
 		return accountDAO.find(id, accountClass);
 	}
 	
-	public Reservation book(
-			Flight flight, TicketClass ticketClass, CustomerAccount customer,
-			String name, String identityCode, String phoneNumber) {
-		
-		//Check if there is late to book ticket
-		if (policyService.isLateToBook(flight)) {
-			return null;
-		}
-		
-		//Get the list of bookable reservation
-		List<Reservation> reservations = reservationService.findAvailableReservationsFromFlight(flight, ticketClass);
-		
-		//Return null if the flight had been fullfill
-		if (null == reservations || reservations.isEmpty()) {
-			return null;
-		}
-		
-		//Random a reservation in the list
-		Random random = new Random();
-		Reservation bookedReservation = reservations.get(random.nextInt(reservations.size()));
-		
-		//Mark the reservation as booked
-		bookedReservation.getTicket().setIsBooked(true);
-		
-		//Set information in reservation and ticket
-		bookedReservation.setBookDate(LocalDate.now());
-		bookedReservation.setCustomer(customer);
-		bookedReservation.getTicket().setCustomer(customer);
-		bookedReservation.getTicket().setName(name);
-		bookedReservation.getTicket().setIdentityCode(identityCode);
-		bookedReservation.getTicket().setPhoneNumber(phoneNumber);
-		
-		//Using list to reuse the code in service
-		List<Reservation> bookedReservations = new ArrayList<>();
-		bookedReservations.add(bookedReservation);
-		 
-		//Update the reservation (this also update the ticket, because of Cascade setup in entity)
-		reservationService.updateReservations(bookedReservations);
-		
-		return bookedReservation;
-	}
+//	public Reservation book(
+//			Flight flight, TicketClass ticketClass, CustomerAccount customer,
+//			String name, String identityCode, String phoneNumber) {
+//		
+//		//Check if there is late to book ticket
+//		if (policyService.isLateToBook(flight)) {
+//			return null;
+//		}
+//		
+//		//Get the list of bookable reservation
+//		List<Reservation> reservations = reservationService.findAvailableReservationsFromFlight(flight, ticketClass);
+//		
+//		//Return null if the flight had been fullfill
+//		if (null == reservations || reservations.isEmpty()) {
+//			return null;
+//		}
+//		
+//		//Random a reservation in the list
+//		Random random = new Random();
+//		Reservation bookedReservation = reservations.get(random.nextInt(reservations.size()));
+//		
+//		//Mark the reservation as booked
+//		bookedReservation.getTicket().setIsBooked(true);
+//		
+//		//Set information in reservation and ticket
+//		bookedReservation.setBookDate(LocalDate.now());
+//		bookedReservation.setCustomer(customer);
+//		bookedReservation.getTicket().setCustomer(customer);
+//		bookedReservation.getTicket().setName(name);
+//		bookedReservation.getTicket().setIdentityCode(identityCode);
+//		bookedReservation.getTicket().setPhoneNumber(phoneNumber);
+//		
+//		//Using list to reuse the code in service
+//		List<Reservation> bookedReservations = new ArrayList<>();
+//		bookedReservations.add(bookedReservation);
+//		 
+//		//Update the reservation (this also update the ticket, because of Cascade setup in entity)
+//		reservationService.updateReservations(bookedReservations);
+//		
+//		return bookedReservation;
+//	}
 	
 	//Cancel a reservation
 	public int cancel(Reservation reservation) {
 		
 		//Return 1 to reject cancelling
-		if (policyService.isLateToCancel(reservation.getFlight())) {
+		if (policyService.isLateToCancel(reservation.getTicket().getFlight())) {
 			return UNCANCELLABLE;
 		}
 		
@@ -115,8 +115,7 @@ public enum AccountService {
 		
 		//Clear data in the ticket and reservation
 		reservation.setBookDate(null);
-		reservation.setCustomer(null);
-		reservation.getTicket().setCustomer(null);
+		reservation.setAccount(null);
 		reservation.getTicket().setName(null);
 		reservation.getTicket().setIdentityCode(null);
 		reservation.getTicket().setPhoneNumber(null);

@@ -1,6 +1,7 @@
 package com.tkpm.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -41,6 +43,12 @@ public abstract class BaseAccount implements Serializable, Comparable<BaseAccoun
 	@JoinColumn(name = "id")
 	protected User user;
 
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			mappedBy = "account",
+			orphanRemoval = true)
+	private Set<Reservation> reservations;
+	
 	public BaseAccount() {
 		//do nothing
 	}
@@ -52,10 +60,12 @@ public abstract class BaseAccount implements Serializable, Comparable<BaseAccoun
 	//Getters
 	public Integer getId() {return id;}
 	public User getUser() {return user;}
+	public Set<Reservation> getReservations() {return reservations;}
 	
 	//Setters
 	public void setId(Integer id) {this.id = id;}
 	public void setUser(User user) {this.user = user;}
+	public void setReservations(Set<Reservation> reservations) {this.reservations = reservations;}
 
 	public int compareTo(BaseAccount arg0) {
 		

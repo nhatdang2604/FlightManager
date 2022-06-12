@@ -10,6 +10,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.tkpm.view.component.ComboBox;
 import com.tkpm.view.model.ReportInfoModel;
 import java.awt.Color;
 
@@ -23,7 +24,7 @@ public class ReportByMonthDetailView extends BaseReportDetailView {
 	};
 	
 	private JTextField yearField;
-	private JComboBox<Integer> monthField;
+	private ComboBox<Integer> monthField;
 	
 	private void setupDataField() {
 		yearField = new JTextField();
@@ -33,7 +34,7 @@ public class ReportByMonthDetailView extends BaseReportDetailView {
 			   }
 		});
 		
-		monthField = new JComboBox<>();
+		monthField = new ComboBox<>();
 		
 		//Add 12 months into combobox
 		for (int i = 1; i <= 12; ++i) {

@@ -16,6 +16,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+
+import com.tkpm.view.component.ComboBox;
 import com.tkpm.view.component.FilledButton;
 import com.tkpm.view.component.OutlinedButton;
 
@@ -29,7 +31,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private JPanel panelButton;
 	private JPanel panelInfo;
 	
-	private JComboBox<String> txtAirportId;
+	private ComboBox<String> txtAirportId;
 	private JLabel jlbTransitionTime;
 	private JTextField txtTransitionTime;
 	private JLabel jlbNote;
@@ -91,9 +93,9 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		jlbAirportId.setPreferredSize(new Dimension(55, 30));
 		jlbAirportId.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		
-		txtAirportId = new JComboBox<String>();
-		txtAirportId.setBackground(Color.WHITE);
-		txtAirportId.setPreferredSize(new Dimension(7, 30));
+		txtAirportId = new ComboBox<String>();
+		//txtAirportId.setBackground(Color.WHITE);
+		//txtAirportId.setPreferredSize(new Dimension(7, 30));
 		txtAirportId.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		jlbTransitionTime = new JLabel("Thời gian dừng");

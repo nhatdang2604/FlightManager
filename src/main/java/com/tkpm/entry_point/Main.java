@@ -1,9 +1,5 @@
 package com.tkpm.entry_point;
 
-import java.awt.Color;
-
-import javax.swing.UIManager;
-
 import com.tkpm.view.frame.AdminMainFrame;
 import com.tkpm.view.frame.BaseMain;
 import com.tkpm.view.frame.BaseMainFrame;
@@ -40,8 +36,8 @@ public class Main {
 		//BaseMainFrame mainFrame = new AdminMainFrame();
 		
 		//BaseMain mainFrame = new CustomerMainFrame();
-		BaseMain mainFrame = new ManagerMainFrame();
-		//BaseMain mainFrame = new AdminMainFrame();
+		//BaseMain mainFrame = new ManagerMainFrame();
+		BaseMain mainFrame = new AdminMainFrame();
 		
 		mainFrame.open();
 	}

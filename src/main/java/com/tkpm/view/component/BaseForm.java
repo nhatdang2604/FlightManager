@@ -16,6 +16,7 @@ import com.tkpm.view.frame.BaseMain;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.GridLayout;
+import java.awt.Dimension;
 
 public class BaseForm extends JPanel{
 
@@ -52,8 +53,9 @@ public class BaseForm extends JPanel{
 		
 		tabPane = new Tabbed();
 		detailPanel = new JPanel();
-		detailPanel.setBackground(Color.WHITE);
 		detailPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		detailPanel.setPreferredSize(new Dimension(300, getHeight()));
+		detailPanel.setBackground(Color.WHITE);
 		
 		tabList = new ArrayList<>();
 		tabName = new ArrayList<>();

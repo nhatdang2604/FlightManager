@@ -1,10 +1,14 @@
 package com.tkpm.view.feature_view.table;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -89,6 +93,26 @@ public class AirportCRUDTableView extends JTable {
 	public AirportCRUDTableView() {
 		setupModelTable();
 		initUpdateButton();
+		
+		getTableHeader().setReorderingAllowed(false);		
+		// Edit table header
+		getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				component.setBackground(Color.WHITE);
+				setBorder(noFocusBorder);
+				if (isSelected) {
+					component.setForeground(new Color(113, 113, 102));
+				}
+				else {
+					component.setForeground(new Color(102, 102, 102));
+				}
+				setHorizontalAlignment(JLabel.CENTER);
+				return component;
+			}
+		});
 	}
 	
 	public AirportCRUDTableView clearData() {

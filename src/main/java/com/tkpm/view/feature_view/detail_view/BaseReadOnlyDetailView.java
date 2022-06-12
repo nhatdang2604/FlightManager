@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 @SuppressWarnings("serial")
-public class BaseReadOnlyDetailView extends JPanel {
+public class BaseReadOnlyDetailView extends BaseDetailView {
 	
 	protected final String title;
 	protected List<JPanel> paddingPanels;

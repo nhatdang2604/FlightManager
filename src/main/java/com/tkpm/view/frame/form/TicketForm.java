@@ -8,17 +8,13 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -27,19 +23,15 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.tkpm.entities.AdminAccount;
-import com.tkpm.entities.Airport;
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.CustomerAccount;
 import com.tkpm.entities.Flight;
-import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.ManagerAccount;
-import com.tkpm.entities.Transition;
+import com.tkpm.entities.Ticket;
 import com.tkpm.entities.User;
 import com.tkpm.entities.User.USER_ROLE;
-import com.tkpm.utils.HashingUtil;
-import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
-public class UpdateAccountForm extends JDialog {
+public class TicketForm extends JDialog {
 
 	final protected int HEIGHT = 300;
 	final protected int WIDTH = 400;
@@ -49,30 +41,33 @@ public class UpdateAccountForm extends JDialog {
 	private JPanel contentPane;
 	
 	private List<JLabel> labels;
+	
 	private List<JTextField> textFields;
-	private List<JTextField> numericTextFields;	
-	private JComboBox<USER_ROLE> roleComboBox;
+	private List<JTextField> numericFields;	
+	private JComboBox<String> ticketClassComboBox;
+	private JTextField priceField;
 	
 	private JButton okButton;
 	private JButton cancelButton;
 	
-	private User model;
+	private Flight model;
 	private JLabel warningText;	
 	
 	private static final String[] ERRORS = {
 			"",
-			"Có ít nhất một ô không có thông tin",
-			"Ô phải mang giá trị số",
-			"Tên đăng nhập đã tồn tại",
-
+			"Có ít nhất một trường không có thông tin",
+			"Giá trị của trường phải là số",
+			"Đã hết vé",
+			"Đã quá thời gian đặt vé"
 	};
 	
 	public static final int NO_ERROR = 0;
 	public static final int EMPTY_FIELD_ERROR = 1;
 	public static final int NUMBER_FIELD_ERROR = 2;
-	public static final int EXISTED_USERNAME_ERROR = 3;
+	public static final int OUT_OF_STOCK_ERROR = 3;
+	public static final int TIMEOUT_ERROR = 4;
 	
-	public UpdateAccountForm setError(int errorCode) {
+	public TicketForm setError(int errorCode) {
 		if (0 <= errorCode && errorCode < ERRORS.length) {
 			warningText.setText(ERRORS[errorCode]);
 		}
@@ -104,42 +99,56 @@ public class UpdateAccountForm extends JDialog {
 		
 		centerPanel = new JPanel();
 		labels = new ArrayList<>(Arrays.asList(
-				new JLabel("Tên đăng nhập (*)"),
-				new JLabel("Mật khẩu đã mã hóa"),
-				new JLabel("Chức vụ"),
-				new JLabel("Họ và tên"),
+				new JLabel("Số hiệu chuyến bay"),
+				new JLabel("Tên hành khách"),
 				new JLabel("CMND/CCCD"),
-				new JLabel("Số điện thoại")));
+				new JLabel("Số điện thoại"),
+				new JLabel("Hạng vé"),
+				new JLabel("Giá tiền")));
 		
 		//Init text fields
 		textFields = new ArrayList<>();
-		int numberOfTextField = 3;
+		int numberOfTextField = 2;
 		for (int i = 0; i < numberOfTextField; ++i) {
 			textFields.add(new JTextField());
 		}	
-		textFields.get(1).setEditable(false);	//make encrypted password field uneditable
+		textFields.get(0).setEditable(false);	//make flight id field uneditable
 		
+		//Init price field
+		priceField = new JTextField();
+		priceField.setEditable(false);
 		
-		//Init combo box
-		roleComboBox = new JComboBox<>();
-		for (USER_ROLE role: USER_ROLE.values()) {
-			roleComboBox.addItem(role);
-		}
-	
+		//Init ticket class combo box
+		ticketClassComboBox = new JComboBox<>();
+		ticketClassComboBox.addItem("1");
+		ticketClassComboBox.addItem("2");
+		
 		
 		//Init numeric fields
-		numericTextFields = new ArrayList<>();
+		numericFields = new ArrayList<>();
 		int numberOfNumericField = 2;
 		for (int i = 0; i < numberOfNumericField; ++i) {
-			numericTextFields.add(new JTextField());
+			numericFields.add(new JTextField());
 		}
 	
 		initButtons();
 		initNumericFields();
+		initTicketClassComboBox();
+	}
+	
+	private void initTicketClassComboBox() {
+		ticketClassComboBox.addActionListener(event -> {
+			String item = (String) ticketClassComboBox.getSelectedItem();
+			if (item.equals("1")) {
+				priceField.setText(model.getDetail().getPriceOfFirstClassSeat().toString());
+			} else if (item.equals("2")) {
+				priceField.setText(model.getDetail().getPriceOfSecondClassSeat().toString());
+			}
+		});
 	}
 	
 	private void initNumericFields() {
-		for (JTextField field: numericTextFields) {
+		for (JTextField field: numericFields) {
 			field.addKeyListener(new KeyAdapter() {
 				   public void keyTyped(KeyEvent e) {
 					   ignoreNANValue(e);
@@ -194,18 +203,19 @@ public class UpdateAccountForm extends JDialog {
 		int offset = 1;
 		centerPanel.add(warningText, "6, " + offset * 2 + ", center, default");
 		++offset;
-		centerPanel.add(textFields.get(0), "6, " + offset * 2 + ", fill, default");	//add username
-		++offset;
-		centerPanel.add(textFields.get(1), "6, " + offset * 2 + ", fill, default");	//add encrypted password
-		++offset;
-		centerPanel.add(roleComboBox, "6, " + offset * 2 + ", fill, default");	//add role
-		++offset;
-		centerPanel.add(textFields.get(2), "6, " + offset * 2 + ", fill, default");	//add name
-		++offset;
-		for (int i = 0; i < numericTextFields.size(); ++i) {
-			centerPanel.add(numericTextFields.get(i), "6, " + (i + offset) * 2 + ", fill, default");
+		for (int i = 0; i < textFields.size(); ++i) {
+			centerPanel.add(textFields.get(i), "6, " + (i + offset) * 2 + ", fill, default");
 		}
+		offset += textFields.size();
+		for (int i = 0; i < numericFields.size(); ++i) {
+			centerPanel.add(numericFields.get(i), "6, " + (i + offset) * 2 + ", fill, default");
+		}
+		offset += numericFields.size();
 		
+		centerPanel.add(ticketClassComboBox, "6, " + offset * 2 + ", fill, default");	//add role
+		++offset;
+		centerPanel.add(priceField, "6, " + offset * 2 + ", fill, default");	//add name
+		++offset;
 		
 		//Footer setup
 		contentPane.add(footerPanel, BorderLayout.SOUTH);
@@ -225,20 +235,18 @@ public class UpdateAccountForm extends JDialog {
 	}
 	
 	private void initModel() {
-		model = new User();
-		model.setAccount(new CustomerAccount());
-		
+		model = new Flight();
 	}
 	
 
-	public UpdateAccountForm(User model, JFrame owner) {
+	public TicketForm(Flight model, JFrame owner) {
 		super(owner, true);
 		init();
 		setModel(model);
 		setSize(WIDTH, HEIGHT);
 	}
 	
-	public UpdateAccountForm(JFrame owner) {
+	public TicketForm(JFrame owner) {
 		super(owner, true);
 		init();
 		initModel();
@@ -247,90 +255,35 @@ public class UpdateAccountForm extends JDialog {
 	
 	
 	public JButton getOkButton() {return okButton;}
-	public JDialog setModel(User model) {
+	public JDialog setModel(Flight model) {
 		this.model = model;
 		
-		textFields.get(0).setText(model.getUsername());
-		textFields.get(1).setText(model.getEncryptedPassword());
+		textFields.get(0).setText(model.getId().toString());
+		textFields.get(1).setText("");
 		
-		USER_ROLE role = USER_ROLE.convertStringToUSER_ROLE(model.getRole());
-		roleComboBox.setSelectedItem(role);
 		
-		String name, identity_code, phone;
-		name = identity_code = phone = null;
-		
-		if (role.equals(USER_ROLE.Admin)) {
-			AdminAccount acc = (AdminAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
-			
-		} else if (role.equals(USER_ROLE.Customer)) {
-			CustomerAccount acc = (CustomerAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
-			
-		} else if (role.equals(USER_ROLE.Manager)) {
-			ManagerAccount  acc = (ManagerAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
-			
+		for (JTextField field: numericFields) {
+			field.setText("");
 		}
 		
-		textFields.get(2).setText(name);
-		numericTextFields.get(0).setText(identity_code);
-		numericTextFields.get(1).setText(phone);
+		priceField.setText(model.getDetail().getPriceOfFirstClassSeat().toString());
 		
 		return this;
 	}
 	
-	public User submit() {
-		
-		model.setUsername(textFields.get(0).getText().trim());
-		String encryptedPassword = textFields.get(1).getText().trim();
-		model.setEncryptedPassword(encryptedPassword);
-		USER_ROLE role = (USER_ROLE) roleComboBox.getSelectedItem();
-		model.setRole(role.name());
-		
-		String name = textFields.get(1).getText().trim();
-		String identityCode = numericTextFields.get(0).getText().trim();
-		String phone = numericTextFields.get(1).getText().trim();
-		
-		BaseAccount account = null;
-		
-		if (role.equals(USER_ROLE.Admin)) {
-			AdminAccount acc = new AdminAccount();
-			acc.setName(name);
-			acc.setIdentityCode(identityCode);
-			acc.setPhoneNumber(phone);
-			account = acc;
-		} else if (role.equals(USER_ROLE.Customer)) {
-			CustomerAccount acc = new CustomerAccount();
-			acc.setName(name);
-			acc.setIdentityCode(identityCode);
-			acc.setPhoneNumber(phone);
-			account = acc;
-			
-		} else if (role.equals(USER_ROLE.Manager)) {
-			ManagerAccount acc = new ManagerAccount();
-			acc.setName(name);
-			acc.setIdentityCode(identityCode);
-			acc.setPhoneNumber(phone);
-			account = acc;
-		}
-		model.setAccount(account);
-		
-		return model;
-	}
+	//Get information from the form
+	public String getTicketClass() {return (String) ticketClassComboBox.getSelectedItem();}
+	public Flight getFlight() {return model;}
+	public String getSubmitName() {return textFields.get(0).getText().trim();}
+	public String getSubmitIdentityCode() {return numericFields.get(0).getText().trim();}
+	public String getSubmitPhone() {return numericFields.get(1).getText().trim();}
 	
 	public JButton getSubmitButton() {
 		return okButton;
 	}
 	
 	public static void main(String[] args) {
-		UpdateAccountForm form = new UpdateAccountForm(null);
+		TicketForm form = new TicketForm(null);
 		form.setVisible(true);
 	}
 }

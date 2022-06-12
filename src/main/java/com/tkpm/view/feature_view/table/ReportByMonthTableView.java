@@ -53,6 +53,8 @@ public class ReportByMonthTableView extends JTable {
 		
 	public ReportByMonthTableView() {
 		setupModelTable();
+		
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public ReportByMonthTableView clearData() {

@@ -89,6 +89,8 @@ public class AirportCRUDTableView extends JTable {
 	public AirportCRUDTableView() {
 		setupModelTable();
 		initUpdateButton();
+		
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public AirportCRUDTableView clearData() {

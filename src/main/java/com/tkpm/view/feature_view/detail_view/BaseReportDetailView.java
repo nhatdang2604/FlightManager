@@ -83,6 +83,8 @@ public class BaseReportDetailView extends JPanel implements FormBehaviour {
 		paddingPanels = new ArrayList<>();
 		attributeFields = new ArrayList<>();
 		createButton = new JButton("Tạo báo cáo");
+		createButton.setBackground(new Color(41, 97, 213));
+		createButton.setForeground(Color.WHITE);
 		warningField = new JLabel();					
 		warningField.setForeground(Color.RED);		//Warning have red text
 		
@@ -104,6 +106,11 @@ public class BaseReportDetailView extends JPanel implements FormBehaviour {
 		initComponents(attributeFieldNames);
 		setLayout();
 		addButtonToLayout();
+		
+		setBackground(Color.WHITE);
+		for (JPanel panel : paddingPanels) {
+			panel.setBackground(Color.WHITE);
+		}
 		
 	}
 

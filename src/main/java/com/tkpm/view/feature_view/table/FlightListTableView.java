@@ -85,6 +85,8 @@ public class FlightListTableView extends JTable {
 	public FlightListTableView() {
 		setupModelTable();
 		initDetailButton();
+		
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public FlightListTableView clearData() {

@@ -108,6 +108,8 @@ public class FlightCRUDTableView extends JTable {
 	public FlightCRUDTableView() {
 		setupModelTable();
 		initDetailButton();
+		
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public FlightCRUDTableView clearData() {

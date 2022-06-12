@@ -1,6 +1,7 @@
 package com.tkpm.view.feature_view.detail_view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,6 +22,8 @@ public class FlightListDetailView extends BaseReadOnlyDetailView {
 		
 		//Create buttons
 		bookButton = new JButton("Đặt vé");
+		bookButton.setBackground(new Color(41, 97, 213));
+		bookButton.setForeground(Color.WHITE);
 		
 		//Add Buttons to detail panel
 		paddingPanels.get(2).add(bookButton);

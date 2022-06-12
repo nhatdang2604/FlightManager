@@ -71,6 +71,7 @@ public class Category extends JPanel {
 		button = new JButton(name);
 		
 		setLayout();
+		editButton();
 		
 	}
 	
@@ -79,5 +80,8 @@ public class Category extends JPanel {
 	public JButton getButton() {return button;}
 	public List<JPanel> getBorders() {return borders;}
 	
+	private void editButton() {
+		button.setBorder(null);
+	}
 }
 

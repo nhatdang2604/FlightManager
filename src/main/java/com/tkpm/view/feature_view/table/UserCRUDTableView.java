@@ -102,6 +102,8 @@ public class UserCRUDTableView extends JTable {
 	public UserCRUDTableView() {
 		setupModelTable();
 		initDetailButton();
+		
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public UserCRUDTableView clearData() {

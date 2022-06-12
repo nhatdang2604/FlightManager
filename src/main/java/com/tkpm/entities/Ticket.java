@@ -62,19 +62,6 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 			optional = true)
 	private Reservation reservation;
 	
-	@ManyToOne(
-			cascade = {
-					CascadeType.PERSIST,
-					CascadeType.MERGE,
-					CascadeType.DETACH,
-					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
-	@JoinColumn(
-			name = "customer_id", 
-			referencedColumnName = "id",
-			nullable = true)
-	private CustomerAccount customer;
-	
 	@Column(name = "price")
 	private Integer price;
 	
@@ -100,7 +87,6 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	public Integer getId() {return id;}
 	public Flight getFlight() {return flight;}
 	public TicketClass getTicketClass() {return ticketClass;}
-	public CustomerAccount getCustomer() {return customer;}
 	public Integer getPrice() {return price;}
 	public String getName() {return name;}
 	public String getIdentityCode() {return identityCode;}
@@ -112,7 +98,6 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	public void setId(Integer id) {this.id = id;}
 	public void setFlight(Flight flight) {this.flight = flight;}
 	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
-	public void setCustomer(CustomerAccount customer) {this.customer = customer;}
 	public void setPrice(Integer price) {this.price = price;}
 	public void setName(String name) {this.name = name;}
 	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}

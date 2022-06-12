@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.tkpm.dao.FlightDAO;
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.FlightDetail;
 
 //Using enum for applying Singleton Pattern
 public enum FlightService {
@@ -104,6 +105,10 @@ public enum FlightService {
 	//Find flight by id
 	public Flight findFlightById(Integer id) {
 		return flightDAO.find(id);
+	}
+
+	public FlightDetail findFlightDetailByFlight(Flight flight) {
+		return flightDAO.findDetailById(flight.getId());
 	}
 }
  

@@ -1,6 +1,7 @@
 package com.tkpm.service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -31,6 +32,10 @@ public enum ReservationService {
 		return new TreeSet<>(reservationDAO.create(reservations));
 	}
 	
+	public Reservation updateReservation(Reservation reservation) {
+		return reservationDAO.update(reservation);
+	}
+	
 	//Update reservations
 	public Set<Reservation> updateReservations(List<Reservation> reservations) {
 		return new TreeSet<>(reservationDAO.update(reservations));
@@ -54,21 +59,19 @@ public enum ReservationService {
 		return reservationDAO.find(id);
 	}
 	
-	//Find all reservations from a flight
-	public Set<Reservation> findReservationFromFlight(Flight flight) {
-		
-		if (null == flight.getReservations()) {
-			flight = flightService.findFlightById(flight.getId());
-		}
-		
-		return flight.getReservations();
-	}
-	
+//	//Find all reservations from a flight
+//	public Set<Reservation> findReservationFromFlight(Flight flight) {
+//		
+//		if (null == flight) return null;
+//		
+//		return reservationDAO.find(flight);
+//	}
+//	
 	//Get all the not-booked reservation with the given ticket class from a flight
-	public List<Reservation> findAvailableReservationFromFlight(Flight flight, TicketClass ticketClass) {
+	public List<Reservation> findAvailableReservationsFromFlight(Flight flight, TicketClass ticketClass) {
 		
 		//Get all the availalbe tickets from a flight with the given ticket class
-		List<Ticket> tickets = ticketService.findAvailableTicketFromFlight(flight, ticketClass);
+		List<Ticket> tickets = ticketService.findAvailableTicketsFromFlight(flight, ticketClass);
 		
 		//From the got tickets, get all the reservations
 		List<Reservation> reservations = tickets
@@ -77,6 +80,21 @@ public enum ReservationService {
 				.collect(Collectors.toList());
 		
 		return reservations;
+	}
+	
+	public Reservation findAvailableReservationFromFlight(Flight flight, TicketClass ticketClass) {
+		
+		List<Reservation> reservations = findAvailableReservationsFromFlight(flight, ticketClass);
+		if (null == reservations || reservations.isEmpty()) {
+			return null;
+		}
+		
+		//Randomize reservation
+		Random rng = new Random();
+		int index = rng.nextInt(reservations.size());
+		Reservation reservation = reservations.get(index);
+		
+		return reservation;
 	}
 }
  

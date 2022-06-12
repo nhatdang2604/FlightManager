@@ -1,6 +1,7 @@
 package com.tkpm.service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -33,6 +34,10 @@ public enum TicketService {
 		return new TreeSet<>(ticketDAO.update(tickets));
 	}
 	
+	public Ticket updateTicket(Ticket ticket) {
+		return ticketDAO.update(ticket);
+	}
+	
 	//Delete tickets by the given ids
 	public int deleteTickets(List<Integer> ids) {
 		return ticketDAO.delete(ids);
@@ -62,7 +67,7 @@ public enum TicketService {
 	}
 	
 	//Get all the not-booked tickets with the given ticket class from a flight
-	public List<Ticket> findAvailableTicketFromFlight(Flight flight, TicketClass ticketClass) {
+	public List<Ticket> findAvailableTicketsFromFlight(Flight flight, TicketClass ticketClass) {
 		
 		//Get all the tickets from flight
 		Set<Ticket> tickets = findTicketFromFlight(flight);
@@ -74,6 +79,23 @@ public enum TicketService {
 				.collect(Collectors.toList());
 									
 		return availableTickets;
+	}
+	
+	public Ticket findAvailableTicketFromFlight(Flight flight, TicketClass ticketClass) {
+		
+		List<Ticket> tickets = findAvailableTicketsFromFlight(flight, ticketClass);
+		if (null == tickets || tickets.isEmpty()) {
+			return null;
+		}
+		
+		//Randomize ticket
+		Random rng = new Random();
+		int index = rng.nextInt(tickets.size());
+		Ticket ticket = tickets.get(index);
+		
+		ticket.setIsBooked(true);
+		
+		return updateTicket(ticket);
 	}
 }
  

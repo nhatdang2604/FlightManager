@@ -60,12 +60,12 @@ public class Flight implements Serializable, Comparable<Flight> {
 			orphanRemoval = true)
 	private Set<Ticket> tickets;
 	
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			mappedBy = "flight",
-			orphanRemoval = true)
-	private Set<Reservation> reservations;
-	
+//	@OneToMany(
+//			cascade = CascadeType.ALL,
+//			mappedBy = "flight",
+//			orphanRemoval = true)
+//	private Set<Reservation> reservations;
+//	
 	@ManyToOne(
 			cascade = {
 					CascadeType.PERSIST,
@@ -113,7 +113,7 @@ public class Flight implements Serializable, Comparable<Flight> {
 	public LocalDateTime getDateTime() {return dateTime;}
 	public FlightDetail getDetail() {return detail;}
 	public Set<Ticket> getTickets() {return tickets;}
-	public Set<Reservation> getReservations() {return reservations;}
+//	public Set<Reservation> getReservations() {return reservations;}
 
 	//Setters
 	public void setId(Integer id) {this.id = id;}
@@ -123,8 +123,8 @@ public class Flight implements Serializable, Comparable<Flight> {
 	public void setDateTime(LocalDateTime dateTime) {this.dateTime = dateTime;}
 	public void setDetail(FlightDetail detail) {this.detail = detail;}
 	public void setTickets(Set<Ticket> tickets) {this.tickets = tickets;}
-	public void setReservations(Set<Reservation> reservations) {this.reservations = reservations; }
-	
+//	public void setReservations(Set<Reservation> reservations) {this.reservations = reservations; }
+//	
 	//Compare for using Set, by implementing Comparable
 	public int compareTo(Flight another) {
 		if (null == another) return 1;

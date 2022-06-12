@@ -8,6 +8,8 @@ import com.tkpm.utils.HashingUtil;
 import com.tkpm.view.component.Button;
 import com.tkpm.view.component.FilledButton;
 import com.tkpm.view.component.OutlinedButton;
+import com.tkpm.view.component.PasswordField;
+import com.tkpm.view.component.TextField;
 import com.tkpm.view.frame.BaseFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -25,13 +27,14 @@ import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Canvas;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import javax.swing.border.EmptyBorder;
 
 public class Login extends BaseFrame implements FormBehaviour {
 	
-	private JLabel jlbUsername;					//Label for username field
-	private JTextField txtUsername;				//Username text field
-	private JLabel jlbPassword;					//Label for password field
-	private JPasswordField passtxtPassword;		//Password text field
+	private TextField txtUsername;				//Username text field
+	private PasswordField passtxtPassword;		//Password text field
 	private JCheckBox chckbxShowPassword;		//Checkbox to show/hide password
 	private FilledButton btnLogin;				//Login button
 	private OutlinedButton btnRegistrate;		//Registrate button
@@ -48,6 +51,8 @@ public class Login extends BaseFrame implements FormBehaviour {
 	private static final String[] ERRORS = {
 		"Sai mật khẩu hoặc tên đăng nhập"
 	};
+	private JPanel infoLogin;
+	private JPanel panelButton;
 		
 	//Create and add Show/Hide feature for chckbxShowPassword
 	private void initCheckbox() {
@@ -77,35 +82,33 @@ public class Login extends BaseFrame implements FormBehaviour {
 		contentPanel = new JPanel();
 		contentPanel.setPreferredSize(new Dimension(750, 465));
 		contentPanel.setBackground(Color.WHITE);
-		contentPanel.setLayout(null);
 		
 		Background = new JLabel("");
 		Background.setIcon(new ImageIcon(Login.class.getResource("/com/tkpm/view/frame/form/rafiki.jpg")));
 		Background.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		panelLogin = new JPanel();
-		panelLogin.setBorder(null);
+		panelLogin.setBorder(new EmptyBorder(50, 30, 50, 30));
 		panelLogin.setBackground(Color.WHITE);
-		panelLogin.setLayout(null);
+		panelLogin.setLayout(new BorderLayout(0, 0));
+		
+		infoLogin = new JPanel();
+		infoLogin.setBorder(new EmptyBorder(80, 10, 0, 10));
+		infoLogin.setBackground(Color.WHITE);
+		infoLogin.setLayout(new GridLayout(5, 0, 0, 10));
+		
+		panelButton = new JPanel();
+		panelButton.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panelButton.setBackground(Color.WHITE);
+		panelButton.setLayout(new GridLayout(0, 2, 30, 0));
 		
 		btnLogin = new FilledButton("Đăng nhập");
-		btnLogin.setBorderPainted(false);
 		btnLogin.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		btnRegistrate = new OutlinedButton("Đăng ký");
 		btnRegistrate.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		btnRegistrate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnRegistrate.setMinimumSize(new Dimension(90, 30));
-		btnRegistrate.setMaximumSize(new Dimension(90, 30));
 		btnRegistrate.setBorderPainted(false);
-		
-		jlbUsername = new JLabel("Tên đăng nhập");
-		jlbUsername.setBackground(Color.WHITE);
-		jlbUsername.setFont(new Font("Noto Sans", Font.BOLD, 16));
-		
-		jlbPassword = new JLabel("Mật khẩu");
-		jlbPassword.setBackground(Color.WHITE);
-		jlbPassword.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		
 		jlbWarningText = new JLabel();					//No warning when start login form
 		jlbWarningText.setBackground(Color.WHITE);
@@ -113,46 +116,31 @@ public class Login extends BaseFrame implements FormBehaviour {
 		jlbWarningText.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		jlbWarningText.setForeground(Color.RED);		//Warning have red text
 		
-		txtUsername = new JTextField();
-		txtUsername.setBackground(Color.WHITE);
-		txtUsername.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		txtUsername = new TextField("Tên đăng nhập");
+		passtxtPassword = new PasswordField("Mật khẩu");
 		
-		passtxtPassword = new JPasswordField();
-		passtxtPassword.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		initCheckbox();									//Create and add Show/Hide feature for chckbxShowPassword
 	}
 	
 	//Set size and location of each component
 	private void setComponentSizeAndLocation() {
-		Background.setBounds(375, 0, 380, 473);
-		
-		panelLogin.setBounds(0, 0, 380, 473);
-		
-		btnLogin.setBounds(210, 320, 130, 30);
-		btnRegistrate.setBounds(80, 319, 120, 30);
-		
-		jlbUsername.setBounds(80, 120, 260, 30);
-		jlbPassword.setBounds(80, 200, 260, 30);
-	    jlbWarningText.setBounds(80, 365, 260, 30);
-	    txtUsername.setBounds(80, 155, 260, 30);
-	    passtxtPassword.setBounds(80, 235, 260, 30);
-	    chckbxShowPassword.setBounds(80, 275, 150, 30);
 	}
 	
 	//Connect all components into getContentPane()
 	private void addComponents() {
 		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		getContentPane().add(contentPanel);
+		contentPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		contentPanel.add(panelLogin);
 		contentPanel.add(Background);
-		panelLogin.add(jlbUsername);
-		panelLogin.add(jlbPassword);
-		panelLogin.add(txtUsername);
-		panelLogin.add(passtxtPassword);
-		panelLogin.add(chckbxShowPassword);
-		panelLogin.add(btnLogin);
-		panelLogin.add(btnRegistrate);
-		panelLogin.add(jlbWarningText);
+		panelLogin.add(infoLogin, BorderLayout.CENTER);
+		infoLogin.add(txtUsername);
+		infoLogin.add(passtxtPassword);
+		infoLogin.add(chckbxShowPassword);
+		panelButton.add(btnRegistrate);
+		panelButton.add(btnLogin);
+		infoLogin.add(panelButton);
+		infoLogin.add(jlbWarningText);
 	}
 	
 	public Login() {

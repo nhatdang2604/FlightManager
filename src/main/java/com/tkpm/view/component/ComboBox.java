@@ -2,12 +2,20 @@ package com.tkpm.view.component;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,12 +30,18 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 
+import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTarget;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
+
 public class ComboBox<E> extends JComboBox<E> {
 	
+	private String labelText;
 	private Color lineColor = new Color(3, 155, 216);
 	private boolean mouseHover;
 	
-	public ComboBox() {
+	public ComboBox(String label) {
+		this.labelText = label;
 		setBackground(Color.WHITE);
 		setBorder(new EmptyBorder(0, 3, 5, 3));
 		setUI(new ComboUI(this));
@@ -56,6 +70,10 @@ public class ComboBox<E> extends JComboBox<E> {
 	
 	private class ComboUI extends BasicComboBoxUI {
 		
+		private final Animator animator;
+		private boolean animateHintText = true;
+		private float location;
+		private boolean show;
 		private ComboBox comboBox;
 		
 		public ComboUI(ComboBox combo) {
@@ -75,7 +93,29 @@ public class ComboBox<E> extends JComboBox<E> {
 				}
 			});
 			
+			addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					showing(false);
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					showing(true);
+				}
+			});
 			
+			addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent ie) {
+                    if (!isFocusOwner()) {
+                        if (getSelectedIndex() == -1) {
+                            showing(true);
+                        } else {
+                            showing(false);
+                        }
+                    }
+                }
+            });
 			
 			addPopupMenuListener(new PopupMenuListener() {
                 @Override
@@ -93,6 +133,22 @@ public class ComboBox<E> extends JComboBox<E> {
                     arrowButton.setBackground(new Color(150, 150, 150));
                 }
             });
+			
+			TimingTarget target = new TimingTargetAdapter() {
+				@Override
+				public void begin() {
+					animateHintText = getSelectedIndex() == -1;
+				}
+				@Override
+				public void timingEvent(float fraction) {
+					location = fraction;
+					repaint();
+				}
+			};
+			animator = new Animator(300, target);
+			animator.setResolution(0);
+			animator.setAcceleration(0.5f);
+			animator.setDeceleration(0.5f);
 		}
 		
 		@Override
@@ -129,12 +185,67 @@ public class ComboBox<E> extends JComboBox<E> {
 				graphics2d.setColor(new Color(150, 150, 150));
 			}
 			graphics2d.fillRect(2, height-1, width-4, 1);
+			createHintText(graphics2d);
+			createLineStyle(graphics2d);
 			graphics2d.dispose();
 		}
+		
+		private void createHintText(Graphics2D graphics2d) {
+			Insets insets = getInsets();
+			graphics2d.setColor(new Color(160, 160, 160));
+			FontMetrics fontMetrics = graphics2d.getFontMetrics();
+			Rectangle2D rectangle2d = fontMetrics.getStringBounds(labelText, graphics2d);
+			double height = getHeight() - insets.top - insets.bottom;
+			double textY = (height - rectangle2d.getHeight()) / 2;
+			double size;
+			if (animateHintText) {
+				if (show) {
+					size = (18 * (1 - location));
+				}
+				else {
+					size = 18 * location;
+				}
+			}
+			else {
+				size = 18;
+			}
+			graphics2d.drawString(labelText, insets.right, (int)(insets.top+textY+fontMetrics.getAscent() - size));
+		}
+		
+		private void createLineStyle(Graphics2D graphics2d) {
+			if (isFocusOwner()) {
+				double width = getWidth()-4;
+				int height = getHeight();
+				graphics2d.setColor(lineColor);
+				double size;
+				if (show) {
+					size = width * (1 - location);
+				}
+				else {
+					size = width * location;
+				}
+				double x = (width - size);
+				graphics2d.fillRect((int)(x + 2), height-2, (int)size, 2);
+			}
+		}
+
 		
 		@Override
 		public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
 			
+		}
+		
+		private void showing(boolean action) {
+			if (animator.isRunning()) {
+				animator.stop();
+			}
+			else {
+				location = 1;
+			}
+			animator.setStartFraction(1f-location);
+			show = action;
+			location = 1f - location;
+			animator.start();
 		}
 		
 		@Override

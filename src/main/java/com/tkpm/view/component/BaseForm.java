@@ -67,7 +67,6 @@ public class BaseForm extends JPanel{
 			public void stateChanged(ChangeEvent e) {
 				detailPanel.removeAll();
 				detailPanel.add(detailPane.get(tabPane.getSelectedIndex()));
-				System.out.println(detailPane.get(tabPane.getSelectedIndex()).getClass().toString());
 				repaint();
 				revalidate();
 			}

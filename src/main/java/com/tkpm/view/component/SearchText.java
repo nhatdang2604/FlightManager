@@ -15,7 +15,7 @@ public class SearchText extends JTextField {
 
 	public SearchText() {
 		setBorder(new EmptyBorder(5, 10, 5, 10));
-		setSelectionColor(new Color(220, 204, 182));
+		setSelectionColor(new Color(141, 195, 248, 80));
 		setFont(new Font("Nono Sans", Font.PLAIN, 14));
 	}
 	

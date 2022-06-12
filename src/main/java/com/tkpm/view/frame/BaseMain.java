@@ -6,23 +6,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.tkpm.view.component.EventMenuSelected;
-import com.tkpm.view.component.FlightFeatureForm;
-import com.tkpm.view.component.Header;
 import com.tkpm.view.component.Menu;
-import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import net.miginfocom.swing.MigLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.JButton;
 
 
 public class BaseMain extends BaseFrame {

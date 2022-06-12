@@ -31,15 +31,15 @@ import javax.swing.text.Document;
 import com.tkpm.entities.CustomerAccount;
 import com.tkpm.entities.User;
 import com.tkpm.utils.HashingUtil;
+import javax.swing.SwingConstants;
+import java.awt.Insets;
 
 public class Registration extends JFrame implements FormBehaviour{
 
 	private JPanel contentPane;
-	private JPanel panelBackground;
 	private JPanel panelRegistrate;
 	private JPanel panelInfo;
 	private JPanel panelButton;
-	private JPanel panelCancelButton;
 	
 	private JLabel background;
 	private JLabel jlbUsername;
@@ -129,8 +129,11 @@ public class Registration extends JFrame implements FormBehaviour{
 	}
 	
 	private void initComponents() {
-		panelBackground = new JPanel();
-		panelBackground.setBackground(Color.WHITE);
+		
+		background = new JLabel("");
+		background.setHorizontalAlignment(SwingConstants.CENTER);
+		background.setBackground(Color.WHITE);
+		background.setIcon(new ImageIcon(Registration.class.getResource("/com/tkpm/view/frame/form/rafiki.jpg")));
 		
 		panelRegistrate = new JPanel();
 		panelRegistrate.setBackground(Color.WHITE);
@@ -140,91 +143,73 @@ public class Registration extends JFrame implements FormBehaviour{
 		panelInfo.setBackground(Color.WHITE);
 		
 		panelButton = new JPanel();
+		panelButton.setBorder(new EmptyBorder(0, 20, 0, 20));
 		panelButton.setPreferredSize(new Dimension(260, 30));
 		panelButton.setBackground(Color.WHITE);
-		
-		panelCancelButton = new JPanel();
-		panelCancelButton.setBackground(Color.LIGHT_GRAY);
-		panelCancelButton.setLayout(null);
-		
-		background = new JLabel("");
-		background.setBackground(Color.WHITE);
-		background.setIcon(new ImageIcon(Registration.class.getResource("/com/tkpm/view/frame/form/rafiki.jpg")));
-		
+
 		jlbUsername = new JLabel("Tên đăng nhập (*)");
 		jlbUsername.setPreferredSize(new Dimension(260, 30));
-		jlbUsername.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtUsername = new JTextField();
 		txtUsername.setPreferredSize(new Dimension(260, 30));
-		txtUsername.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		txtUsername.setColumns(10);
 		
 		jlbPassword = new JLabel("Mật khẩu (*)");
 		jlbPassword.setPreferredSize(new Dimension(260, 30));
-		jlbPassword.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		passtxtPassword = new JPasswordField();
 		passtxtPassword.setPreferredSize(new Dimension(260, 30));
-		passtxtPassword.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		jlbRetypePassword = new JLabel("Nhập lại mật khẩu (*)");
 		jlbRetypePassword.setPreferredSize(new Dimension(260, 30));
-		jlbRetypePassword.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbRetypePassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		passtxtRetypePassword = new JPasswordField();
 		passtxtRetypePassword.setPreferredSize(new Dimension(260, 30));
-		passtxtRetypePassword.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		jlbName = new JLabel("Họ và tên");
 		jlbName.setPreferredSize(new Dimension(260, 30));
-		jlbName.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtName = new JTextField();
 		txtName.setPreferredSize(new Dimension(260, 30));
-		txtName.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		txtName.setColumns(10);
 		
 		jlbIdentity = new JLabel("CMND/CCCD");
 		jlbIdentity.setPreferredSize(new Dimension(260, 30));
-		jlbIdentity.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbIdentity.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtIdentity = new JTextField();
 		txtIdentity.setPreferredSize(new Dimension(260, 30));
-		txtIdentity.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		txtIdentity.setColumns(10);
 		
 		jlbMobileNumber = new JLabel("Số điện thoại");
 		jlbMobileNumber.setPreferredSize(new Dimension(260, 30));
-		jlbMobileNumber.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbMobileNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtMobileNumber = new JTextField();
 		txtMobileNumber.setPreferredSize(new Dimension(260, 30));
-		txtMobileNumber.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		txtMobileNumber.setColumns(10);
 		
 		showPasswordCheckbox = new JCheckBox("Hiện mật khẩu");
 		showPasswordCheckbox.setPreferredSize(new Dimension(260, 30));
 		showPasswordCheckbox.setBackground(Color.WHITE);
-		showPasswordCheckbox.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		cancelButton = new JButton("Huỷ");
-		cancelButton.setBounds(new Rectangle(1, 1, 118, 28));
-		cancelButton.setBorderPainted(false);
 		cancelButton.setBackground(Color.WHITE);
-		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		okButton = new JButton("Đăng ký");
-		okButton.setPreferredSize(new Dimension(75, 30));
-		okButton.setBounds(new Rectangle(0, 0, 90, 30));
-		okButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		okButton.setForeground(Color.WHITE);
-		okButton.setBorder(null);
 		okButton.setBackground(new Color(41, 97, 213));
 		
 		warningText = new JLabel("");
-		warningText.setFont(new Font("Noto Sans", Font.PLAIN, 16));
 		warningText.setForeground(Color.RED);
+		
+		panelRegistrate.setLayout(new BorderLayout(0, 0));
+		panelInfo.setLayout(new GridLayout(15, 1, 0, 10));
+		panelButton.setLayout(new GridLayout(0, 2, 20, 0));
 		
 		initCheckbox();
 		initButtons();
@@ -232,15 +217,9 @@ public class Registration extends JFrame implements FormBehaviour{
 	}
 	
 	private void setLayout() {
-		panelBackground.setLayout(new BorderLayout(0, 0));
-		panelRegistrate.setLayout(new BorderLayout(0, 0));
-		panelInfo.setLayout(new GridLayout(15, 1, 0, 10));
-		panelButton.setLayout(new GridLayout(0, 2, 20, 0));
+		contentPane.setLayout(new GridLayout(0, 2, 10, 0));
 		
-		contentPane.add(panelBackground, BorderLayout.EAST);
-		panelBackground.add(background, BorderLayout.CENTER);
-		
-		contentPane.add(panelRegistrate, BorderLayout.CENTER);
+		contentPane.add(panelRegistrate);
 		panelRegistrate.add(panelInfo, BorderLayout.CENTER);
 		panelInfo.add(jlbUsername);
 		panelInfo.add(txtUsername);
@@ -256,10 +235,11 @@ public class Registration extends JFrame implements FormBehaviour{
 		panelInfo.add(txtMobileNumber);
 		panelInfo.add(showPasswordCheckbox);
 		panelInfo.add(panelButton);
-		panelButton.add(panelCancelButton);
-		panelCancelButton.add(cancelButton);
+		panelButton.add(cancelButton);
 		panelButton.add(okButton);
 		panelInfo.add(warningText);
+		
+		contentPane.add(background);
 	}
 
 	
@@ -274,14 +254,12 @@ public class Registration extends JFrame implements FormBehaviour{
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(50, 75, 25, 75));
-		contentPane.setLayout(new BorderLayout(50, 0));
 		setContentPane(contentPane);
 		
 		initComponents();
 		setLayout();
 		
 		this.pack();
-		this.setResizable(false);
 		
 	}
 	

@@ -120,6 +120,7 @@ public class FlightListTableView extends JTable {
 	
 	public Flight getSelectedFlight() {
 		int index = this.getSelectedRow();
+		if (-1 == index) return null;
 		return flights.get(index);
 	}
 	

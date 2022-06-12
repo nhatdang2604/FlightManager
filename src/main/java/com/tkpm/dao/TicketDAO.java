@@ -157,5 +157,25 @@ public enum TicketDAO {
 	
 		return ticket;
 	}
+
+	public Ticket update(Ticket ticket) {
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			
+			session.update(ticket);
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return ticket;
+	}
 }
  

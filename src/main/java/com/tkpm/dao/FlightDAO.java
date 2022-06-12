@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.FlightDetail;
 import com.tkpm.utils.HibernateUtil;
 
 //Using enum for applying Singleton Pattern
@@ -140,6 +141,28 @@ public enum FlightDAO {
 		}
 	
 		return flight;
+	}
+
+	public FlightDetail findDetailById(Integer id) {
+		
+		Session session = factory.getCurrentSession();
+		FlightDetail detail = null;
+		
+		try {
+			session.beginTransaction();
+			
+			detail = session.get(FlightDetail.class, id);
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return detail;
 	}
 }
  

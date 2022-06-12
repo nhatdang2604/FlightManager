@@ -1,6 +1,7 @@
 package com.tkpm.view.feature_view.detail_view;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,23 +13,24 @@ public class FlightListDetailView extends BaseReadOnlyDetailView {
 	
 	private JButton bookButton;
 	
-	private static final String[] FIELD_NAMES = {
-			"Tình trạng ghế hạng 1",	//Còn/Hết
-			"Tình trạng ghế hạng 2",	//Còn/Hết
-	};
+//	private static final String[] FIELD_NAMES = {
+//			"Tình trạng ghế hạng 1",	//Còn/Hết
+//			"Tình trạng ghế hạng 2",	//Còn/Hết
+//	};
 	
 	protected void makeButtons() {
 		
 		//Create buttons
-		bookButton = new JButton("Đặt vé");
+		bookButton = new JButton("ĐẶT VÉ");
+		bookButton.setFont(new Font("Noto Sans", Font.BOLD, 26)); 
 		
-		//Add Buttons to detail panel
-		paddingPanels.get(2).add(bookButton);
-		
+		//Setup button panel + add Buttons to detail panel
+		paddingPanels.get(1).setLayout(new BorderLayout());
+		paddingPanels.get(1).add(bookButton, BorderLayout.CENTER);
 	}
 	
 	public FlightListDetailView() {
-		super("Vé chuyến bay", FIELD_NAMES);
+		super("Vé chuyến bay", null);
 		makeButtons();	
 	}
 	

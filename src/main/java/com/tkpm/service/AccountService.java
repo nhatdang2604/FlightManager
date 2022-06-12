@@ -70,7 +70,7 @@ public enum AccountService {
 		}
 		
 		//Get the list of bookable reservation
-		List<Reservation> reservations = reservationService.findAvailableReservationFromFlight(flight, ticketClass);
+		List<Reservation> reservations = reservationService.findAvailableReservationsFromFlight(flight, ticketClass);
 		
 		//Return null if the flight had been fullfill
 		if (null == reservations || reservations.isEmpty()) {

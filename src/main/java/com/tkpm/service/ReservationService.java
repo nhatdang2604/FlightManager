@@ -65,10 +65,10 @@ public enum ReservationService {
 	}
 	
 	//Get all the not-booked reservation with the given ticket class from a flight
-	public List<Reservation> findAvailableReservationFromFlight(Flight flight, TicketClass ticketClass) {
+	public List<Reservation> findAvailableReservationsFromFlight(Flight flight, TicketClass ticketClass) {
 		
 		//Get all the availalbe tickets from a flight with the given ticket class
-		List<Ticket> tickets = ticketService.findAvailableTicketFromFlight(flight, ticketClass);
+		List<Ticket> tickets = ticketService.findAvailableTicketsFromFlight(flight, ticketClass);
 		
 		//From the got tickets, get all the reservations
 		List<Reservation> reservations = tickets

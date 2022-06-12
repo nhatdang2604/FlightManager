@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(foreignKey=@ForeignKey(name = "fk_admin_base"))
 public class AdminAccount extends BaseAccount {
 
-	
 	/**
 	 * 
 	 */
@@ -43,14 +42,26 @@ public class AdminAccount extends BaseAccount {
 	}
 
 	//Getters
-	public String getName() {return name;}
-	public String getIdentityCode() {return identityCode;}
-	public String getPhoneNumber() {return phoneNumber;}
+	public String getName() {
+		return name;
+	}
+	public String getIdentityCode() {
+		return identityCode;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 	
 	//Setters
-	public void setName(String name) {this.name = name;}
-	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}
-	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setIdentityCode(String identityCode) {
+		this.identityCode = identityCode;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 	
 	
 	

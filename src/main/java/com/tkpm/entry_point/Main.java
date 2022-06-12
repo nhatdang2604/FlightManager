@@ -3,9 +3,6 @@ package com.tkpm.entry_point;
 import com.tkpm.view.frame.AdminMainFrame;
 import com.tkpm.view.frame.BaseMain;
 import com.tkpm.view.frame.BaseMainFrame;
-import com.tkpm.view.frame.CustomerMainFrame;
-import com.tkpm.view.frame.ManagerMainFrame;
-import com.tkpm.view.frame.form.AirportTransitionForm;
 import com.tkpm.view.frame.form.Login;
 import com.tkpm.view.frame.form.Registration;
 

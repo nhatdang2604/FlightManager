@@ -2,29 +2,34 @@ package com.tkpm.view.feature_view.table;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
-import com.tkpm.wrapper.FlightStatisticWrapper;
+import com.tkpm.entities.Flight;
+import com.tkpm.view.widget.ButtonEditor;
+import com.tkpm.view.widget.ButtonRenderer;
 import com.tkpm.wrapper.report.BaseReport;
 
-public class ReportByMonthTable extends JTable {
+public class ReportByYearTableView extends JTable {
 
 	protected DefaultTableModel tableModel;
-	protected BaseReport report;
+	protected List<BaseReport> reportModels;
 	
 	public static final String[] COLUMN_NAMES = {
-		"STT", "Mã chuyến bay", "Số vé", "Tỉ lệ", "Doanh thu"
+		"Tháng", "Số chuyến bay", "Doanh thu", "Tỉ lệ"
 	};
 	
-	public static final int COLUMN_INDEX = 0;
-	public static final int FLIGHT_ID_COLUMN_INDEX = 1;
-	public static final int NUMBER_OF_TICKETS_COLUMN_INDEX = 2;
+	//public static final int SELECT_COLUMN_INDEX = 0;
+	public static final int MONTH_COLUMN_INDEX = 0;
+	public static final int NUMBER_OF_FLIGHTS_COLUMN_INDEX = 1;
+	public static final int TURNOVER_COLUMN_INDEX = 2;
 	public static final int RATIO_COLUMN_INDEX = 3;
-	public static final int TURNOVER_COLUMN_INDEX = 4;
 	
 	protected void setupModelTable() {
 		//Make uneditable table
@@ -56,7 +61,7 @@ public class ReportByMonthTable extends JTable {
 		
 	}
 		
-	public ReportByMonthTable() {
+	public ReportByYearTableView() {
 		setupModelTable();
 		
 		getTableHeader().setReorderingAllowed(false);		
@@ -80,7 +85,7 @@ public class ReportByMonthTable extends JTable {
 		});
 	}
 	
-	public ReportByMonthTable clearData() {
+	public ReportByYearTableView clearData() {
 		
 		//Clear the model
 		tableModel.setRowCount(0);
@@ -88,29 +93,36 @@ public class ReportByMonthTable extends JTable {
 		return this;
 	}
 	
-	public void setReport(BaseReport report) {
-		this.report = report;
+	public void setReportModels(List<BaseReport> reportModels) {
+		this.reportModels = reportModels;
 	}
 	
 	//Show all flight in flights to the table
-	public ReportByMonthTable update() {
+	public ReportByYearTableView update() {
 		
 		clearData();
 		
+		//precalculate turnover and total turnover
+		int[] turnovers = new int[13];
+		int totalTurnover = 0;
+		int month = 0;
+		for (BaseReport report: reportModels) {
+			++month;
+			turnovers[month] = report.getTurnover();
+			totalTurnover += turnovers[month];
+		}
+		
 		//Print data
-		int totalTurnover = report.getTurnover();
-		int size = report.getWrappers().size();
-		for (int index = 0; index < size; ++index) {
+		int size = reportModels.size();
+		for (int index = 1; index < size; ++index) {
 			
-			
-			FlightStatisticWrapper wrapper = report.getWrappers().get(index);
-			double ratio = (double)(wrapper.getTurnover()/totalTurnover);
+			BaseReport reportByMonth = reportModels.get(index);
+			double ratio = (double)(turnovers[index]/totalTurnover);
 			Object[] row = {
-					index + 1, 
-					wrapper.getFlight().getId(),
-					wrapper.getTotalNumberOfSeat(),
-					ratio,
-					wrapper.getTurnover()};
+					index, 
+					reportByMonth.getWrappers().size(),
+					turnovers[index],
+					ratio};
 			
 			tableModel.addRow(row);		
 		}

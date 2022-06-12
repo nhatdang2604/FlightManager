@@ -79,17 +79,21 @@ public class Flight implements Serializable, Comparable<Flight> {
 			nullable = true)
 	private Airport arrivalAirport;
 	
-	@ManyToMany(
-			cascade = {
-					CascadeType.PERSIST,
-					CascadeType.MERGE,
-					CascadeType.DETACH,
-					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "flight_transition",
-			joinColumns = @JoinColumn(name = "flight_id"),
-			inverseJoinColumns = @JoinColumn(name = "transition_airport_id"))
+//	@ManyToMany(
+//			cascade = {
+//					CascadeType.PERSIST,
+//					CascadeType.MERGE,
+//					CascadeType.DETACH,
+//					CascadeType.REFRESH},
+//			fetch = FetchType.EAGER)
+//	@JoinTable(
+//			name = "flight_transition",
+//			joinColumns = @JoinColumn(name = "flight_id"),
+//			inverseJoinColumns = @JoinColumn(name = "transition_airport_id"))
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			mappedBy = "flight",
+			orphanRemoval = true)
 	private Set<Transition> transitions;
 	
 	@Column(name = "date_time")

@@ -1,29 +1,27 @@
 package com.tkpm.view.frame.form;
 
-import java.awt.Font;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
 import java.awt.Color;
-import javax.swing.JTextField;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-
 import com.tkpm.view.component.ComboBox;
 import com.tkpm.view.component.FilledButton;
 import com.tkpm.view.component.OutlinedButton;
 import com.tkpm.view.component.TextField;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import com.tkpm.entities.Airport;
+import com.tkpm.entities.Transition;
 
 public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
@@ -31,13 +29,15 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private JPanel panelButton;
 	private JPanel panelInfo;
 	
-	private ComboBox<String> txtAirportId;
 	private TextField txtTransitionTime;
 	private TextField txtNote;
+	private ComboBox<Airport> airportComboBox;
 	private JLabel warningText;
 	
 	private OutlinedButton cancelButton;
 	private FilledButton okButton;
+	
+	private Transition model;
 	
 	public static final int NO_ERROR = 0;
 	public static final int EMPTY_STAR_FIELD_ERROR = 1;
@@ -54,7 +54,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') && (character != KeyEvent.VK_BACK_SPACE)) {
+		if ((character < '0') || (character > '9') || (character != KeyEvent.VK_BACK_SPACE)) {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
 		} else {
@@ -86,12 +86,13 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		panelInfo.setBackground(Color.WHITE);
 		panelInfo.setBorder(new EmptyBorder(25, 50, 10, 50));
 		
-		txtAirportId = new ComboBox<String>("Mã sân bay");
-		txtAirportId.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		
 		txtTransitionTime = new TextField("Thời gian dừng");
 		txtTransitionTime.setPreferredSize(new Dimension(7, 50));
-		txtTransitionTime.setColumns(10);
+		
+		airportComboBox = new ComboBox<>("Sân bay (*)");
+		airportComboBox.setBackground(Color.WHITE);
+		airportComboBox.setPreferredSize(new Dimension(7, 30));
+		airportComboBox.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		txtNote = new TextField("Ghi chú");
 		txtNote.setPreferredSize(new Dimension(7, 60));
@@ -124,7 +125,8 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		
 		getContentPane().add(panelInfo, BorderLayout.CENTER);
 		panelInfo.setLayout(new GridLayout(0, 1, 0, 10));
-		panelInfo.add(txtAirportId);
+
+		panelInfo.add(airportComboBox);
 		panelInfo.add(txtTransitionTime);
 		panelInfo.add(txtNote);
 		panelInfo.add(warningText);
@@ -143,6 +145,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		addComponents();
 		
 		setLocationRelativeTo(null);
+		model = new Transition();
 	}
 
 	/**
@@ -157,10 +160,16 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		init();
 	}
 	
+	public AirportTransitionForm(JDialog owner) {
+		super(owner, true);
+		init();
+	}
+	
+	
 	public boolean areThereAnyEmptyStarField() {
 		
-		String airportID = txtAirportId.getSelectedItem().toString().trim();
-		if (null == airportID || airportID.equals("")) {
+		Airport airport = (Airport) airportComboBox.getSelectedItem();
+		if (null == airport) {
 			return true;
 		}
 		
@@ -172,10 +181,24 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		return false;
 	}
 
+	public void loadAirport(List<Airport> airports)  {
+		airportComboBox.removeAll();
+		airports.forEach(airport -> airportComboBox.addItem(airport));
+	}
+	
+	public void loadModel(Transition model) {
+		this.model= model;
+		airportComboBox.setSelectedItem(model.getAirport());
+		txtTransitionTime.setText(model.getTransitionTime().toString());
+		txtNote.setText(model.getNote());
+	}
+	
 	@Override
-	public JButton submit() {
-		// TODO Auto-generated method stub
-		return null;
+	public Transition submit() {
+		model.setAirport((Airport) airportComboBox.getSelectedItem());
+		model.setTransitionTime(Integer.parseInt(txtTransitionTime.getText()));
+		model.setNote(txtNote.getText());
+		return model;
 	}
 
 	@Override
@@ -193,7 +216,6 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
 	@Override
 	public void clear() {
-		txtAirportId.setSelectedIndex(-1);
 		txtTransitionTime.setText("");
 		txtNote.setText("");
 	}

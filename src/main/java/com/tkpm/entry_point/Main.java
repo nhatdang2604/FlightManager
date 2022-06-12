@@ -35,14 +35,14 @@ public class Main {
 		regForm.getCancelButton().addActionListener(event -> {
 			logForm.open();
 		});
-		//logForm.open();
+		logForm.open();
 		//AirportTransitionForm airportTransitionForm = new AirportTransitionForm();
 		//airportTransitionForm.open();
 		
 		//BaseMainFrame mainFrame = new CustomerMainFrame();
 		//BaseMainFrame mainFrame = new ManagerMainFrame();
 		BaseMainFrame mainFrame = new AdminMainFrame();
-		mainFrame.open();
+		//mainFrame.open();
 	}
 
 }

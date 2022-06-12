@@ -142,5 +142,35 @@ public enum AirportDAO {
 	
 		return airport;
 	}
+
+	public Airport find(String name) {
+		Session session = factory.getCurrentSession();
+		Airport airport = null;
+		
+		try {
+			session.beginTransaction();
+			
+			String param = "name";
+			String query = "from " + Airport.class.getName() + " a where a.name = :" + param;
+			
+			airport = session
+					.createQuery(query, Airport.class)
+					.setParameter(param, name)
+					.setMaxResults(1)
+					.stream()
+					.findFirst()
+					.orElse(null);
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return airport;
+	}
 }
  

@@ -155,6 +155,7 @@ public enum TicketClassDAO {
 			
 			ticketClass = session
 					.createQuery(query, TicketClass.class)
+					.setParameter(param, name)
 					.setMaxResults(1)
 					.stream()
 					.findFirst()

@@ -44,5 +44,9 @@ public enum AirportService {
 	public Airport findAirportById(Integer id) {
 		return airportDAO.find(id);
 	}
+
+	public Airport findAirportByName(String name) {
+		return airportDAO.find(name);
+	}
 }
  

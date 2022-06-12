@@ -12,6 +12,7 @@ import com.tkpm.view.feature_view.tabbed_controller_view.FlightManagerTabbedCont
 import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.ManagerMainFrame;
+import com.tkpm.view.frame.form.AirportForm;
 
 public class ManagerController extends CustomerController {
 
@@ -52,10 +53,42 @@ public class ManagerController extends CustomerController {
 		AirportCRUDDetailView detail = controllerView.getAirporCRUDDetailView();
 		
 		detail.getButtons().get(CRUDDetailView.CREATE_BUTTON_INDEX).addActionListener(event -> {
-			
+			AirportForm form = new AirportForm(mainFrame);
+			form.setTitle("Tạo chuyến bay");
+			initAirportCreateForm(form, controllerView);	
 		});
 	}
 
+	protected void initAirportCreateForm(AirportForm form, FlightManagerTabbedControllerView controllerView) {
+		form.getSubmitButton().addActionListener(event -> {
+			
+			//Validate the form
+			if (form.areThereAnyEmptyStarField()) {
+				form.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
+				return;
+			}
+			
+			//Check if there is an airport with the same name existed
+			Airport airport = form.submit();
+			Airport testAirport = airportService.findAirportByName(airport.getName());
+			if (null != testAirport) {
+				form.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
+				return;
+			}
+			
+			//validate success case
+			airport = airportService.createAirport(airport);
+			
+			//Update the table view
+			initAirportRead(controllerView);
+			
+			//Close the form
+			form.close();
+			
+		});
+		
+	}
+	
 	protected void initAirportRead(FlightManagerTabbedControllerView controllerView) {
 		List<Airport> airports = new ArrayList<>(airportService.findAllAirports());
 		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();

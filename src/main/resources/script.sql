@@ -79,6 +79,7 @@ CREATE TABLE `flight` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
  	`departure_airport_id` int(11) NOT NULL,
 	`arrival_airport_id` int(11) NOT NULL,
+	`date_time` date DEFAULT NULL,
 	
  	CONSTRAINT `fk_flight_departure` FOREIGN KEY(`departure_airport_id`) REFERENCES airport(`id`),
 	CONSTRAINT `fk_flight_arrival` FOREIGN KEY(`arrival_airport_id`) REFERENCES airport(`id`),
@@ -101,8 +102,6 @@ CREATE TABLE `transition_airport` (
 DROP TABLE IF EXISTS `flight_detail`;
 CREATE TABLE `flight_detail` (
   	`flight_id` int(11) NOT NULL,
- 	`departure_airport_id` int(11) NOT NULL,
-	`arrival_airport_id` int(11) NOT NULL,
 	`flight_time` int(11) DEFAULT 0,
 	`first_class_seat_size` int(11) DEFAULT 0,
 	`second_class_seat_size` int(11) DEFAULT 0,

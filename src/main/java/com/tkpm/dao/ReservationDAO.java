@@ -155,5 +155,25 @@ public enum ReservationDAO {
 	
 		return reservation;
 	}
+
+	public Reservation update(Reservation reservation) {
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			
+			session.update(reservation);
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return reservation;
+	}
 }
  

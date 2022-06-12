@@ -81,7 +81,7 @@ public enum TicketService {
 		return availableTickets;
 	}
 	
-	public Ticket book(Flight flight, TicketClass ticketClass) {
+	public Ticket findAvailableTicketFromFlight(Flight flight, TicketClass ticketClass) {
 		
 		List<Ticket> tickets = findAvailableTicketsFromFlight(flight, ticketClass);
 		if (null == tickets || tickets.isEmpty()) {

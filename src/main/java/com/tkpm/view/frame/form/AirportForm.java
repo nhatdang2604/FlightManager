@@ -152,7 +152,7 @@ public class AirportForm extends JDialog implements FormBehaviour {
 	}
 
 
-	public void loadModel(Airport model) {
+	public void setAirport(Airport model) {
 		this.model= model;		
 		txtAirportName.setText(model.getName());
 	}

@@ -124,6 +124,7 @@ public class AirportCRUDTableView extends JTable {
 	
 	public Airport getSelectedAirport() {
 		int index = this.getSelectedRow();
+		if (-1 == index) return null;
 		return airports.get(index);
 	}
 	

@@ -17,7 +17,8 @@ import com.tkpm.view.frame.form.AirportForm;
 public class ManagerController extends CustomerController {
 
 	//Forms
-	protected AirportForm airportForm;
+	protected AirportForm createAirportForm;
+	protected AirportForm updateAirportForm;
 	
 	//Services
 	protected AirportService airportService;
@@ -25,7 +26,6 @@ public class ManagerController extends CustomerController {
 	public ManagerController(BaseMainFrame mainFrame) {
 		super(mainFrame);
 		airportService = AirportService.INSTANCE;
-		airportForm = new AirportForm(mainFrame);
 	}
 
 	@Override
@@ -44,14 +44,22 @@ public class ManagerController extends CustomerController {
 	}
 	
 	protected void initAirportCRUDFeature() {
+		
+		createAirportForm = new AirportForm(mainFrame);
+		updateAirportForm = new AirportForm(mainFrame);
+		createAirportForm.setTitle("Tạo sân bay");
+		updateAirportForm.setTitle("Cập nhật sân bay");
+		
 		FlightManagerFeatureView featureView = (FlightManagerFeatureView) mainFrame
 				.getFeatureViews()
 				.get(ManagerMainFrame.FLIGHT_MANAGER_FEATURE_INDEX);
 		
 		FlightManagerTabbedControllerView controllerView = featureView.getTabbedControllerView();
 		
+		
 		initAirportCreate(controllerView);
 		initAirportRead(controllerView);
+		initAirportUpdate(controllerView);
 	};
 	
 	protected void initAirportCreate(FlightManagerTabbedControllerView controllerView) {
@@ -59,24 +67,23 @@ public class ManagerController extends CustomerController {
 		
 		//Init "Create airport" button
 		detail.getButtons().get(CRUDDetailView.CREATE_BUTTON_INDEX).addActionListener(event -> {
-			airportForm.setTitle("Tạo chuyến bay");
-			airportForm.open();
+			createAirportForm.open();
 		});
 		
 		//Init submit button of the airport form
-		airportForm.getSubmitButton().addActionListener(event -> {
+		createAirportForm.getSubmitButton().addActionListener(event -> {
 			
 			//Validate the form
-			if (airportForm.areThereAnyEmptyStarField()) {
-				airportForm.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
+			if (createAirportForm.areThereAnyEmptyStarField()) {
+				createAirportForm.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
 				return;
 			}
 			
 			//Check if there is an airport with the same name existed
-			Airport airport = airportForm.submit();
+			Airport airport = createAirportForm.submit();
 			Airport testAirport = airportService.findAirportByName(airport.getName());
 			if (null != testAirport) {
-				airportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
+				createAirportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
 				return;
 			}
 			
@@ -87,7 +94,8 @@ public class ManagerController extends CustomerController {
 			initAirportRead(controllerView);
 			
 			//Close the form
-			airportForm.close();
+			createAirportForm.setError(AirportForm.NO_ERROR);
+			createAirportForm.close();
 			
 		});
 	}
@@ -99,7 +107,44 @@ public class ManagerController extends CustomerController {
 		table.update();
 	}
 	
-	protected void initAirportUpdate() {
+	protected void initAirportUpdate(FlightManagerTabbedControllerView controllerView) {
+		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
+		table.getUpdateButton().addActionListener(event -> {
+			Airport airport = table.getSelectedAirport();
+			if (null == airport) {
+				return;
+			}
+			updateAirportForm.setAirport(airport);
+			updateAirportForm.setVisible(true);
+		});
+		
+		updateAirportForm.getSubmitButton().addActionListener(event -> {
+			
+			//Validate the form
+			if (updateAirportForm.areThereAnyEmptyStarField()) {
+				updateAirportForm.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
+				return;
+			}
+			
+			//Check if there is an airport with the same name existed 
+			//	(if same name => check if the id is the same or not)
+			Airport airport = updateAirportForm.submit();
+			Airport testAirport = airportService.findAirportByName(airport.getName());
+			if (null != testAirport && !airport.getId().equals(testAirport.getId())) {
+				updateAirportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
+				return;
+			}
+			
+			//validate success case
+			airport = airportService.updateAirport(airport);
+			
+			//Update the table view
+			initAirportRead(controllerView);
+			
+			//Close the form
+			updateAirportForm.setError(AirportForm.NO_ERROR);
+			updateAirportForm.close();
+		});
 		
 	}
 	

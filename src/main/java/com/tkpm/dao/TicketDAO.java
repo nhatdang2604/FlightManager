@@ -46,7 +46,7 @@ public enum TicketDAO {
 			session.close();
 		}
 		
-		return tickets;
+		return new ArrayList<>(tickets);
 	}
 	
 	//Update list of tickets

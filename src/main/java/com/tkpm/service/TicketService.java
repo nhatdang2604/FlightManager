@@ -31,24 +31,34 @@ public enum TicketService {
 	//Create new tickets
 	public Set<Ticket> createTickets(List<Ticket> tickets) {
 		
-		
-		//Create the ticket first
-		Set<Ticket> result = new TreeSet<>(ticketDAO.create(tickets));
-		
 		//Then create the according reservation for each ticket
 		//Use linkedlist for faster insertion
 		List<Reservation> reservations = new LinkedList<>();
 		
-		for (Ticket ticket: result) {
+		for (Ticket ticket: tickets) {
 			Reservation reservation = new Reservation();
 			reservation.setTicket(ticket);
+			ticket.setReservaion(reservation);
 			reservations.add(reservation);
 		}
 		
 		
-		//Create thoose reservations
-		reservationService.createReservations(reservations);
+		//Create the ticket first
+		List<Ticket> creates = ticketDAO.create(tickets);
 		
+		//Then create the according reservation for each ticket
+		//Use linkedlist for faster insertion
+
+//		int index = 0;
+//		for (Reservation res: reservations) {
+//			res.setTicket(creates.get(index));
+//			++index;
+//		}
+//		
+//		//Create thoose reservations
+//		reservationService.createReservations(reservations);
+		
+		Set<Ticket> result = new TreeSet<>(creates);
 		return result;
 	}
 	

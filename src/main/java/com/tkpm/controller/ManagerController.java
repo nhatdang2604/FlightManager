@@ -222,7 +222,7 @@ public class ManagerController extends CustomerController {
 		initFlightCreate(controllerView);
 		initFlightRead(controllerView);
 //		initFlightUpdate(controllerView);
-//		initFlightDelete(controllerView);
+		initFlightDelete(controllerView);
 	}
 	
 	protected void initFlightClickRowDisplayDetail(FlightManagerTabbedControllerView controllerView) {
@@ -343,6 +343,44 @@ public class ManagerController extends CustomerController {
 		table.setFlights(flights);
 		table.update();
 	}
+	
+
+	protected void initFlightDelete(FlightManagerTabbedControllerView controllerView) {
+		FlightCRUDDetailView detail = controllerView.getFlightCRUDDetailView();
+		FlightCRUDTableView table = controllerView.getFlightCRUDTableView();
+		
+		//Init "Delete airport" button
+		detail.getButtons().get(CRUDDetailView.DELETE_BUTTON_INDEX).addActionListener(event -> {
+			
+			int input = JOptionPane.showConfirmDialog(mainFrame,
+	        		"Bạn có chắc chắn muốn xóa ?\nDữ liệu bị xóa sẽ không thể khôi phục lại được.",
+	        		"Xóa",
+	        		JOptionPane.YES_NO_OPTION);
+			
+			if (JOptionPane.YES_OPTION == input) {
+				List<Flight> flights = table.getSelectedFlights();
+				
+				//Get the id from the airport
+				List<Integer> ids = flights
+						.stream()
+						.map(flight -> flight.getId())
+						.collect(Collectors.toList());
+				
+				//Delete thoose airports
+				flightService.deleteFlights(ids);
+				
+				//Update the table view
+				initFlightRead(controllerView);
+				
+				//Success message
+				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
+			}
+			
+			
+			
+		});
+	}
+	
 	
 	protected void initReportFeatures() {
 		initReportByMonthFeature();

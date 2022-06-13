@@ -187,5 +187,9 @@ public enum FlightService {
 	public FlightDetail findFlightDetailByFlight(Flight flight) {
 		return flightDAO.findDetailById(flight.getId());
 	}
+
+	public int deleteFlights(List<Integer> ids) {
+		return flightDAO.delete(ids); 
+	}
 }
  

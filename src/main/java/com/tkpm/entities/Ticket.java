@@ -58,8 +58,8 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	@OneToOne(
 			mappedBy = "ticket",
 			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER,
-			optional = true)
+			fetch = FetchType.LAZY,
+			optional = false)
 	private Reservation reservation;
 	
 	@Column(name = "price")

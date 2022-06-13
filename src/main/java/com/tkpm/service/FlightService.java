@@ -3,7 +3,6 @@ package com.tkpm.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -106,6 +105,61 @@ public enum FlightService {
 	
 	//Update an flight
 	public Flight updateFlight(Flight flight) {
+		
+		//Update the transitions first
+		List<Transition> transitions = flight.getTransitions();
+		transitions = transitionService.createOrUpdateTransitions(transitions);
+		
+		//Delete the old tickets
+		Set<Ticket> deleteTickets = ticketService.findTicketFromFlight(flight);
+		List<Integer> deleteIds = deleteTickets
+				.stream()
+				.map(ticket -> ticket.getId())
+				.collect(Collectors.toList());		
+		ticketService.deleteTickets(deleteIds);
+		
+		//Create the tickets base on flight information
+		FlightDetail detail = flight.getDetail();		
+		int firstClassSeatSize = detail.getNumberOfFirstClassSeat();
+		int secondClassSeatSize = detail.getNumberOfSecondClassSeat();
+		Set<Ticket> newTickets = new TreeSet<>();
+		
+		//Create first class ticket
+		if (firstClassSeatSize > 0) {
+			TicketClass class1 = ticketClassService.findTicketClassByName("1");
+			Ticket ticket = new Ticket();
+			ticket.setFlight(flight);
+			ticket.setTicketClass(class1);
+			ticket.setIsBooked(false);
+			ticket.setPrice(detail.getPriceOfFirstClassSeat());
+					
+			//Using linked list for faster insertion
+			List<Ticket> tickets = new LinkedList<>();
+			for (int i = 0; i < firstClassSeatSize; ++i) {
+				tickets.add(new Ticket(ticket));
+			}
+					
+			newTickets.addAll(ticketService.createTickets(tickets));
+		}
+				
+		//Create second class ticket
+		if (secondClassSeatSize > 0) {
+			TicketClass class2 = ticketClassService.findTicketClassByName("2");
+			Ticket ticket = new Ticket();
+			ticket.setFlight(flight);
+			ticket.setTicketClass(class2);
+			ticket.setIsBooked(false);
+			ticket.setPrice(detail.getPriceOfSecondClassSeat());
+					
+			//Using linked list for faster insertion
+			List<Ticket> tickets = new LinkedList<>();
+			for (int i = 0; i < secondClassSeatSize; ++i) {
+				tickets.add(new Ticket(ticket));
+			}
+					
+			newTickets.addAll(ticketService.createTickets(tickets));
+		}
+		
 		return flightDAO.update(flight);
 	}
 	

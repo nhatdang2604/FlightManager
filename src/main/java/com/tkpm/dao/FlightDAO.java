@@ -73,6 +73,7 @@ public enum FlightDAO {
 			session.beginTransaction();
 			
 			//Update the flight
+			session.update(flight.getDetail());
 			session.update(flight);
 			
 		} catch (Exception ex) {
@@ -156,6 +157,20 @@ public enum FlightDAO {
 			session.beginTransaction();
 			
 			flight = session.get(Flight.class, id);
+//			String param = "id";
+//			String query = 
+//					"select f " +
+//					"from " + Flight.class.getName() + " f " + 
+//					"left join fetch f.tickets " +
+//					"where f.id = :" + param;
+//			
+//			flight = session
+//					.createQuery(query, Flight.class)
+//					.setParameter(param, id)
+//					.setMaxResults(1)
+//					.stream()
+//					.findFirst()
+//					.orElse(null);
 			
 		} catch (Exception ex) {
 			

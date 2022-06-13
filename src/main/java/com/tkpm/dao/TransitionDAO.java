@@ -205,5 +205,30 @@ public enum TransitionDAO {
 		
 		return transitions;
 	}
+
+	public List<Transition> createOrUpdate(List<Transition> transitions) {
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			
+			
+			for (Transition transition: transitions) {
+				session.saveOrUpdate(transition);
+			}
+			
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+		
+		return transitions;
+		
+	}
 }
  

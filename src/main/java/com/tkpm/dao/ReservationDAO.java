@@ -1,10 +1,12 @@
 package com.tkpm.dao;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import com.tkpm.entities.Reservation;
 import com.tkpm.utils.HibernateUtil;
@@ -83,17 +85,33 @@ public enum ReservationDAO {
 		try {
 			session.beginTransaction();
 			
-			//Iterate over each id
-			ids.forEach(id -> {
-				
-				//Try to find the reservation with the given id
-				Reservation reservation = session.get(Reservation.class, id);
-				
-				//Delete the reservation if it was existed
-				if (null !=  reservation) {
-					session.delete(reservation);
-				}
-			});
+			//Get param to delete reservation
+			int size = ids.size();
+			List<String> params = new LinkedList<>();
+			for (int i = 0; i <size; ++i) {
+				params.add("param" + i);
+			}
+			
+			//Build the id set
+			StringBuilder builder = new StringBuilder();
+			builder.append("(-1");	//Using -1 for dynamically without checking "," if there is only 1 element in ids 
+			for (String param: params) {
+				builder.append(", :" + param);
+			}
+			builder.append(")");
+			String idSet = builder.toString();
+			
+			//Query to delete
+			String query = 
+					"delete " +
+					"from " + Reservation.class.getName() + " " + 
+					"where id in " + idSet;
+		
+			Query<Reservation> hql = session.createQuery(query);
+			for (int i = 0; i < size; ++i) {
+				hql = hql.setParameter(params.get(i), ids.get(i));
+			}
+			hql.executeUpdate();
 			
 			
 		} catch (Exception ex) {

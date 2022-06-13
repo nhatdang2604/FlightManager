@@ -375,6 +375,41 @@ public class ManagerController extends CustomerController {
 			updateFlightForm.setVisible(true);
 			
 		});
+		
+		//Init submit button of the flight form
+		updateFlightForm.getSubmitButton().addActionListener(event -> {
+					
+			//Validate the form
+			if (updateFlightForm.areThereAnyEmptyStarField()) {
+				updateFlightForm.setError(FlightForm.EMPTY_FIELD_ERROR);
+				return;
+			}
+					
+			if (updateFlightForm.areTheseAirportMatch()) {
+				updateFlightForm.setError(FlightForm.AIRPORT_MATCH_ERROR);
+				return;
+			}
+					
+			//Create the flight
+			Flight flight = updateFlightForm.submit();
+			flight = flightService.updateFlight(flight);
+					
+			//Update the table view
+			initFlightRead(controllerView);
+					
+			//Update the flight view for customer
+			FlightFeatureView featureView = (FlightFeatureView) mainFrame
+					.getFeatureViews()
+					.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+					
+			FlightTabbedControllerView customerControllerView = featureView.getTabbedControllerView();
+			initFlightListRead(customerControllerView);
+					
+			//Close the form
+			updateFlightForm.setError(AirportForm.NO_ERROR);
+			updateFlightForm.close();
+					
+		});
 	}
 	
 	protected void initFlightDelete(FlightManagerTabbedControllerView controllerView) {

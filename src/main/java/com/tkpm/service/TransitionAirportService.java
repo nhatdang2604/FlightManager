@@ -53,5 +53,9 @@ public enum TransitionAirportService {
 	public List<Transition> createTransitions(List<Transition> transitions) {
 		return transitionDAO.create(transitions);
 	}
+	
+	public List<Transition> createOrUpdateTransitions(List<Transition> transitions) {
+		return transitionDAO.createOrUpdate(transitions);
+	}
 }
  

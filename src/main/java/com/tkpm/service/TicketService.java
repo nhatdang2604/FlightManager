@@ -73,7 +73,11 @@ public enum TicketService {
 	
 	//Delete tickets by the given ids
 	public int deleteTickets(List<Integer> ids) {
-		return ticketDAO.delete(ids);
+		
+		int errorCode = reservationService.deleteReservations(ids);
+		errorCode += ticketDAO.delete(ids);
+		
+		return errorCode;
 	}
 	
 	//Find all tickets in database
@@ -92,11 +96,7 @@ public enum TicketService {
 	//Find all tickets from a flight
 	public Set<Ticket> findTicketFromFlight(Flight flight) {
 		
-		if (null == flight.getTickets()) {
-			flight = flightService.findFlightById(flight.getId());
-		}
-		
-		return flight.getTickets();
+		return ticketDAO.find(flight);
 	}
 	
 	//Get all the not-booked tickets with the given ticket class from a flight

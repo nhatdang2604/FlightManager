@@ -57,14 +57,14 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') || (character != KeyEvent.VK_BACK_SPACE)) {
+		if (('0' <= character) && (character <= '9') || (KeyEvent.VK_BACK_SPACE == character)) {
+			setError(NO_ERROR);
+		} else {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
-		} else {
-			setError(NO_ERROR);
 		}
 	}
-	
+		
 	private void initNumberFields() {
 		txtTransitionTime.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
@@ -207,7 +207,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	}
 
 	public void loadAirport(List<Airport> airports)  {
-		airportComboBox.removeAll();
+		airportComboBox.removeAllItems();
 		airports.forEach(airport -> airportComboBox.addItem(airport));
 	}
 	
@@ -248,6 +248,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
 	@Override
 	public void close() {
+		model = new Transition();
 		setVisible(false);
 	}
 	

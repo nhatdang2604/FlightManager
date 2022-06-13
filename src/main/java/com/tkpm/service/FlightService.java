@@ -39,7 +39,7 @@ public enum FlightService {
 	public Flight createFlight(Flight flight) {
 		
 		//Get transitions from flight
-		Set<Transition> transitions = flight.getTransitions();
+		List<Transition> transitions = flight.getTransitions();
 		
 		//Emptinize the transitions
 		flight.setTransitions(null);

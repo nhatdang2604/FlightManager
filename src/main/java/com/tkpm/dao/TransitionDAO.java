@@ -144,7 +144,7 @@ public enum TransitionDAO {
 		return transition;
 	}
 
-	public Set<Transition> create(Set<Transition> transitions) {
+	public List<Transition> create(List<Transition> transitions) {
 		Session session = factory.getCurrentSession();
 		
 		try {

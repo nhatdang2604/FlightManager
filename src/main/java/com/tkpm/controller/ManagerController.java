@@ -18,6 +18,7 @@ import com.tkpm.view.feature_view.tabbed_controller_view.FlightManagerTabbedCont
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
 import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.FlightCRUDTableView;
+import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.CustomerMainFrame;
 import com.tkpm.view.frame.ManagerMainFrame;
@@ -249,6 +250,41 @@ public class ManagerController extends CustomerController {
 			
 			//Open the form
 			createFlightForm.open();
+		});
+		
+		//Init add transition form
+		createFlightForm.getAddTransitionButton().addActionListener(event -> {
+			List<Airport> airports = airportService.findAllAirports();
+			createFlightForm.getTransitionForm().loadAirport(airports);
+			createFlightForm.getTransitionForm().open();
+		});
+		
+		//Init delete transition button
+		createFlightForm.getDeleteTransitionButton().addActionListener(event -> {
+			int input = JOptionPane.showConfirmDialog(createFlightForm,
+	        		"Bạn có chắc chắn muốn xóa ?",
+	        		"Xóa",
+	        		JOptionPane.YES_NO_OPTION);
+			
+			
+			TransitionCRUDTableView table = createFlightForm.getTable();
+			
+			if (JOptionPane.YES_OPTION == input) {
+				List<Transition> original = table.getTransitions();
+				List<Transition> selected = table.getSelectedTransitions();
+				
+				//Delete the reference
+				for (Transition trans: selected) {
+					original.removeIf(iter -> iter == trans);
+				}
+				
+				System.out.println(original.size());
+				table.setTransitions(original);
+				table.update();
+				
+				//Success message
+				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
+			}
 		});
 		
 		//Init submit button of the flight form

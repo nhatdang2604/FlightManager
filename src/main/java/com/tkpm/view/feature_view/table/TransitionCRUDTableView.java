@@ -103,6 +103,7 @@ public class TransitionCRUDTableView extends JTable {
 		
 		//Clear the model
 		tableModel.setRowCount(0);
+		transitions.clear();
 		
 		return this;
 	}
@@ -118,7 +119,7 @@ public class TransitionCRUDTableView extends JTable {
 	//Show all object to the table
 	public TransitionCRUDTableView update() {
 		
-		clearData();
+		tableModel.setRowCount(0);
 		int size = transitions.size();
 		for (int index = 0; index < size; ++index) {
 			
@@ -155,7 +156,18 @@ public class TransitionCRUDTableView extends JTable {
 		
 		return result;
 	}
-	
+//	
+//	public void deleteSelectedTransitions() {
+//		int size = tableModel.getRowCount();
+//		for (int i = 0; i < size; ++i) {
+//			Boolean isSelected = (Boolean) tableModel.getValueAt(i, SELECT_COLUMN_INDEX);
+//			if (null != isSelected && isSelected) {
+//				tableModel.removeRow(i);
+//			}
+//			
+//		}
+//	}
+//	
 	public List<Transition> getTransitions() {
 		return transitions;
 	}

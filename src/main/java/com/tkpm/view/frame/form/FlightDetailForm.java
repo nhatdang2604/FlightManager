@@ -174,7 +174,7 @@ public class FlightDetailForm extends JDialog {
 	
 	private void initModel() {
 		model = new Flight();
-		model.setTransitions(new TreeSet<>());
+		model.setTransitions(new ArrayList<>());
 		model.setTickets(new TreeSet<>());
 		model.setDetail(new FlightDetail());
 		model.setDateTime(null);

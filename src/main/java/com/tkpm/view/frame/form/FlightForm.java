@@ -12,12 +12,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -161,6 +163,30 @@ public class FlightForm extends JDialog implements FormBehaviour {
 //			transitionForm.open();
 //		});
 		
+//		deleteTransitionButton.addActionListener(event -> {
+//			int input = JOptionPane.showConfirmDialog(this,
+//	        		"Bạn có chắc chắn muốn xóa ?",
+//	        		"Xóa",
+//	        		JOptionPane.YES_NO_OPTION);
+//			
+//			if (JOptionPane.YES_OPTION == input) {
+//				List<Transition> original = table.getTransitions();
+//				List<Transition> selected = table.getSelectedTransitions();
+//				
+//				//Delete the reference
+//				for (Transition trans: selected) {
+//					original.removeIf(iter -> iter == trans);
+//				}
+//				
+//				System.out.println(original.size());
+//				table.setTransitions(original);
+//				table.update();
+//				
+//				//Success message
+//				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
+//			}
+//		});
+		
 		transitionForm.getSubmitButton().addActionListener((event) -> {
 			if (!transitionForm.areThereAnyEmptyStarField()) {
 				Transition transition = transitionForm.submit();
@@ -168,6 +194,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 				//There is no error
 				if (null != transition) {
 					table.addTransition(transition);
+					table.update();
 					transitionForm.close();
 				}
 			} else {
@@ -260,7 +287,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 	
 	private void initModel() {
 		model = new Flight();
-		model.setTransitions(new TreeSet<>());
+		model.setTransitions(new ArrayList<>());
 		model.setTickets(new TreeSet<>());
 		model.setDetail(new FlightDetail());
 		model.setDateTime(null);
@@ -329,13 +356,15 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		detail.setPriceOfFirstClassSeat(Integer.parseInt(numericTextFields.get(3).getText()));
 		detail.setPriceOfSecondClassSeat(Integer.parseInt(numericTextFields.get(4).getText()));
 		
-		Set<Transition> transitions = new TreeSet<>(table.getTransitions());
+		List<Transition> transitions = table.getTransitions();
 		model.setTransitions(transitions);
 		
 		return model;
 	}
 	
 	public AirportTransitionForm getTransitionForm() {return transitionForm;}
+	public JButton getAddTransitionButton() {return addTransitionButton;}
+	public JButton getDeleteTransitionButton() {return deleteTransitionButton;}
 	public TransitionCRUDTableView getTable() {return table;}
 	
 	public JButton getSubmitButton() {
@@ -399,10 +428,5 @@ public class FlightForm extends JDialog implements FormBehaviour {
 	public void open() {
 		clear();
 		setVisible(true);
-	}
-	
-	public static void main(String[] args) {
-		FlightForm form = new FlightForm(null);
-		form.setVisible(true);
 	}
 }

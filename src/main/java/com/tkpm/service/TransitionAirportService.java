@@ -1,5 +1,6 @@
 package com.tkpm.service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -44,7 +45,7 @@ public enum TransitionAirportService {
 		return transitionDAO.find(id);
 	}
 
-	public Set<Transition> createTransitions(Set<Transition> transitions) {
+	public List<Transition> createTransitions(List<Transition> transitions) {
 		return transitionDAO.create(transitions);
 	}
 }

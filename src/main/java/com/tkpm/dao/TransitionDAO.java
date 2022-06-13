@@ -7,7 +7,10 @@ import java.util.TreeSet;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
+import com.tkpm.entities.Flight;
+import com.tkpm.entities.Reservation;
 import com.tkpm.entities.Transition;
 import com.tkpm.utils.HibernateUtil;
 
@@ -157,6 +160,40 @@ public enum TransitionDAO {
 				//Update the current id for the given transition
 				transition.setId(id);
 			});
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+		
+		return transitions;
+	}
+
+	public List<Transition> find(Flight flight) {
+		
+		List<Transition> transitions = new ArrayList<>();
+		if (null == flight || null == flight.getId()) {
+			return transitions;
+		}
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			
+			String param = "param";
+			String query = 
+					"from " + Transition.class.getName() + " " + 
+					"where flight.id = :" + param;
+			
+			transitions = session
+					.createQuery(query, Transition.class)
+					.setParameter(param, flight.getId())
+					.getResultList();
+			
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

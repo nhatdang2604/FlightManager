@@ -2,14 +2,17 @@ package com.tkpm.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.Transition;
 import com.tkpm.service.AirportService;
+import com.tkpm.service.TransitionAirportService;
 import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.feature_view.FlightManagerFeatureView;
 import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
@@ -36,10 +39,12 @@ public class ManagerController extends CustomerController {
 	
 	//Services
 	protected AirportService airportService;
+	protected TransitionAirportService transitionService;
 	
 	public ManagerController(BaseMainFrame mainFrame) {
 		super(mainFrame);
 		airportService = AirportService.INSTANCE;
+		transitionService = TransitionAirportService.INSTANCE;
 	}
 
 	@Override
@@ -221,7 +226,7 @@ public class ManagerController extends CustomerController {
 		initFlightClickRowDisplayDetail(controllerView);
 		initFlightCreate(controllerView);
 		initFlightRead(controllerView);
-//		initFlightUpdate(controllerView);
+		initFlightUpdate(controllerView);
 		initFlightDelete(controllerView);
 	}
 	
@@ -344,7 +349,34 @@ public class ManagerController extends CustomerController {
 		table.update();
 	}
 	
+	protected void initFlightUpdate(FlightManagerTabbedControllerView controllerView) {
+		FlightCRUDTableView table = controllerView.getFlightCRUDTableView();
+		
+		//Init update button
+		table.getActionButtons().get(FlightCRUDTableView.UPDATE_BUTTON_INDEX).addActionListener(event -> {
+			
 
+			Flight flight = table.getSelectedFlight();
+			if (null == flight) {
+				return;
+			}
+			
+			//Load data to popout detail information
+			FlightDetail detail = flightService.findFlightDetailByFlight(flight);
+			List<Transition> transitions = transitionService.findTransitionForFlight(flight);
+			flight.setDetail(detail);
+			flight.setTransitions(transitions);
+			
+			//Load data for the form
+			List<Airport>  airports = airportService.findAllAirports();
+			updateFlightForm.setAirports(airports);
+			updateFlightForm.setModel(flight);
+			
+			updateFlightForm.setVisible(true);
+			
+		});
+	}
+	
 	protected void initFlightDelete(FlightManagerTabbedControllerView controllerView) {
 		FlightCRUDDetailView detail = controllerView.getFlightCRUDDetailView();
 		FlightCRUDTableView table = controllerView.getFlightCRUDTableView();
@@ -375,8 +407,6 @@ public class ManagerController extends CustomerController {
 				//Success message
 				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
 			}
-			
-			
 			
 		});
 	}

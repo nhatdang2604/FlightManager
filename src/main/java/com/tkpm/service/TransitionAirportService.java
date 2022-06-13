@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.tkpm.dao.TransitionDAO;
+import com.tkpm.entities.Flight;
 import com.tkpm.entities.Transition;
 
 //Using enum for applying Singleton Pattern
@@ -45,6 +46,10 @@ public enum TransitionAirportService {
 		return transitionDAO.find(id);
 	}
 
+	public List<Transition> findTransitionForFlight(Flight flight) {
+		return transitionDAO.find(flight);
+	}
+	
 	public List<Transition> createTransitions(List<Transition> transitions) {
 		return transitionDAO.create(transitions);
 	}

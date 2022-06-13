@@ -2,6 +2,7 @@ package com.tkpm.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.hibernate.Session;
@@ -141,6 +142,31 @@ public enum TransitionDAO {
 		}
 	
 		return transition;
+	}
+
+	public Set<Transition> create(Set<Transition> transitions) {
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			
+			//Save the transition to database
+			transitions.forEach(transition -> {
+				Integer id = (Integer) session.save(transition);
+				
+				//Update the current id for the given transition
+				transition.setId(id);
+			});
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+		
+		return transitions;
 	}
 }
  

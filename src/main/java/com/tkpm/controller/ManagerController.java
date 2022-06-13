@@ -7,15 +7,19 @@ import javax.swing.JOptionPane;
 
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.Transition;
 import com.tkpm.service.AirportService;
+import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.feature_view.FlightManagerFeatureView;
 import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.CRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightCRUDDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightManagerTabbedControllerView;
+import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
 import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.FlightCRUDTableView;
 import com.tkpm.view.frame.BaseMainFrame;
+import com.tkpm.view.frame.CustomerMainFrame;
 import com.tkpm.view.frame.ManagerMainFrame;
 import com.tkpm.view.frame.form.AirportForm;
 import com.tkpm.view.frame.form.FlightForm;
@@ -263,19 +267,20 @@ public class ManagerController extends CustomerController {
 			
 			//TODO:
 			
-//			//Check if there is an airport with the same name existed
-//			Airport airport = createAirportForm.submit();
-//			Airport testAirport = airportService.findAirportByName(airport.getName());
-//			if (null != testAirport) {
-//				createAirportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
-//				return;
-//			}
-//			
-//			//validate success case
-//			airport = airportService.createAirport(airport);
-//			
-//			//Update the table view
-//			initAirportRead(controllerView);
+			//Create the flight
+			Flight flight = createFlightForm.submit();
+			flight = flightService.createFlight(flight);
+			
+			//Update the table view
+			initFlightRead(controllerView);
+			
+			//Update the flight view for customer
+			FlightFeatureView featureView = (FlightFeatureView) mainFrame
+					.getFeatureViews()
+					.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+			
+			FlightTabbedControllerView customerControllerView = featureView.getTabbedControllerView();
+			initFlightListRead(customerControllerView);
 			
 			//Close the form
 			createFlightForm.setError(AirportForm.NO_ERROR);
@@ -284,6 +289,9 @@ public class ManagerController extends CustomerController {
 		});
 	}
 	
+	protected void initFlightRead(FlightManagerTabbedControllerView controllerView) {
+		
+	}
 	
 	protected void initReportFeatures() {
 		initReportByMonthFeature();

@@ -1,5 +1,6 @@
 package com.tkpm.service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.tkpm.dao.TicketDAO;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.Reservation;
 import com.tkpm.entities.Ticket;
 import com.tkpm.entities.TicketClass;
 
@@ -18,15 +20,36 @@ public enum TicketService {
 	
 	private TicketDAO ticketDAO;
 	private FlightService flightService;
+	private ReservationService reservationService;
 	
 	private TicketService() {
 		ticketDAO = TicketDAO.INSTANCE;
 		flightService = FlightService.INSTANCE;
+		reservationService = ReservationService.INSTANCE;
 	}
 	
 	//Create new tickets
 	public Set<Ticket> createTickets(List<Ticket> tickets) {
-		return new TreeSet<>(ticketDAO.create(tickets));
+		
+		
+		//Create the ticket first
+		Set<Ticket> result = new TreeSet<>(ticketDAO.create(tickets));
+		
+		//Then create the according reservation for each ticket
+		//Use linkedlist for faster insertion
+		List<Reservation> reservations = new LinkedList<>();
+		
+		for (Ticket ticket: result) {
+			Reservation reservation = new Reservation();
+			reservation.setTicket(ticket);
+			reservations.add(reservation);
+		}
+		
+		
+		//Create thoose reservations
+		reservationService.createReservations(reservations);
+		
+		return result;
 	}
 	
 	//Update tickets

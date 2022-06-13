@@ -43,5 +43,9 @@ public enum TransitionAirportService {
 	public Transition findTransitionById(Integer id) {
 		return transitionDAO.find(id);
 	}
+
+	public Set<Transition> createTransitions(Set<Transition> transitions) {
+		return transitionDAO.create(transitions);
+	}
 }
  

@@ -1,8 +1,10 @@
 package com.tkpm.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
@@ -106,12 +108,10 @@ public class CustomerController {
 		FlightTabbedControllerView controllerView = featureView.getTabbedControllerView();
 		
 		//Init table
-		FlightListTableView table = controllerView.getFlightListTableView();
-		List<Flight> flights = new ArrayList<>(flightService.findAllFlights());
-		table.setFlights(flights);
-		table.update();
+		initFlightListRead(controllerView);
 		
 		//Open detail flight view if clicked
+		FlightListTableView table = controllerView.getFlightListTableView();
 		table.getDetailButton().addActionListener(event -> {
 			
 			//Lazy query for the flight detail
@@ -152,6 +152,19 @@ public class CustomerController {
 		
 	}
 	
+	
+	protected void initFlightListRead(FlightTabbedControllerView controllerView) {
+		FlightListTableView table = controllerView.getFlightListTableView();
+		List<Flight> flights = new ArrayList<>(flightService.findAllFlights());
+		
+		List<Flight> availableFlights = 
+				flights
+				.stream()
+				.filter(flight -> flight.getDateTime().isBefore(LocalDateTime.now()))
+				.collect(Collectors.toList());
+		table.setFlights( availableFlights);
+		table.update();
+	}
 	
 	public void run() {
 		initFeatures();

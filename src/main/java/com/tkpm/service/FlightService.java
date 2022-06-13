@@ -2,6 +2,9 @@ package com.tkpm.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -10,6 +13,9 @@ import com.tkpm.dao.FlightDAO;
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
+import com.tkpm.entities.Ticket;
+import com.tkpm.entities.TicketClass;
+import com.tkpm.entities.Transition;
 
 //Using enum for applying Singleton Pattern
 public enum FlightService {
@@ -17,14 +23,74 @@ public enum FlightService {
 	INSTANCE;
 	
 	private FlightDAO flightDAO;
+	private TransitionAirportService transitionService;
+	private TicketClassService ticketClassService;
+	private TicketService ticketService;
 	
 	private FlightService() {
 		flightDAO = FlightDAO.INSTANCE;
+		transitionService = TransitionAirportService.INSTANCE;
+		ticketClassService = TicketClassService.INSTANCE;
+		ticketService = TicketService.INSTANCE;
 	}
 	
 	//Create new flight
 	public Flight createFlight(Flight flight) {
-		return flightDAO.create(flight);
+		
+		//Get transitions from flight
+		Set<Transition> transitions = flight.getTransitions();
+		
+		//Emptinize the transitions
+		flight.setTransitions(null);
+		
+		//Create the flight first
+		flight = flightDAO.create(flight);
+		
+		//Create the transition if the transitions are not empty
+		if (null != transitions && !transitions.isEmpty()) {
+			
+			//Set the flight for thoose transition
+			for (Transition trans: transitions) {
+				trans.setFlight(flight);
+			}
+			
+			transitions = transitionService.createTransitions(transitions);
+			flight.setTransitions(transitions);
+		}
+		
+		//Create the tickets base on flight information
+		FlightDetail detail = flight.getDetail();
+		
+		int firstClassSeatSize = detail.getNumberOfFirstClassSeat();
+		int secondClassSeatSize = detail.getNumberOfSecondClassSeat();
+		
+		//Create first class ticket
+		if (firstClassSeatSize > 0) {
+			TicketClass class1 = ticketClassService.findTicketClassByName("1");
+			Ticket ticket = new Ticket();
+			ticket.setFlight(flight);
+			ticket.setTicketClass(class1);
+			ticket.setIsBooked(false);
+			ticket.setPrice(detail.getPriceOfFirstClassSeat());
+			
+			List<Ticket> tickets = new ArrayList<>(Collections.nCopies(firstClassSeatSize, ticket));
+			ticketService.createTickets(tickets);
+		}
+		
+		//Create second class ticket
+		if (secondClassSeatSize > 0) {
+			TicketClass class2 = ticketClassService.findTicketClassByName("2");
+			Ticket ticket = new Ticket();
+			ticket.setFlight(flight);
+			ticket.setTicketClass(class2);
+			ticket.setIsBooked(false);
+			ticket.setPrice(detail.getPriceOfSecondClassSeat());
+			
+			List<Ticket> tickets = new ArrayList<>(Collections.nCopies(secondClassSeatSize, ticket));
+			ticketService.createTickets(tickets);
+		}
+		
+		return flight;
 	}
 	
 	//Update an flight

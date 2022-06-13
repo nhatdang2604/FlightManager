@@ -252,7 +252,7 @@ public class ManagerController extends CustomerController {
 			createFlightForm.open();
 		});
 		
-		//Init add transition form
+		//Init add transition button
 		createFlightForm.getAddTransitionButton().addActionListener(event -> {
 			List<Airport> airports = airportService.findAllAirports();
 			createFlightForm.getTransitionForm().loadAirport(airports);
@@ -278,13 +278,26 @@ public class ManagerController extends CustomerController {
 					original.removeIf(iter -> iter == trans);
 				}
 				
-				System.out.println(original.size());
 				table.setTransitions(original);
 				table.update();
 				
 				//Success message
-				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
+				JOptionPane.showMessageDialog(createFlightForm, "Đã xóa thành công.");
 			}
+		});
+		
+		//Init update button of the transition
+		createFlightForm
+			.getTable()
+			.getActionButtons()
+			.get(TransitionCRUDTableView.UPDATE_BUTTON_INDEX)
+			.addActionListener(event -> {
+				Transition model = createFlightForm.getTable().getSelectedTransition();
+		
+				if (null != model) {
+					createFlightForm.getTransitionForm().loadModel(model);
+					createFlightForm.getTransitionForm().setVisible(true);
+				}
 		});
 		
 		//Init submit button of the flight form

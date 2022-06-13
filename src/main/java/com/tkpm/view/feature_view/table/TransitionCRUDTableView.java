@@ -138,6 +138,7 @@ public class TransitionCRUDTableView extends JTable {
 	
 	public Transition getSelectedTransition() {
 		int index = this.getSelectedRow();
+		if (-1 == index) return null;
 		return transitions.get(index);
 	}
 	

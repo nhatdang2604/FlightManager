@@ -193,7 +193,13 @@ public class FlightForm extends JDialog implements FormBehaviour {
 				
 				//There is no error
 				if (null != transition) {
-					table.addTransition(transition);
+					if (!table.getTransitions().contains(transition)) {
+						table.addTransition(transition);
+					} else {
+						int index = table.getTransitions().indexOf(transition);
+						table.getTransitions().set(index, transition);
+					}
+					
 					table.update();
 					transitionForm.close();
 				}

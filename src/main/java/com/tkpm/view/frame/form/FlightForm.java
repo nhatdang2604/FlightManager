@@ -156,10 +156,10 @@ public class FlightForm extends JDialog implements FormBehaviour {
 			this.dispose();
 		});
 		
-		addTransitionButton.addActionListener(event -> {
-			transitionForm.clear();
-			transitionForm.open();
-		});
+//		addTransitionButton.addActionListener(event -> {
+//			transitionForm.clear();
+//			transitionForm.open();
+//		});
 		
 		transitionForm.getSubmitButton().addActionListener((event) -> {
 			if (!transitionForm.areThereAnyEmptyStarField()) {

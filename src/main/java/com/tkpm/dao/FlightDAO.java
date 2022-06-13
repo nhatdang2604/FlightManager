@@ -31,7 +31,8 @@ public enum FlightDAO {
 			
 			//Store the detail
 			FlightDetail detail = flight.getDetail();
-			flight.setDetail(null);
+			detail.setFlight(flight);
+			//flight.setDetail(null);
 			
 			//Save the flight to database
 			Integer id = (Integer) session.save(flight);
@@ -42,7 +43,8 @@ public enum FlightDAO {
 			//Create the detail
 			if (null != detail) {
 				detail.setFlight(flight);
-				detail = (FlightDetail) session.save(detail);
+				id = (Integer) session.save(detail);
+				detail.setId(id);
 				
 				flight.setDetail(detail);
 			}
@@ -125,7 +127,9 @@ public enum FlightDAO {
 					"left join fetch f.departureAirport " +
 					"left join fetch f.arrivalAirport ";
 			
+			System.out.println("before");
 			flights = session.createQuery(query, Flight.class).list();
+			System.out.println("after");
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

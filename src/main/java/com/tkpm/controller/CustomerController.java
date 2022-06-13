@@ -160,7 +160,7 @@ public class CustomerController {
 		List<Flight> availableFlights = 
 				flights
 				.stream()
-				.filter(flight -> flight.getDateTime().isBefore(LocalDateTime.now()))
+				.filter(flight -> flight.getDateTime().isAfter(LocalDateTime.now()))
 				.collect(Collectors.toList());
 		table.setFlights( availableFlights);
 		table.update();

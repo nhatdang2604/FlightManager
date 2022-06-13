@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,9 +23,13 @@ public class FlightDetail implements Serializable{
 	private static final long serialVersionUID = -389979282679597092L;
 
 	@Id
+	private Integer id;
+	
+	@MapsId
 	@OneToOne(
 			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY)
+			fetch = FetchType.LAZY,
+			optional = false)
 	@JoinColumn(name = "flight_id")
 	private Flight flight;
 	
@@ -51,6 +56,7 @@ public class FlightDetail implements Serializable{
 
 	//Getters
 	public Flight getFlight() {return flight;}
+	public Integer getId() {return id;}
 	public Integer getFlightTime() {return flightTime;}
 	public Integer getNumberOfFirstClassSeat() {return numberOfFirstClassSeat;}
 	public Integer getNumberOfSecondClassSeat() {return numberOfSecondClassSeat;}
@@ -59,6 +65,7 @@ public class FlightDetail implements Serializable{
 
 	//Setters
 	public void setFlight(Flight flight) {this.flight = flight;}
+	public void setId(Integer id) {this.id = id;}
 	public void setFlightTime(Integer flightTime) {this.flightTime = flightTime;}
 	public void setNumberOfFirstClassSeat(Integer numberOfFirstClassSeat) {this.numberOfFirstClassSeat = numberOfFirstClassSeat;}
 	public void setNumberOfSecondClassSeat(Integer numberOfSecondClassSeat) {this.numberOfSecondClassSeat = numberOfSecondClassSeat;}	

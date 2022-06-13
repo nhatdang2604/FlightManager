@@ -298,9 +298,12 @@ public class ManagerController extends CustomerController {
 			.getActionButtons()
 			.get(TransitionCRUDTableView.UPDATE_BUTTON_INDEX)
 			.addActionListener(event -> {
+				
 				Transition model = createFlightForm.getTable().getSelectedTransition();
 		
 				if (null != model) {
+					List<Airport> airports = airportService.findAllAirports();
+					createFlightForm.getTransitionForm().loadAirport(airports);
 					createFlightForm.getTransitionForm().loadModel(model);
 					createFlightForm.getTransitionForm().setVisible(true);
 				}
@@ -376,6 +379,56 @@ public class ManagerController extends CustomerController {
 			
 		});
 		
+		//Init add transition button
+		updateFlightForm.getAddTransitionButton().addActionListener(event -> {
+			List<Airport> airports = airportService.findAllAirports();
+			updateFlightForm.getTransitionForm().loadAirport(airports);
+			updateFlightForm.getTransitionForm().open();
+		});
+		
+		//Init update button
+		updateFlightForm
+		.getTable()
+		.getActionButtons()
+		.get(TransitionCRUDTableView.UPDATE_BUTTON_INDEX)
+		.addActionListener(event -> {
+			Transition model = updateFlightForm.getTable().getSelectedTransition();
+	
+			if (null != model) {
+				List<Airport> airports = airportService.findAllAirports();
+				updateFlightForm.getTransitionForm().loadAirport(airports);
+				updateFlightForm.getTransitionForm().loadModel(model);
+				updateFlightForm.getTransitionForm().setVisible(true);
+			}
+		});
+		
+//		//Init delete transition button
+//		updateFlightForm.getDeleteTransitionButton().addActionListener(event -> {
+//			int input = JOptionPane.showConfirmDialog(updateFlightForm,
+//			        "Bạn có chắc chắn muốn xóa ?",
+//			        "Xóa",
+//			        JOptionPane.YES_NO_OPTION);
+//					
+//					
+//			TransitionCRUDTableView formTable = updateFlightForm.getTable();
+//					
+//			if (JOptionPane.YES_OPTION == input) {
+//				List<Transition> original = formTable.getTransitions();
+//				List<Transition> selected = formTable.getSelectedTransitions();
+//						
+//				//Delete the reference
+//				for (Transition trans: selected) {
+//					original.removeIf(iter -> iter == trans);
+//				}
+//						
+//				formTable.setTransitions(original);
+//				formTable.update();
+//						
+//				//Success message
+//				JOptionPane.showMessageDialog(updateFlightForm, "Đã xóa thành công.");
+//			}
+//		});
+		
 		//Init submit button of the flight form
 		updateFlightForm.getSubmitButton().addActionListener(event -> {
 					
@@ -389,7 +442,16 @@ public class ManagerController extends CustomerController {
 				updateFlightForm.setError(FlightForm.AIRPORT_MATCH_ERROR);
 				return;
 			}
-					
+			
+			int input = JOptionPane.showConfirmDialog(updateFlightForm,
+			        "Việc nhấn OK đồng nghĩa với việc toàn bộ thông tin của vé máy bay đều sẽ được reset lại, bạn có muốn tiếp tục ?",
+			        "Xóa",
+			        JOptionPane.YES_NO_OPTION);
+			
+			if (JOptionPane.NO_OPTION == input) {
+				return;
+			}
+			
 			//Create the flight
 			Flight flight = updateFlightForm.submit();
 			flight = flightService.updateFlight(flight);

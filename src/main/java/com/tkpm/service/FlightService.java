@@ -108,6 +108,9 @@ public enum FlightService {
 		
 		//Update the transitions first
 		List<Transition> transitions = flight.getTransitions();
+		for (Transition transition: transitions) {
+			transition.setFlight(flight);
+		}
 		transitions = transitionService.createOrUpdateTransitions(transitions);
 		
 		//Delete the old tickets
@@ -122,7 +125,6 @@ public enum FlightService {
 		FlightDetail detail = flight.getDetail();		
 		int firstClassSeatSize = detail.getNumberOfFirstClassSeat();
 		int secondClassSeatSize = detail.getNumberOfSecondClassSeat();
-		Set<Ticket> newTickets = new TreeSet<>();
 		
 		//Create first class ticket
 		if (firstClassSeatSize > 0) {
@@ -137,9 +139,8 @@ public enum FlightService {
 			List<Ticket> tickets = new LinkedList<>();
 			for (int i = 0; i < firstClassSeatSize; ++i) {
 				tickets.add(new Ticket(ticket));
-			}
-					
-			newTickets.addAll(ticketService.createTickets(tickets));
+			}			
+			ticketService.createTickets(tickets);
 		}
 				
 		//Create second class ticket
@@ -156,8 +157,7 @@ public enum FlightService {
 			for (int i = 0; i < secondClassSeatSize; ++i) {
 				tickets.add(new Ticket(ticket));
 			}
-					
-			newTickets.addAll(ticketService.createTickets(tickets));
+			ticketService.createTickets(tickets);
 		}
 		
 		return flightDAO.update(flight);

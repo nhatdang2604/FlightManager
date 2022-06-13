@@ -1,5 +1,6 @@
 package com.tkpm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -219,7 +220,7 @@ public class ManagerController extends CustomerController {
 		
 		initFlightClickRowDisplayDetail(controllerView);
 		initFlightCreate(controllerView);
-//		initFlightRead(controllerView);
+		initFlightRead(controllerView);
 //		initFlightUpdate(controllerView);
 //		initFlightDelete(controllerView);
 	}
@@ -314,8 +315,6 @@ public class ManagerController extends CustomerController {
 				return;
 			}
 			
-			//TODO:
-			
 			//Create the flight
 			Flight flight = createFlightForm.submit();
 			flight = flightService.createFlight(flight);
@@ -339,7 +338,10 @@ public class ManagerController extends CustomerController {
 	}
 	
 	protected void initFlightRead(FlightManagerTabbedControllerView controllerView) {
-		
+		List<Flight> flights = new ArrayList<>(flightService.findAllFlights());
+		FlightCRUDTableView table = controllerView.getFlightCRUDTableView();
+		table.setFlights(flights);
+		table.update();
 	}
 	
 	protected void initReportFeatures() {

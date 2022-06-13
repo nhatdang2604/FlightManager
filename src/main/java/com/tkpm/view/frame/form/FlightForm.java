@@ -428,6 +428,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 
 	@Override
 	public void close() {
+		initModel();
 		setVisible(false);
 	}
 	

@@ -2,6 +2,7 @@ package com.tkpm.view.feature_view.table;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -10,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import com.tkpm.entities.Transition;
-import com.tkpm.entities.User;
 import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
 

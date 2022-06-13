@@ -108,6 +108,7 @@ public enum FlightService {
 		
 		//Update the transitions first
 		List<Transition> transitions = flight.getTransitions();
+		
 		for (Transition transition: transitions) {
 			transition.setFlight(flight);
 		}

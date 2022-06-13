@@ -368,6 +368,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		return model;
 	}
 	
+	public JButton getCancelButton() {return cancelButton;}
 	public AirportTransitionForm getTransitionForm() {return transitionForm;}
 	public JButton getAddTransitionButton() {return addTransitionButton;}
 	public JButton getDeleteTransitionButton() {return deleteTransitionButton;}

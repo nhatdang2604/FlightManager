@@ -1,8 +1,8 @@
 package com.tkpm.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
@@ -41,10 +41,14 @@ public class ManagerController extends CustomerController {
 	protected AirportService airportService;
 	protected TransitionAirportService transitionService;
 	
+	//Utilities
+	private List<Transition> deleteTransitions;
+	
 	public ManagerController(BaseMainFrame mainFrame) {
 		super(mainFrame);
 		airportService = AirportService.INSTANCE;
 		transitionService = TransitionAirportService.INSTANCE;
+		deleteTransitions = new LinkedList<>();
 	}
 
 	@Override
@@ -402,32 +406,39 @@ public class ManagerController extends CustomerController {
 			}
 		});
 		
-//		//Init delete transition button
-//		updateFlightForm.getDeleteTransitionButton().addActionListener(event -> {
-//			int input = JOptionPane.showConfirmDialog(updateFlightForm,
-//			        "Bạn có chắc chắn muốn xóa ?",
-//			        "Xóa",
-//			        JOptionPane.YES_NO_OPTION);
-//					
-//					
-//			TransitionCRUDTableView formTable = updateFlightForm.getTable();
-//					
-//			if (JOptionPane.YES_OPTION == input) {
-//				List<Transition> original = formTable.getTransitions();
-//				List<Transition> selected = formTable.getSelectedTransitions();
-//						
-//				//Delete the reference
-//				for (Transition trans: selected) {
-//					original.removeIf(iter -> iter == trans);
-//				}
-//						
-//				formTable.setTransitions(original);
-//				formTable.update();
-//						
-//				//Success message
-//				JOptionPane.showMessageDialog(updateFlightForm, "Đã xóa thành công.");
-//			}
-//		});
+		//Init delete transition button
+		updateFlightForm.getDeleteTransitionButton().addActionListener(event -> {
+			int input = JOptionPane.showConfirmDialog(updateFlightForm,
+			        "Bạn có chắc chắn muốn xóa ?",
+			        "Xóa",
+			        JOptionPane.YES_NO_OPTION);
+					
+					
+			TransitionCRUDTableView formTable = updateFlightForm.getTable();
+					
+			if (JOptionPane.YES_OPTION == input) {
+				List<Transition> original = formTable.getTransitions();
+				List<Transition> selected = formTable.getSelectedTransitions();
+				deleteTransitions.addAll(selected);
+				
+				//Delete the reference
+				for (Transition trans: selected) {
+					original.removeIf(iter -> iter == trans);
+				}
+				
+				formTable.setTransitions(original);
+				formTable.update();
+						
+				//Success message
+				JOptionPane.showMessageDialog(updateFlightForm, "Đã xóa thành công.");
+			}
+		});
+		
+		//Init cancel button
+		updateFlightForm.getCancelButton().addActionListener(event -> {
+			deleteTransitions.clear();
+			updateFlightForm.dispose();
+		});
 		
 		//Init submit button of the flight form
 		updateFlightForm.getSubmitButton().addActionListener(event -> {
@@ -451,6 +462,14 @@ public class ManagerController extends CustomerController {
 			if (JOptionPane.NO_OPTION == input) {
 				return;
 			}
+			//Hard delete the deleted transitions
+			List<Integer> ids = deleteTransitions
+					.stream()
+					.filter(trans -> null != trans.getId())
+					.map(trans -> trans.getId())
+					.collect(Collectors.toList());
+			transitionService.deleteTransitions(ids);
+			deleteTransitions.clear();
 			
 			//Create the flight
 			Flight flight = updateFlightForm.submit();

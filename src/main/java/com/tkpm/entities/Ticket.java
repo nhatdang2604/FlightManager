@@ -80,7 +80,19 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	//Constructors
 	public Ticket() {
 		super();
-		
+	}
+	
+	//Copy constructor
+	public Ticket(Ticket other) {
+		if (null != other.getId()) {id = other.getId();};
+		flight = other.getFlight();
+		ticketClass = other.getTicketClass();
+		reservation = other.getReservation();
+		if (null != other.getPrice()) {price = new Integer(other.getPrice());};
+		if (null != other.getName()) {name = new String(other.getName());};
+		if (null != other.getIdentityCode()) {identityCode = new String(other.getIdentityCode());};
+		if (null != other.getPhoneNumber()) {phoneNumber = new String(other.getPhoneNumber());};
+		if (null != other.getIsBooked()) {isBooked = new Boolean(other.getIsBooked());};
 	}
 
 	//Getters

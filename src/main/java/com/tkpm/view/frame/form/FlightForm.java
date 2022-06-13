@@ -86,11 +86,11 @@ public class FlightForm extends JDialog implements FormBehaviour {
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') || (character != KeyEvent.VK_BACK_SPACE)) {
+		if (('0' <= character) && (character <= '9') || (KeyEvent.VK_BACK_SPACE == character)) {
+			setError(NO_ERROR);
+		} else {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
-		} else {
-			setError(NO_ERROR);
 		}
 	}
 	
@@ -308,7 +308,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 	}
 	public FlightForm setAirports(List<Airport> airports) {
 		for (JComboBox<Airport> cb: airportComboBoxes) {
-			cb.removeAll();
+			cb.removeAllItems();
 			airports.forEach(airport -> cb.addItem(airport));
 		}
 		

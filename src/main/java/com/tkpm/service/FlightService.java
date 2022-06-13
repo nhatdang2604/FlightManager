@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -73,7 +74,12 @@ public enum FlightService {
 			ticket.setIsBooked(false);
 			ticket.setPrice(detail.getPriceOfFirstClassSeat());
 			
-			List<Ticket> tickets = new ArrayList<>(Collections.nCopies(firstClassSeatSize, ticket));
+			//Using linked list for faster insertion
+			List<Ticket> tickets = new LinkedList<>();
+			for (int i = 0; i < firstClassSeatSize; ++i) {
+				tickets.add(new Ticket(ticket));
+			}
+			
 			ticketService.createTickets(tickets);
 		}
 		
@@ -86,7 +92,12 @@ public enum FlightService {
 			ticket.setIsBooked(false);
 			ticket.setPrice(detail.getPriceOfSecondClassSeat());
 			
-			List<Ticket> tickets = new ArrayList<>(Collections.nCopies(secondClassSeatSize, ticket));
+			//Using linked list for faster insertion
+			List<Ticket> tickets = new LinkedList<>();
+			for (int i = 0; i < secondClassSeatSize; ++i) {
+				tickets.add(new Ticket(ticket));
+			}
+			
 			ticketService.createTickets(tickets);
 		}
 		

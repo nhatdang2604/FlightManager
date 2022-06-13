@@ -154,3 +154,7 @@ CREATE TABLE `policy` (
 INSERT INTO `user` VALUES(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Role_Admin');
 INSERT INTO `base_account` VALUES(1);
 INSERT INTO `admin_account` VALUES(1, NULL, NULL, NULL);
+
+#Insert default ticket class
+INSERT INTO `ticket_class` VALUES(1, "1");
+INSERT INTO `ticket_class` VALUES(2, "2");

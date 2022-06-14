@@ -1,7 +1,6 @@
 package com.tkpm.service;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import com.tkpm.dao.UserDAO;
 import com.tkpm.entities.User;
@@ -33,10 +32,9 @@ public enum UserService {
 	}
 	
 	//Find all users in database
-	public Set<User> findAllUsers() {
+	public List<User> findAllUsers() {
 		
-		//Using set, because query in DAO only return list
-		return new TreeSet<>(userDAO.findAll());
+		return userDAO.findAll();
 		
 	}
 	

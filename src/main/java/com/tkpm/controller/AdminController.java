@@ -1,11 +1,14 @@
 package com.tkpm.controller;
 
+import java.util.List;
+
 import com.tkpm.entities.User;
 import com.tkpm.service.UserService;
 import com.tkpm.view.feature_view.UserManagerFeatureView;
 import com.tkpm.view.feature_view.detail_view.CRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.UserCRUDDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.UserManagerTabbedControllerView;
+import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.UserCRUDTableView;
 import com.tkpm.view.frame.AdminMainFrame;
 import com.tkpm.view.frame.BaseMainFrame;
@@ -51,7 +54,7 @@ public class AdminController extends ManagerController {
 //		
 		initUserClickRowDisplayDetail(controllerView);
 		initUserCreate(controllerView);
-//		initUserRead(controllerView);
+		initUserRead(controllerView);
 //		initUserUpdate(controllerView);
 //		initUserDelete(controllerView);
 	};
@@ -110,10 +113,15 @@ public class AdminController extends ManagerController {
 	}
 	
 	protected void initUserRead(UserManagerTabbedControllerView controllerView) {
-//		List<Airport> airports = airportService.findAllAirports();
-//		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
-//		table.setAirports(airports);
-//		table.update();
+		List<User> users = userService.findAllUsers();
+		UserCRUDTableView table = controllerView.getUserCRUDTableView();
+		
+		if (null != account) {
+			//Remove the current admin
+			users.removeIf(user -> user.getId().equals(account.getId()));
+		}
+		table.setUsers(users);
+		table.update();
 	}
 	
 //	protected void initAirportUpdate(FlightManagerTabbedControllerView controllerView) {

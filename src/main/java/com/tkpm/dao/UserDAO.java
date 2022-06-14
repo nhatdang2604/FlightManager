@@ -270,7 +270,7 @@ public enum UserDAO {
 			
 			//Query to delete
 			String query = 
-					"select u " +
+					"select distinct u " +
 					"from " + User.class.getName() + " u " + 
 					"left join fetch u.account a " +
 					"left join fetch a.reservations " +

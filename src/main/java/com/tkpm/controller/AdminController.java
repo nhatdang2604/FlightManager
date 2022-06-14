@@ -199,8 +199,6 @@ public class AdminController extends ManagerController {
 				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
 			}
 			
-			
-			
 		});
 	}
 	

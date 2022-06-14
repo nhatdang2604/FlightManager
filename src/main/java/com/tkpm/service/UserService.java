@@ -79,6 +79,7 @@ public enum UserService {
 		List<User> users = getUsersWithReservations(ids);
 		
 		List<Reservation> reservations = new LinkedList<>();
+		
 		for (User user: users) {
 			reservations.addAll(user.getAccount().getReservations());
 		}

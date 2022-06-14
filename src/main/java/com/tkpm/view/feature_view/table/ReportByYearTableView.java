@@ -42,8 +42,12 @@ public class ReportByYearTableView extends JTable {
 		    public Class<?> getColumnClass(int columnIndex) {
 				Class clazz = Integer.class;
 				switch (columnIndex) {
+				
+				case TURNOVER_COLUMN_INDEX:
+					clazz = String.class;
+					break;
 				case RATIO_COLUMN_INDEX:
-					clazz = Double.class;
+					clazz = String.class;
 					break;
 				
 		      }
@@ -95,13 +99,13 @@ public class ReportByYearTableView extends JTable {
 			BaseReport reportByMonth = reportModels.get(index);
 			double ratio = 1;
 			if (0 != totalTurnover) {
-				ratio = (double)(turnovers[index]/totalTurnover);
+				ratio = (double)(turnovers[index + 1]/totalTurnover);
 			}
 			Object[] row = {
 					index + 1, 
 					reportByMonth.getWrappers().size(),
-					turnovers[index + 1],
-					ratio};
+					"$" + new Integer(turnovers[index + 1]).toString(),
+					new Double(ratio * 100).toString() + "%"};
 			
 			tableModel.addRow(row);		
 		}

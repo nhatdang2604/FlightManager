@@ -32,6 +32,7 @@ import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.Transition;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
+import com.tkpm.view.feature_view.table.TransitionTableView;
 
 public class FlightDetailForm extends JDialog {
 
@@ -49,6 +50,8 @@ public class FlightDetailForm extends JDialog {
 	
 	private Flight model;
 	private JLabel warningText;	
+	
+	private TransitionTableView table;
 	
 	private static final String[] ERRORS = {
 			"",
@@ -94,7 +97,7 @@ public class FlightDetailForm extends JDialog {
 			fields.get(i).setEditable(false);
 		}
 		
-		
+		table = new TransitionTableView();
 		
 		initButtons();
 	}
@@ -155,11 +158,16 @@ public class FlightDetailForm extends JDialog {
 		}
 		offset += fields.size();
 		
-		
 		//Footer setup
 		contentPane.add(footerPanel, BorderLayout.SOUTH);
-		footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		footerPanel.add(closeButton);
+		footerPanel.setLayout(new BorderLayout());
+		JPanel confirmButtonPanel = new JPanel();
+		confirmButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		confirmButtonPanel.add(closeButton);
+		JScrollPane tableScroll = new JScrollPane(table);
+		tableScroll.setPreferredSize(new Dimension(200, 100));
+		footerPanel.add(tableScroll, BorderLayout.CENTER);
+		footerPanel.add(confirmButtonPanel, BorderLayout.SOUTH);
 				
 	}
 	
@@ -207,6 +215,12 @@ public class FlightDetailForm extends JDialog {
 			fields.get(6).setText(detail.getNumberOfSecondClassSeat().toString());
 			fields.get(7).setText(detail.getPriceOfFirstClassSeat().toString());
 			fields.get(8).setText(detail.getPriceOfSecondClassSeat().toString());
+			
+			List<Transition> transitions = model.getTransitions();
+			if (null != transitions && !transitions.isEmpty()) {
+				table.setTransitions(transitions);
+				table.update();
+			}
 		}
 		
 		return this;

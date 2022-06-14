@@ -12,11 +12,13 @@ import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.Reservation;
 import com.tkpm.entities.Ticket;
 import com.tkpm.entities.TicketClass;
+import com.tkpm.entities.Transition;
 import com.tkpm.service.FlightService;
 import com.tkpm.service.PolicyService;
 import com.tkpm.service.ReservationService;
 import com.tkpm.service.TicketClassService;
 import com.tkpm.service.TicketService;
+import com.tkpm.service.TransitionAirportService;
 import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
@@ -34,6 +36,7 @@ public class CustomerController {
 	protected TicketService ticketService;
 	protected ReservationService reservationService;
 	protected PolicyService policyService;
+	protected TransitionAirportService transitionService;
 	
 	protected BaseAccount account;
 	
@@ -51,8 +54,10 @@ public class CustomerController {
 		ticketService = TicketService.INSTANCE;
 		reservationService.setTicketService(ticketService);	//resolve cycle dependency between ticketService and reservationService
 		policyService = PolicyService.INSTANCE;
+		transitionService = TransitionAirportService.INSTANCE;
 		
 		this.ticketForm = new TicketForm(this.mainFrame);
+		this.ticketForm.setTitle("Đặt vé");
 		//initFeatures();
 	}
 	
@@ -128,11 +133,14 @@ public class CustomerController {
 			
 			//Lazy query for the flight detail
 			Flight flight = table.getSelectedFlight();
+			List<Transition> transitions = transitionService.findTransitionForFlight(flight);
 			FlightDetail flightDetail = flightService.findFlightDetailByFlight(flight);
 			flight.setDetail(flightDetail);
+			flight.setTransitions(transitions);
 			
 			//Popout the detail form
 			FlightDetailForm detailView = new FlightDetailForm(flight, mainFrame);
+			detailView.setTitle("Chi tiết chuyến bay");
 			detailView.setVisible(true);
 			
 		});

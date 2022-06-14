@@ -37,7 +37,7 @@ public class ReportByMonthTableView extends JTable {
 				Class clazz = Integer.class;
 				switch (columnIndex) {
 				case RATIO_COLUMN_INDEX:
-					clazz = Double.class;
+					clazz = String.class;
 					break;
 				
 		      }
@@ -87,8 +87,8 @@ public class ReportByMonthTableView extends JTable {
 					index + 1, 
 					wrapper.getFlight().getId(),
 					wrapper.getTotalNumberOfSeat(),
-					ratio,
-					wrapper.getTurnover()};
+					new Double(ratio * 100).toString() + "%",
+					"$" + wrapper.getTurnover().toString()};
 			
 			tableModel.addRow(row);		
 		}

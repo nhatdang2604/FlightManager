@@ -50,7 +50,6 @@ public class ManagerController extends CustomerController {
 	
 	//Services
 	protected AirportService airportService;
-	protected TransitionAirportService transitionService;
 	protected ReportService reportService;
 	
 	//Utilities
@@ -59,7 +58,6 @@ public class ManagerController extends CustomerController {
 	public ManagerController(BaseMainFrame mainFrame) {
 		super(mainFrame);
 		airportService = AirportService.INSTANCE;
-		transitionService = TransitionAirportService.INSTANCE;
 		reportService = ReportService.INSTANCE;
 		deleteTransitions = new LinkedList<>();
 	}

@@ -37,9 +37,9 @@ public class Main {
 //		BaseMainFrame mainFrame = new AdminMainFrame();
 //		mainFrame.open();
 		
-		//User user = UserService.INSTANCE.getUsersWithReservations(Arrays.asList(9)).get(0);
+		//User user = UserService.INSTANCE.getUsersWithReservations(Arrays.asList(8)).get(0);
 		AdminController controller = new AdminController(new AdminMainFrame());
-		//	controller.setAccount(user.getAccount());
+		//controller.setAccount(user.getAccount());
 		controller.run();
 		
 	}

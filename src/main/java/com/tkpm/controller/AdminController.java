@@ -1,26 +1,30 @@
 package com.tkpm.controller;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
+import com.tkpm.entities.Reservation;
 import com.tkpm.entities.User;
 import com.tkpm.service.UserService;
 import com.tkpm.view.feature_view.UserManagerFeatureView;
 import com.tkpm.view.feature_view.detail_view.CRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.UserCRUDDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.UserManagerTabbedControllerView;
-import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.UserCRUDTableView;
 import com.tkpm.view.frame.AdminMainFrame;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.form.CreateAccountForm;
+import com.tkpm.view.frame.form.UpdateAccountForm;
 
 public class AdminController extends ManagerController {
 
 	//Forms
 	protected CreateAccountForm createUserForm;
+	protected UpdateAccountForm updateUserForm;
 	
 	//Service
 	protected UserService userService;
@@ -51,14 +55,14 @@ public class AdminController extends ManagerController {
 	
 	protected void initUserCRUDFeature(UserManagerTabbedControllerView controllerView) {
 		createUserForm = new CreateAccountForm(mainFrame);
-//		updateAirportForm = new AirportForm(mainFrame);
-//		createAirportForm.setTitle("Tạo sân bay");
-//		updateAirportForm.setTitle("Cập nhật sân bay");
-//		
+		updateUserForm = new UpdateAccountForm(mainFrame);
+		createUserForm.setTitle("Tạo tài khoản");
+		updateUserForm.setTitle("Cập nhật tài khoản");
+		
 		initUserClickRowDisplayDetail(controllerView);
 		initUserCreate(controllerView);
 		initUserRead(controllerView);
-//		initUserUpdate(controllerView);
+		initUserUpdate(controllerView);
 		initUserDelete(controllerView);
 	};
 	
@@ -127,47 +131,59 @@ public class AdminController extends ManagerController {
 		table.update();
 	}
 	
-//	protected void initAirportUpdate(FlightManagerTabbedControllerView controllerView) {
-//		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
-//		table.getUpdateButton().addActionListener(event -> {
-//			Airport airport = table.getSelectedAirport();
-//			if (null == airport) {
-//				return;
-//			}
-//			updateAirportForm.setAirport(airport);
-//			updateAirportForm.setVisible(true);
-//		});
-//		
-//		updateAirportForm.getSubmitButton().addActionListener(event -> {
-//			
-//			//Validate the form
-//			if (updateAirportForm.areThereAnyEmptyStarField()) {
-//				updateAirportForm.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
-//				return;
-//			}
-//			
-//			//Check if there is an airport with the same name existed 
-//			//	(if same name => check if the id is the same or not)
-//			Airport airport = updateAirportForm.submit();
-//			Airport testAirport = airportService.findAirportByName(airport.getName());
-//			if (null != testAirport && !airport.getId().equals(testAirport.getId())) {
-//				updateAirportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
-//				return;
-//			}
-//			
-//			//validate success case
-//			airport = airportService.updateAirport(airport);
-//			
-//			//Update the table view
-//			initAirportRead(controllerView);
-//			
-//			//Close the form
-//			updateAirportForm.setError(AirportForm.NO_ERROR);
-//			updateAirportForm.close();
-//		});
-//		
-//	}
-//	
+	protected void initUserUpdate(UserManagerTabbedControllerView controllerView) {
+		UserCRUDTableView table = controllerView.getUserCRUDTableView();
+		table.getActionButtons().get(UserCRUDTableView.UPDATE_BUTTON_INDEX).addActionListener(event -> {
+			User user = table.getSelectedUser();
+			if (null == user) {
+				return;
+			}
+			
+			user.setAccount(userService.getExactlyAccountForUser(user));
+			
+			updateUserForm.setModel(user);
+			updateUserForm.setVisible(true);
+		});
+		
+		updateUserForm.getSubmitButton().addActionListener(event -> {
+			
+			//Validate the form
+			if (updateUserForm.areThereAnyEmptyStarField()) {
+				updateUserForm.setError(UpdateAccountForm.EMPTY_FIELD_ERROR);
+				return;
+			}
+			
+			//Save the old model, load the reservations for it
+			User model = updateUserForm.getModel();
+			model = userService.getUsersWithReservations(Arrays.asList(model.getId())).get(0);
+			
+			//Check if there is an usernam with the same name existed 
+			//	(if same name => check if the id is the same or not)
+			User user = updateUserForm.submit();
+			User testUser= userService.findUserByUsername(user.getUsername());
+			if (null != testUser && !user.getId().equals(testUser.getId())) {
+				updateUserForm.setError(UpdateAccountForm.EXISTED_USERNAME_ERROR);
+				return;
+			}
+			
+			//Setup the reservation for the new account of the user
+			Set<Reservation> reservations = model.getAccount().getReservations();
+			user.getAccount().setReservations(reservations);
+			for (Reservation reservation: reservations) {
+				reservation.setAccount(user.getAccount());
+			}
+			user = userService.updateUser(user);
+			
+			//Update the table view
+			initUserRead(controllerView);
+			
+			//Close the form
+			updateUserForm.setError(UpdateAccountForm.NO_ERROR);
+			updateUserForm.close();
+		});
+		
+	}
+	
 	protected void initUserDelete(UserManagerTabbedControllerView controllerView) {
 		UserCRUDDetailView detail = controllerView.getUserCRUDDetailView();
 		UserCRUDTableView table = controllerView.getUserCRUDTableView();

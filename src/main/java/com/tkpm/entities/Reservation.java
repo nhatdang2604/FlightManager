@@ -75,7 +75,7 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 					CascadeType.MERGE,
 					CascadeType.DETACH,
 					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
+			fetch = FetchType.LAZY)
 	@JoinColumn(
 			name = "account_id", 
 			referencedColumnName = "id",

@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.tkpm.dao.UserDAO;
+import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Reservation;
 import com.tkpm.entities.User;
+import com.tkpm.entities.User.USER_ROLE;
 
 //Using enum for applying Singleton Pattern
 public enum UserService {
@@ -95,6 +97,10 @@ public enum UserService {
 		
 		//Delete the user + account
 		return userDAO.delete(ids);
+	}
+
+	public BaseAccount getExactlyAccountForUser(User user) {
+		return userDAO.loadAccount(user, USER_ROLE.convertStringToUSER_ROLE(user.getRole()));
 	}
 }
  

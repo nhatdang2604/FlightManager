@@ -39,7 +39,7 @@ import com.tkpm.entities.User.USER_ROLE;
 import com.tkpm.utils.HashingUtil;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
-public class UpdateAccountForm extends JDialog {
+public class UpdateAccountForm extends JDialog implements FormBehaviour {
 
 	final protected int HEIGHT = 300;
 	final protected int WIDTH = 400;
@@ -59,9 +59,12 @@ public class UpdateAccountForm extends JDialog {
 	private User model;
 	private JLabel warningText;	
 	
+	private BaseAccount newAccount;
+	private boolean isChangeRole = false;
+	
 	private static final String[] ERRORS = {
 			"",
-			"Có ít nhất một ô không có thông tin",
+			"Có ít nhất một ô (*) không có thông tin",
 			"Ô phải mang giá trị số",
 			"Tên đăng nhập đã tồn tại",
 
@@ -294,33 +297,51 @@ public class UpdateAccountForm extends JDialog {
 		USER_ROLE role = (USER_ROLE) roleComboBox.getSelectedItem();
 		model.setRole(role.name());
 		
-		String name = textFields.get(1).getText().trim();
+		String name = textFields.get(2).getText().trim();
 		String identityCode = numericTextFields.get(0).getText().trim();
 		String phone = numericTextFields.get(1).getText().trim();
 		
-		BaseAccount account = null;
+		newAccount = null;
 		
 		if (role.equals(USER_ROLE.Admin)) {
 			AdminAccount acc = new AdminAccount();
+			acc.setId(model.getId());
+			acc.setUser(model);
+			acc.setReservations(model.getAccount().getReservations());
 			acc.setName(name);
 			acc.setIdentityCode(identityCode);
 			acc.setPhoneNumber(phone);
-			account = acc;
+			newAccount = acc;
+			
 		} else if (role.equals(USER_ROLE.Customer)) {
 			CustomerAccount acc = new CustomerAccount();
+			acc.setId(model.getId());
+			acc.setUser(model);
+			acc.setReservations(model.getAccount().getReservations());
 			acc.setName(name);
 			acc.setIdentityCode(identityCode);
 			acc.setPhoneNumber(phone);
-			account = acc;
+			newAccount = acc;
 			
 		} else if (role.equals(USER_ROLE.Manager)) {
 			ManagerAccount acc = new ManagerAccount();
+			acc.setId(model.getId());
+			acc.setUser(model);
+			acc.setReservations(model.getAccount().getReservations());
 			acc.setName(name);
 			acc.setIdentityCode(identityCode);
 			acc.setPhoneNumber(phone);
-			account = acc;
+			newAccount = acc;
 		}
-		model.setAccount(account);
+		
+		model.setAccount(newAccount);
+		
+		//Check if is change role
+		if (!role.equals(USER_ROLE.convertStringToUSER_ROLE(model.getRole()))) {
+			isChangeRole = true;
+		} else {
+			isChangeRole = false;
+		}
 		
 		return model;
 	}
@@ -329,8 +350,35 @@ public class UpdateAccountForm extends JDialog {
 		return okButton;
 	}
 	
-	public static void main(String[] args) {
-		UpdateAccountForm form = new UpdateAccountForm(null);
-		form.setVisible(true);
+	public User getModel() {return model;}
+	public BaseAccount getNewAccount() {return newAccount;}
+	public boolean isChangeRole() {return isChangeRole;}
+	
+//	public static void main(String[] args) {
+//		UpdateAccountForm form = new UpdateAccountForm(null);
+//		form.setVisible(true);
+//	}
+
+	public boolean areThereAnyEmptyStarField() {
+		
+		String username = textFields.get(0).getText().trim();
+		if (null == username || username.equals("")) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void clear() {
+		for (JTextField field: textFields) {field.setText("");}
+		for (JTextField field: numericTextFields) {field.setText("");}
+		
+	}
+
+	@Override
+	public void close() {
+		clear();
+		setVisible(false);
 	}
 }

@@ -100,7 +100,7 @@ public class ReportByYearTableView extends JTable {
 			Object[] row = {
 					index + 1, 
 					reportByMonth.getWrappers().size(),
-					turnovers[index],
+					turnovers[index + 1],
 					ratio};
 			
 			tableModel.addRow(row);		

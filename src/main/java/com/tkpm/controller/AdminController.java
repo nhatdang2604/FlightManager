@@ -1,19 +1,27 @@
 package com.tkpm.controller;
 
 import com.tkpm.entities.User;
+import com.tkpm.service.UserService;
 import com.tkpm.view.feature_view.UserManagerFeatureView;
+import com.tkpm.view.feature_view.detail_view.CRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.UserCRUDDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.UserManagerTabbedControllerView;
 import com.tkpm.view.feature_view.table.UserCRUDTableView;
 import com.tkpm.view.frame.AdminMainFrame;
 import com.tkpm.view.frame.BaseMainFrame;
+import com.tkpm.view.frame.form.CreateAccountForm;
 
 public class AdminController extends ManagerController {
 
 	//Forms
-
+	protected CreateAccountForm createUserForm;
+	
+	//Service
+	protected UserService userService;
+	
 	public AdminController(BaseMainFrame mainFrame) {
 		super(mainFrame);
+		userService = UserService.INSTANCE;
 	}
 
 	@Override
@@ -36,13 +44,13 @@ public class AdminController extends ManagerController {
 	}
 	
 	protected void initUserCRUDFeature(UserManagerTabbedControllerView controllerView) {
-//		createAirportForm = new AirportForm(mainFrame);
+		createUserForm = new CreateAccountForm(mainFrame);
 //		updateAirportForm = new AirportForm(mainFrame);
 //		createAirportForm.setTitle("Tạo sân bay");
 //		updateAirportForm.setTitle("Cập nhật sân bay");
 //		
 		initUserClickRowDisplayDetail(controllerView);
-//		initUserCreate(controllerView);
+		initUserCreate(controllerView);
 //		initUserRead(controllerView);
 //		initUserUpdate(controllerView);
 //		initUserDelete(controllerView);
@@ -62,51 +70,52 @@ public class AdminController extends ManagerController {
 		});
 	}
 	
-//	protected void initAirportCreate(FlightManagerTabbedControllerView controllerView) {
-//		AirportCRUDDetailView detail = controllerView.getAirporCRUDDetailView();
-//		
-//		//Init "Create airport" button
-//		detail.getButtons().get(CRUDDetailView.CREATE_BUTTON_INDEX).addActionListener(event -> {
-//			createAirportForm.open();
-//		});
-//		
-//		//Init submit button of the airport form
-//		createAirportForm.getSubmitButton().addActionListener(event -> {
-//			
-//			//Validate the form
-//			if (createAirportForm.areThereAnyEmptyStarField()) {
-//				createAirportForm.setError(AirportForm.EMPTY_STAR_FIELD_ERROR);
-//				return;
-//			}
-//			
-//			//Check if there is an airport with the same name existed
-//			Airport airport = createAirportForm.submit();
-//			Airport testAirport = airportService.findAirportByName(airport.getName());
-//			if (null != testAirport) {
-//				createAirportForm.setError(AirportForm.NAME_EXISTED_FIELD_ERROR);
-//				return;
-//			}
-//			
-//			//validate success case
-//			airport = airportService.createAirport(airport);
-//			
-//			//Update the table view
-//			initAirportRead(controllerView);
-//			
-//			//Close the form
-//			createAirportForm.setError(AirportForm.NO_ERROR);
-//			createAirportForm.close();
-//			
-//		});
-//	}
-//	
-//	protected void initAirportRead(FlightManagerTabbedControllerView controllerView) {
+	protected void initUserCreate(UserManagerTabbedControllerView controllerView) {
+		UserCRUDDetailView detail = controllerView.getUserCRUDDetailView();
+		
+		//Init "Create user" button
+		detail.getButtons().get(CRUDDetailView.CREATE_BUTTON_INDEX).addActionListener(event -> {
+			createUserForm.open();
+		});
+		
+		//Init submit button of the user form
+		createUserForm.getSubmitButton().addActionListener(event -> {
+					
+			//Validate the form
+			if (createUserForm.areThereAnyEmptyStarField()) {
+				createUserForm.setError(CreateAccountForm.EMPTY_FIELD_ERROR);
+				return;
+			}
+					
+			//Check if there is an user with the same name existed
+			User user = createUserForm.submit();
+			User testUser = userService.findUserByUsername(user.getUsername());
+			if (null != testUser) {
+				createUserForm.setError(CreateAccountForm.EXISTED_USERNAME_ERROR);
+				return;
+			}
+					
+			//validate success case
+			user = userService.createUser(user);
+					
+			//Update the table view
+			initUserRead(controllerView);
+					
+			//Close the form
+			createUserForm.setError(CreateAccountForm.NO_ERROR);
+			createUserForm.close();
+					
+		});
+		
+	}
+	
+	protected void initUserRead(UserManagerTabbedControllerView controllerView) {
 //		List<Airport> airports = airportService.findAllAirports();
 //		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
 //		table.setAirports(airports);
 //		table.update();
-//	}
-//	
+	}
+	
 //	protected void initAirportUpdate(FlightManagerTabbedControllerView controllerView) {
 //		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
 //		table.getUpdateButton().addActionListener(event -> {

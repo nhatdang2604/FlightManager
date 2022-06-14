@@ -1,7 +1,8 @@
 package com.tkpm.entry_point;
 
+import com.tkpm.controller.AdminController;
 import com.tkpm.controller.ManagerController;
-import com.tkpm.view.frame.ManagerMainFrame;
+import com.tkpm.view.frame.AdminMainFrame;
 import com.tkpm.view.frame.form.Login;
 import com.tkpm.view.frame.form.Registration;
 
@@ -32,7 +33,7 @@ public class Main {
 //		BaseMainFrame mainFrame = new AdminMainFrame();
 //		mainFrame.open();
 		
-		ManagerController controller = new ManagerController(new ManagerMainFrame());
+		AdminController controller = new AdminController(new AdminMainFrame());
 		controller.run();
 		
 	}

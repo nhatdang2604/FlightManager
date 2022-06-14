@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.User;
 import com.tkpm.utils.HibernateUtil;
 
@@ -28,6 +29,10 @@ public enum UserDAO {
 		
 		try {
 			session.beginTransaction();
+			
+			//Store base account
+			BaseAccount account = user.getAccount();
+			account.setUser(user);
 			
 			//Save the user to database
 			Integer id = (Integer) session.save(user);

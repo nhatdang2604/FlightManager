@@ -38,7 +38,8 @@ public abstract class BaseAccount implements Serializable, Comparable<BaseAccoun
 					CascadeType.PERSIST,
 					CascadeType.REFRESH
 			},
-			fetch = FetchType.EAGER)
+			fetch = FetchType.LAZY,
+			optional = false)
 	@MapsId
 	@JoinColumn(name = "id")
 	protected User user;

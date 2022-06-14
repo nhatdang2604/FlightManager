@@ -1,7 +1,7 @@
 package com.tkpm.service;
 
 import java.time.Month;
-import java.time.Year;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,19 +19,23 @@ public enum ReportService {
 		flightService = FlightService.INSTANCE;
 	}
 	
-	public BaseReport getReportByMonth(Month month, int year) {
-		
-		BaseReport report = null;
-		
-		//Filtering the flights by month and year, then get the wrapper for each flight
-		Set<Flight> flights = flightService.findAllFlights();
-		List<FlightStatisticWrapper> wrappers = flights
+	private List<FlightStatisticWrapper> getWrappersForReportByMonth(Month month, int year, Set<Flight> flights) {
+		return flights
 				.stream()
 				.filter(flight -> 
 					flight.getDateTime().getMonth().equals(month) &&
 					flight.getDateTime().getYear() == year)
 				.map(flight -> new FlightStatisticWrapper(flight))
 				.collect(Collectors.toList());
+	}
+	
+	public BaseReport getReportByMonth(Month month, int year) {
+		
+		BaseReport report = null;
+		
+		//Filtering the flights by month and year, then get the wrapper for each flight
+		Set<Flight> flights = flightService.findAllFlights();
+		List<FlightStatisticWrapper> wrappers = getWrappersForReportByMonth(month, year, flights);
 		
 		//Setup report
 		report = new BaseReport(wrappers);
@@ -41,23 +45,27 @@ public enum ReportService {
 		return report;
 	}
 	
-	public BaseReport getReportByYear(int year) {
+	public List<BaseReport> getReportByYear(int year) {
 		
-		BaseReport report = null;
+		List<BaseReport> reports = new LinkedList<>();
 		
-		//Filtering the flights by month and year, then get the wrapper for each flight
+		
 		Set<Flight> flights = flightService.findAllFlights();
-		List<FlightStatisticWrapper> wrappers = flights
-				.stream()
-				.filter(flight -> flight.getDateTime().getYear() == year)
-				.map(flight -> new FlightStatisticWrapper(flight))
-				.collect(Collectors.toList());
+
+		//Filtering the flights by each month in year, then get the wrapper for each flight
+		for (int i = 1; i <= 12; ++i) {
+			Month month = Month.of(i);
+			List<FlightStatisticWrapper> wrappers = getWrappersForReportByMonth(month, year, flights);
+			
+			//Setup report
+			BaseReport report = new BaseReport(wrappers);
+			report
+			.setMonth(month)
+			.setYear(year);
 		
-		//Setup report
-		report = new BaseReport(wrappers);
-		report.setYear(year);
+			reports.add(report);
+		}
 		
-		return report;
-		
+		return reports;
 	}
 }

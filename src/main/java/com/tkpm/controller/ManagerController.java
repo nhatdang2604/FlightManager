@@ -23,12 +23,14 @@ import com.tkpm.view.feature_view.detail_view.BaseReportDetailView;
 import com.tkpm.view.feature_view.detail_view.CRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightCRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.ReportByMonthDetailView;
+import com.tkpm.view.feature_view.detail_view.ReportByYearDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightManagerTabbedControllerView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
 import com.tkpm.view.feature_view.tabbed_controller_view.ReportTabbedControllerView;
 import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.FlightCRUDTableView;
 import com.tkpm.view.feature_view.table.ReportByMonthTableView;
+import com.tkpm.view.feature_view.table.ReportByYearTableView;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.CustomerMainFrame;
@@ -576,7 +578,28 @@ public class ManagerController extends CustomerController {
 	}
 	
 	protected void initReportByYearFeature(ReportTabbedControllerView controllerView) {
+		ReportByYearDetailView detail = controllerView.getReportByYearDetailView();
+		ReportByYearTableView table = controllerView.getReportByYearTable();
 		
+		detail.getSubmitButton().addActionListener(event -> {
+			
+			//Validate
+			if (detail.isYearFieldEmpty()) {
+				detail.setError(BaseReportDetailView.EMPTY_FIELD_ERROR);
+			}
+			
+			//Get the report information
+			ReportInfoModel metadata = detail.submit();
+			int year = metadata.getYear();
+			List<BaseReport> reports = reportService.getReportByYear(year);
+			
+			//Popout the data
+			table.setReportModels(reports);
+			table.update();
+			
+			//Clear the error if contained
+			detail.setError(BaseReportDetailView.NO_ERROR);
+		});
 	}
 	
 }

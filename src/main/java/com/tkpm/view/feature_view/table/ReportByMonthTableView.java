@@ -79,7 +79,10 @@ public class ReportByMonthTableView extends JTable {
 			
 			
 			FlightStatisticWrapper wrapper = report.getWrappers().get(index);
-			double ratio = (double)(wrapper.getTurnover()/totalTurnover);
+			double ratio = 1;
+			if (0 != totalTurnover) {
+				ratio = (double)(wrapper.getTurnover()/totalTurnover);
+			}
 			Object[] row = {
 					index + 1, 
 					wrapper.getFlight().getId(),

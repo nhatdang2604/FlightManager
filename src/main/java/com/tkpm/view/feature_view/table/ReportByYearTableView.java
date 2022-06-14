@@ -90,12 +90,15 @@ public class ReportByYearTableView extends JTable {
 		
 		//Print data
 		int size = reportModels.size();
-		for (int index = 1; index < size; ++index) {
+		for (int index = 0; index < size; ++index) {
 			
 			BaseReport reportByMonth = reportModels.get(index);
-			double ratio = (double)(turnovers[index]/totalTurnover);
+			double ratio = 1;
+			if (0 != totalTurnover) {
+				ratio = (double)(turnovers[index]/totalTurnover);
+			}
 			Object[] row = {
-					index, 
+					index + 1, 
 					reportByMonth.getWrappers().size(),
 					turnovers[index],
 					ratio};

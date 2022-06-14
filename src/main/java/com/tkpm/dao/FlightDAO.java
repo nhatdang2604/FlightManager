@@ -354,5 +354,55 @@ public enum FlightDAO {
 	
 		return errorCode;
 	}
+
+	public List<Flight> findForReport(List<Integer> ids) {
+		Session session = factory.getCurrentSession();
+		List<Flight> flights = null;
+		
+		try {
+			session.beginTransaction();
+			
+			//Get param to delete ticket
+			int size = ids.size();
+			List<String> params = new LinkedList<>();
+			for (int i = 0; i <size; ++i) {
+				params.add("param" + i);
+			}
+			
+			StringBuilder builder = new StringBuilder();
+			builder.append("(-1");	//Using -1 for dynamically without checking "," if there is only 1 element in ids 
+			for (String param: params) {
+				builder.append(", :" + param);
+			}
+			builder.append(")");
+			
+			String idSet = builder.toString();
+			
+			String query = 
+					"select distinct f " +
+					"from " + Flight.class.getName() + " f " + 
+					"left join fetch f.departureAirport " +
+					"left join fetch f.arrivalAirport " +
+					"left join fetch f.tickets " +
+					"where f.id in " + idSet;
+			
+			Query<Flight> hql = session.createQuery(query, Flight.class);
+			for (int i = 0; i < size; ++i) {
+				hql = hql.setParameter(params.get(i), ids.get(i));
+			}
+			
+			flights = hql.list();
+			
+		} catch (Exception ex) {
+			flights = new ArrayList<>();
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return flights;
+	}
 }
  

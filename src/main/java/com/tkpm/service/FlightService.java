@@ -246,5 +246,9 @@ public enum FlightService {
 	public int deleteFlights(List<Integer> ids) {
 		return flightDAO.delete(ids); 
 	}
+	
+	public List<Flight> getFlightForReport(List<Integer> ids) {
+		return flightDAO.findForReport(ids);
+	}
 }
  

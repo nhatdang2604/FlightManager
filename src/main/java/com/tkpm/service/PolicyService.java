@@ -26,13 +26,13 @@ public enum PolicyService {
 		
 		//TODO:
 		
-		return null;
+		return false;
 	}
 	
 	public Boolean isLateToCancel(Flight flight) {
 		
 		//TODO:
 		
-		return null;
+		return false;
 	}
 }

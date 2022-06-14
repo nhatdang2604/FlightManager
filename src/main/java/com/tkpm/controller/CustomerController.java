@@ -37,6 +37,8 @@ public class CustomerController {
 	
 	protected BaseAccount account;
 	
+	protected TicketForm ticketForm;
+	
 	public void setAccount(BaseAccount account) {
 		this.account = account;
 	}
@@ -47,7 +49,10 @@ public class CustomerController {
 		ticketClassService = TicketClassService.INSTANCE;
 		reservationService = ReservationService.INSTANCE;
 		ticketService = TicketService.INSTANCE;
+		reservationService.setTicketService(ticketService);	//resolve cycle dependency between ticketService and reservationService
 		policyService = PolicyService.INSTANCE;
+		
+		this.ticketForm = new TicketForm(this.mainFrame);
 		//initFeatures();
 	}
 	
@@ -60,15 +65,21 @@ public class CustomerController {
 		initListFlightFeature();
 	}
 	
-	private void initTicketForm(TicketForm form) {
-		form.getSubmitButton().addActionListener(event -> {
-			String ticketClassName = form.getTicketClass();
+	protected void initTicketForm() {
+		ticketForm.getSubmitButton().addActionListener(event -> {
+			String ticketClassName = ticketForm.getTicketClass();
 			
-			Flight flight = form.getFlight();
+			Flight flight = ticketForm.getFlight();
 			
 			//Check policy 
 			if (policyService.isLateToBook(flight)) {
-				form.setError(TicketForm.TIMEOUT_ERROR);
+				ticketForm.setError(TicketForm.TIMEOUT_ERROR);
+				return;
+			}
+			
+			//Validate
+			if (ticketForm.areThereAnyEmptyStarField()) {
+				ticketForm.setError(TicketForm.EMPTY_FIELD_ERROR);
 				return;
 			}
 			
@@ -78,7 +89,7 @@ public class CustomerController {
 			//Check out of stock ticket
 			Reservation reservation = reservationService.findAvailableReservationFromFlight(flight, ticketClass);
 			if (null == reservation) {
-				form.setError(TicketForm.OUT_OF_STOCK_ERROR);
+				ticketForm.setError(TicketForm.OUT_OF_STOCK_ERROR);
 				return;
 			}
 			
@@ -87,16 +98,17 @@ public class CustomerController {
 			reservation.setAccount(account);
 			Ticket ticket = reservation.getTicket();
 			ticket.setIsBooked(true);
-			ticket.setName(form.getSubmitName());
-			ticket.setIdentityCode(form.getSubmitIdentityCode());
-			ticket.setPhoneNumber(form.getSubmitPhone());
+			ticket.setName(ticketForm.getSubmitName());
+			ticket.setIdentityCode(ticketForm.getSubmitIdentityCode());
+			ticket.setPhoneNumber(ticketForm.getSubmitPhone());
 			
 			//Update information for booking
 			ticketService.updateTicket(ticket);
-			reservationService.updateReservation(reservation);
+			//reservationService.updateReservation(reservation);
 			
 			//Close the form
-			form.setVisible(false);
+			ticketForm.setError(TicketForm.NO_ERROR);
+			ticketForm.close();
 		});
 	}
 	
@@ -125,6 +137,9 @@ public class CustomerController {
 			
 		});
 		
+		//Init ticket form for book button
+		initTicketForm();
+		
 		//Get detail view first
 		FlightListDetailView detailView = controllerView.getFlightListDetailView();
 		detailView.getBookButton().addActionListener(event -> {
@@ -142,8 +157,9 @@ public class CustomerController {
 			flight.setDetail(flightDetail);
 			
 			//Build the ticketForm
-			TicketForm ticketForm = new TicketForm(flight, mainFrame);
-			initTicketForm(ticketForm);
+//			TicketForm ticketForm = new TicketForm(flight, mainFrame);
+//			initTicketForm(ticketForm);
+			ticketForm.setModel(flight);
 			
 			//Open the ticket form
 			ticketForm.setVisible(true);

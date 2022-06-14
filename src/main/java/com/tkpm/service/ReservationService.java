@@ -21,6 +21,11 @@ public enum ReservationService {
 	private FlightService flightService;
 	private TicketService ticketService;
 	
+	//Resolving cycle dependency problem
+	public void setTicketService(TicketService ticketService) {
+		this.ticketService = ticketService;
+	}
+	
 	private ReservationService() {
 		reservationDAO = ReservationDAO.INSTANCE;
 		flightService = FlightService.INSTANCE;

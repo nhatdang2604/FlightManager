@@ -137,6 +137,9 @@ public class UserCRUDTableView extends JTable {
 	
 	public User getSelectedUser() {
 		int index = this.getSelectedRow();
+		if (-1 == index) {
+			return null;
+		}
 		return users.get(index);
 	}
 	

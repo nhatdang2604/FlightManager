@@ -1,5 +1,6 @@
 package com.tkpm.controller;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,22 +13,30 @@ import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.Transition;
 import com.tkpm.service.AirportService;
+import com.tkpm.service.ReportService;
 import com.tkpm.service.TransitionAirportService;
 import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.feature_view.FlightManagerFeatureView;
+import com.tkpm.view.feature_view.ReportFeatureView;
 import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
+import com.tkpm.view.feature_view.detail_view.BaseReportDetailView;
 import com.tkpm.view.feature_view.detail_view.CRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightCRUDDetailView;
+import com.tkpm.view.feature_view.detail_view.ReportByMonthDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightManagerTabbedControllerView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
+import com.tkpm.view.feature_view.tabbed_controller_view.ReportTabbedControllerView;
 import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.FlightCRUDTableView;
+import com.tkpm.view.feature_view.table.ReportByMonthTableView;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.CustomerMainFrame;
 import com.tkpm.view.frame.ManagerMainFrame;
 import com.tkpm.view.frame.form.AirportForm;
 import com.tkpm.view.frame.form.FlightForm;
+import com.tkpm.view.model.ReportInfoModel;
+import com.tkpm.wrapper.report.BaseReport;
 
 public class ManagerController extends CustomerController {
 
@@ -40,14 +49,16 @@ public class ManagerController extends CustomerController {
 	//Services
 	protected AirportService airportService;
 	protected TransitionAirportService transitionService;
+	protected ReportService reportService;
 	
 	//Utilities
-	private List<Transition> deleteTransitions;
+	protected List<Transition> deleteTransitions;
 	
 	public ManagerController(BaseMainFrame mainFrame) {
 		super(mainFrame);
 		airportService = AirportService.INSTANCE;
 		transitionService = TransitionAirportService.INSTANCE;
+		reportService = ReportService.INSTANCE;
 		deleteTransitions = new LinkedList<>();
 	}
 
@@ -527,18 +538,45 @@ public class ManagerController extends CustomerController {
 		});
 	}
 	
-	
 	protected void initReportFeatures() {
-		initReportByMonthFeature();
-		initReportByYearFeature();
+		ReportFeatureView featureView = (ReportFeatureView) mainFrame
+				.getFeatureViews()
+				.get(ManagerMainFrame.REPORT_FEATURE_INDEX);
+		
+		ReportTabbedControllerView controllerView = featureView.getTabbedControllerView();
+		
+		initReportByMonthFeature(controllerView);
+		initReportByYearFeature(controllerView);
 	}
 	
-	protected void initReportByMonthFeature() {
-		//TODO:
+	protected void initReportByMonthFeature(ReportTabbedControllerView controllerView) {
+		ReportByMonthDetailView detail = controllerView.getReportByMonthDetailView();
+		ReportByMonthTableView table = controllerView.getReportByMonthTable();
+		
+		detail.getSubmitButton().addActionListener(event -> {
+			
+			//Validate
+			if (detail.isYearFieldEmpty()) {
+				detail.setError(BaseReportDetailView.EMPTY_FIELD_ERROR);
+			}
+			
+			//Get the report information
+			ReportInfoModel metadata = detail.submit();
+			Month month = Month.of(metadata.getMonth());
+			int year = metadata.getYear();
+			BaseReport report = reportService.getReportByMonth(month, year);
+			
+			//Popout the data
+			table.setReport(report);
+			table.update();
+			
+			//Clear the error if contained
+			detail.setError(BaseReportDetailView.NO_ERROR);
+		});
 	}
 	
-	protected void initReportByYearFeature() {
-		//TODO:
+	protected void initReportByYearFeature(ReportTabbedControllerView controllerView) {
+		
 	}
 	
 }

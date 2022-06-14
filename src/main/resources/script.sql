@@ -151,7 +151,7 @@ CREATE TABLE `policy` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 #Admin with username = 'admin' and password = hashing('admin')
-INSERT INTO `user` VALUES(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Role_Admin');
+INSERT INTO `user` VALUES(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Admin');
 INSERT INTO `base_account` VALUES(1);
 INSERT INTO `admin_account` VALUES(1, NULL, NULL, NULL);
 

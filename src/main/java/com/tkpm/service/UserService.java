@@ -1,8 +1,11 @@
 package com.tkpm.service;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.tkpm.dao.UserDAO;
+import com.tkpm.entities.Reservation;
 import com.tkpm.entities.User;
 
 //Using enum for applying Singleton Pattern
@@ -11,9 +14,11 @@ public enum UserService {
 	INSTANCE;
 	
 	private UserDAO userDAO;
+	private ReservationService reservationService;
 	
 	private UserService() {
 		userDAO = UserDAO.INSTANCE;
+		reservationService = ReservationService.INSTANCE;
 	}
 	
 	//Create new user
@@ -63,6 +68,32 @@ public enum UserService {
 		//Return the user if ther username and password are matched
 		return other;
 		
+	}
+
+	public List<User> getUsersWithReservations(List<Integer> ids) {
+		return userDAO.find(ids);
+	}
+	
+	public int deleteUsers(List<Integer> ids) {
+		//TODO:
+		List<User> users = getUsersWithReservations(ids);
+		
+		List<Reservation> reservations = new LinkedList<>();
+		for (User user: users) {
+			reservations.addAll(user.getAccount().getReservations());
+		}
+		
+		//Get reservations id
+		List<Integer> reservation_ids = reservations
+				.stream()
+				.map(reservation -> reservation.getId())
+				.collect(Collectors.toList());
+		
+		//Cancel the reservation and ticket
+		reservationService.cancelReservations(reservation_ids);
+		
+		//Delete the user + account
+		return userDAO.delete(ids);
 	}
 }
  

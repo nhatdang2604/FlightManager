@@ -130,5 +130,9 @@ public enum TicketService {
 		
 		return updateTicket(ticket);
 	}
+	
+	public int cancelTickets(List<Integer> ids) {
+		return ticketDAO.cancel(ids);
+	}
 }
  

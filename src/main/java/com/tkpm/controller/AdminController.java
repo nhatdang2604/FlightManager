@@ -1,6 +1,9 @@
 package com.tkpm.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.swing.JOptionPane;
 
 import com.tkpm.entities.User;
 import com.tkpm.service.UserService;
@@ -56,7 +59,7 @@ public class AdminController extends ManagerController {
 		initUserCreate(controllerView);
 		initUserRead(controllerView);
 //		initUserUpdate(controllerView);
-//		initUserDelete(controllerView);
+		initUserDelete(controllerView);
 	};
 	
 	protected void initUserClickRowDisplayDetail(UserManagerTabbedControllerView controllerView) {
@@ -165,40 +168,40 @@ public class AdminController extends ManagerController {
 //		
 //	}
 //	
-//	protected void initAirportDelete(FlightManagerTabbedControllerView controllerView) {
-//		AirportCRUDDetailView detail = controllerView.getAirporCRUDDetailView();
-//		AirportCRUDTableView table = controllerView.getAirportCRUDTableView();
-//		
-//		//Init "Delete airport" button
-//		detail.getButtons().get(CRUDDetailView.DELETE_BUTTON_INDEX).addActionListener(event -> {
-//			
-//			int input = JOptionPane.showConfirmDialog(mainFrame,
-//	        		"Bạn có chắc chắn muốn xóa ?\nDữ liệu bị xóa sẽ không thể khôi phục lại được.",
-//	        		"Xóa",
-//	        		JOptionPane.YES_NO_OPTION);
-//			
-//			if (JOptionPane.YES_OPTION == input) {
-//				List<Airport> airports = table.getSelectedAirports();
-//				
-//				//Get the id from the airport
-//				List<Integer> ids = airports
-//						.stream()
-//						.map(airport -> airport.getId())
-//						.collect(Collectors.toList());
-//				
-//				//Delete thoose airports
-//				airportService.deleteAirports(ids);
-//				
-//				//Update the table view
-//				initAirportRead(controllerView);
-//				
-//				//Success message
-//				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
-//			}
-//			
-//			
-//			
-//		});
-//	}
+	protected void initUserDelete(UserManagerTabbedControllerView controllerView) {
+		UserCRUDDetailView detail = controllerView.getUserCRUDDetailView();
+		UserCRUDTableView table = controllerView.getUserCRUDTableView();
+		
+		//Init "Delete airport" button
+		detail.getButtons().get(CRUDDetailView.DELETE_BUTTON_INDEX).addActionListener(event -> {
+			
+			int input = JOptionPane.showConfirmDialog(mainFrame,
+	        		"Bạn có chắc chắn muốn xóa ?\nDữ liệu bị xóa sẽ không thể khôi phục lại được.",
+	        		"Xóa",
+	        		JOptionPane.YES_NO_OPTION);
+			
+			if (JOptionPane.YES_OPTION == input) {
+				List<User> users = table.getSelectedUsers();
+				
+				//Get the id from the users
+				List<Integer> ids = users
+						.stream()
+						.map(user -> user.getId())
+						.collect(Collectors.toList());
+				
+				//Delete thoose airports
+				userService.deleteUsers(ids);
+				
+				//Update the table view
+				initUserRead(controllerView);
+				
+				//Success message
+				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
+			}
+			
+			
+			
+		});
+	}
 	
 }

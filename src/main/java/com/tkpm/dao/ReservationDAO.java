@@ -193,5 +193,60 @@ public enum ReservationDAO {
 	
 		return reservation;
 	}
+
+	public int cancel(List<Integer> ids) {
+		Session session = factory.getCurrentSession();
+		int errorCode = 0;
+		
+		try {
+			session.beginTransaction();
+			
+			//Get param to delete reservation
+			int size = ids.size();
+			List<String> params = new LinkedList<>();
+			for (int i = 0; i <size; ++i) {
+				params.add("param" + i);
+			}
+			
+			//Build the id set
+			StringBuilder builder = new StringBuilder();
+			builder.append("(-1");	//Using -1 for dynamically without checking "," if there is only 1 element in ids 
+			for (String param: params) {
+				builder.append(", :" + param);
+			}
+			builder.append(")");
+			String idSet = builder.toString();
+			
+			//Param for the value
+			String valueParam = "value";
+			
+			//Query to delete
+			String query = 
+					"update " + Reservation.class.getName() + " r set " +
+					"r.bookDate = :" + valueParam + ", " +
+					"r.account = :" + valueParam + " " +
+					"where r.id in " + idSet;
+		
+			Query<Reservation> hql = session.createQuery(query);
+			for (int i = 0; i < size; ++i) {
+				hql = hql.setParameter(params.get(i), ids.get(i));
+			}
+			
+			hql = hql.setParameter(valueParam, null);
+			
+			hql.executeUpdate();
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+			errorCode = 1;
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return errorCode;
+	}
 }
  

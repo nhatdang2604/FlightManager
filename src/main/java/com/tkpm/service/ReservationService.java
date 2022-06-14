@@ -101,6 +101,16 @@ public enum ReservationService {
 		
 		return reservation;
 	}
+
+	//Cancel booking of list of ids from the ticket
+	public int cancelReservations(List<Integer> ids) {
+		
+		//Cancel the ticket first
+		ticketService.cancelTickets(ids);
+		
+		//Then cancel the reservations
+		return reservationDAO.cancel(ids);
+	}
 	
 }
  

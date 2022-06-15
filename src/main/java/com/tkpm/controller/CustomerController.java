@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.JFrame;
+
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
@@ -48,6 +50,7 @@ public class CustomerController {
 	
 	public CustomerController(BaseMainFrame mainFrame) { 
 		this.mainFrame = mainFrame;
+		this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		flightService = FlightService.INSTANCE;
 		ticketClassService = TicketClassService.INSTANCE;
 		reservationService = ReservationService.INSTANCE;

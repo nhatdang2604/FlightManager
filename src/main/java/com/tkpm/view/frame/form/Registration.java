@@ -1,38 +1,31 @@
 package com.tkpm.view.frame.form;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.Component;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.Dimension;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.BoxLayout;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import com.tkpm.entities.CustomerAccount;
 import com.tkpm.entities.User;
+import com.tkpm.entities.User.USER_ROLE;
 import com.tkpm.utils.HashingUtil;
 
-public class Registration extends JFrame implements FormBehaviour{
+public class Registration extends JDialog implements FormBehaviour{
 
 	private JPanel contentPane;
 	private JPanel panelBackground;
@@ -99,11 +92,11 @@ public class Registration extends JFrame implements FormBehaviour{
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') && (character != KeyEvent.VK_BACK_SPACE)) {
+		if (('0' <= character) && (character <= '9') || (KeyEvent.VK_BACK_SPACE == character )) {
+			setError(NO_ERROR);
+		} else {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
-		} else {
-			setError(NO_ERROR);
 		}
 	}
 	
@@ -285,6 +278,26 @@ public class Registration extends JFrame implements FormBehaviour{
 		
 	}
 	
+	public Registration(JFrame owner) {
+		super(owner, true);
+		setTitle("Đăng ký");
+		this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		this.setBounds(100, 100, 770, 512);
+		
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
+		contentPane.setBorder(new EmptyBorder(50, 75, 25, 75));
+		contentPane.setLayout(new BorderLayout(50, 0));
+		setContentPane(contentPane);
+		
+		initComponents();
+		setLayout();
+		
+		this.pack();
+		this.setResizable(false);
+		
+	}
+	
 	public boolean areThereAnyEmptyStarField() {
 		
 		String username = txtUsername.getText().trim();
@@ -324,12 +337,13 @@ public class Registration extends JFrame implements FormBehaviour{
 	}
 
 	@Override
-	public Object submit() {
+	public User submit() {
 		User user = new User();
 		user.setUsername(txtUsername.getText().trim());
 		String encryptedPassword = HashingUtil.passwordEncryption(
 				new String(passtxtPassword.getPassword()).trim());
 		user.setEncryptedPassword(encryptedPassword);
+		user.setRole(USER_ROLE.Customer.name());
 		
 		CustomerAccount account = new CustomerAccount();
 		account.setName(txtName.getText());

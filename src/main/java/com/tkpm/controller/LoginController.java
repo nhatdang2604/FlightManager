@@ -1,6 +1,7 @@
 package com.tkpm.controller;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.tkpm.entities.User;
 import com.tkpm.entities.User.USER_ROLE;
@@ -106,6 +107,8 @@ public class LoginController{
 			registrationForm.setError(Registration.NO_ERROR);
 			registrationForm.close();
 			
+			
+			JOptionPane.showMessageDialog(loginForm, "Đã đăng ký thành công");
 		});
 		
 		return 0;

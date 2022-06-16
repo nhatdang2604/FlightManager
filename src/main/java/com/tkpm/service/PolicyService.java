@@ -1,5 +1,6 @@
 package com.tkpm.service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.tkpm.dao.PolicyDAO;
@@ -29,10 +30,8 @@ public enum PolicyService {
 		return false;
 	}
 	
-	public Boolean isLateToCancel(Flight flight) {
-		
-		//TODO:
-		
-		return false;
+	public Boolean isLateToCancel(Reservation reservation) {
+		Flight flight = reservation.getTicket().getFlight();
+		return LocalDateTime.now().isAfter(flight.getDateTime());
 	}
 }

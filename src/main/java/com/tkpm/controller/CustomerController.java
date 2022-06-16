@@ -3,12 +3,13 @@ package com.tkpm.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-import com.tkpm.entities.Airport;
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
@@ -203,8 +204,9 @@ public class CustomerController {
 		
 		FlightTabbedControllerView controllerView = featureView.getTabbedControllerView();
 		
+		initBookedReservationRead(controllerView);
 		initBookReservationClickRowDisplayDetail(controllerView);
-		//initCancelBooking(controllerView);
+		initCancelBooking(controllerView);
 
 	}
 	
@@ -220,6 +222,46 @@ public class CustomerController {
 				}
 			}
 		});
+	}
+	
+	protected void initCancelBooking(FlightTabbedControllerView controllerView) {
+		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		
+		table.getCancelTicketButton().addActionListener(event -> {
+			
+			
+			Reservation reservation = table.getSelectedReservation();
+			if (policyService.isLateToCancel(reservation)) {
+				JOptionPane.showMessageDialog(mainFrame, "Đã quá hạn hủy vé");
+				return;
+			}
+			
+			int input = JOptionPane.showConfirmDialog(mainFrame,
+	        		"Bạn có chắc chắn muốn hủy vé ?",
+	        		"Xóa",
+	        		JOptionPane.YES_NO_OPTION);
+			
+			//Do nothing if click close
+			if (JOptionPane.NO_OPTION == input) {
+				return;
+			}
+			
+			//Cancel the selected ticket
+			List<Integer> ids = new ArrayList<>(Arrays.asList(reservation.getId()));
+			reservationService.cancelReservations(ids);
+			
+			//Update the current table
+			initBookedReservationRead(controllerView);
+			
+			JOptionPane.showMessageDialog(mainFrame, "Đã hủy vé thành công");
+			
+		});
+		
+	}
+	
+	protected void initBookedReservationRead(FlightTabbedControllerView controllerView) {
+		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		
 	}
 	
 	public void run() {

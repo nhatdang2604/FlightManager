@@ -1,6 +1,7 @@
 package com.tkpm.view.feature_view.detail_view;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.Reservation;
@@ -32,9 +33,18 @@ public class BookedReservationDetailView extends BaseReadOnlyDetailView {
 	public JButton getBookButton() {
 		return bookButton;
 	}
-
+	
 	@Override
 	public void setDataToDetailPanel(Object object) {
+		
+		//Set empty field
+		if (null == object) {
+			for (JLabel label: attributeData) {
+				label.setText("");
+			}
+			return;
+		}
+		
 		Reservation reservation = (Reservation) object;
 		Ticket ticket = reservation.getTicket();
 		Flight flight = ticket.getFlight();

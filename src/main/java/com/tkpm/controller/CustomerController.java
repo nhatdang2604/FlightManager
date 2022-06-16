@@ -236,6 +236,9 @@ public class CustomerController {
 		
 		table.getCancelTicketButton().addActionListener(event -> {
 			
+			if (table.isEditing()) {
+				table.getCellEditor().stopCellEditing();
+			}
 			
 			Reservation reservation = table.getSelectedReservation();
 			if (policyService.isLateToCancel(reservation)) {
@@ -249,18 +252,17 @@ public class CustomerController {
 	        		JOptionPane.YES_NO_OPTION);
 			
 			//Do nothing if click close
-			if (JOptionPane.NO_OPTION == input) {
-				return;
+			if (JOptionPane.YES_OPTION == input) {
+				
+				//Cancel the selected ticket
+				List<Integer> ids = new ArrayList<>(Arrays.asList(reservation.getId()));
+				reservationService.cancelReservations(ids);
+				
+				//Update the current table
+				initBookedReservationRead(controllerView);
+				
+				JOptionPane.showMessageDialog(mainFrame, "Đã hủy vé thành công");
 			}
-			
-			//Cancel the selected ticket
-			List<Integer> ids = new ArrayList<>(Arrays.asList(reservation.getId()));
-			reservationService.cancelReservations(ids);
-			
-			//Update the current table
-			initBookedReservationRead(controllerView);
-			
-			JOptionPane.showMessageDialog(mainFrame, "Đã hủy vé thành công");
 			
 		});
 		
@@ -268,7 +270,12 @@ public class CustomerController {
 	
 	protected void initBookedReservationRead(FlightTabbedControllerView controllerView) {
 		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		BookedReservationDetailView detail = controllerView.getBookedReservationDetailView();
 		List<Reservation> reservations = reservationService.findReservationsForAccount(account);
+		
+		if (null == reservations || reservations.isEmpty()) {
+			detail.setDataToDetailPanel(null);
+		}
 		
 		table.setReservations(reservations);
 		table.update();

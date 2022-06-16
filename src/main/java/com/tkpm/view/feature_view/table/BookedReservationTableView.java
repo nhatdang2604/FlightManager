@@ -115,7 +115,7 @@ public class BookedReservationTableView extends JTable {
 					index + 1, 
 					flight.getId(), 
 					flight.getDepartureAirport().getName(),
-					flight.getDateTime(),
+					flight.getDateTime().toString(),
 					ticket.getName(),
 			};
 			tableModel.addRow(row);		

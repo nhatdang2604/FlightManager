@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Reservation;
 import com.tkpm.utils.HibernateUtil;
 
@@ -247,6 +248,44 @@ public enum ReservationDAO {
 		}
 	
 		return errorCode;
+	}
+
+	public List<Reservation> findAll(BaseAccount account) {
+		
+		Session session = factory.getCurrentSession();
+		List<Reservation> reservations = null;
+		
+		try {
+			session.beginTransaction();
+			
+			String param = "account_id";
+			String query = 
+						"select distinct r " +
+						"from " + Reservation.class.getName() + " r " +
+						"left join fetch r.ticket t " +
+						"left join fetch t.flight f " +
+						"left join fetch f.departureAirport " +
+						"left join fetch f.arrivalAirport " +
+						"where r.account.id = :" + param;
+					
+		
+			reservations = session
+					.createQuery(query, Reservation.class)
+					.setParameter(param, account.getId())
+					.getResultList();
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+			reservations = new ArrayList<>();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return reservations;
+		
 	}
 }
  

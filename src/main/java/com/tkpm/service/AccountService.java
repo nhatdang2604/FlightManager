@@ -103,32 +103,32 @@ public enum AccountService {
 //	}
 	
 	//Cancel a reservation
-	public int cancel(Reservation reservation) {
-		
-		//Return 1 to reject cancelling
-		if (policyService.isLateToCancel(reservation.getTicket().getFlight())) {
-			return UNCANCELLABLE;
-		}
-		
-		//Mark the ticket as has not booking yet
-		reservation.getTicket().setIsBooked(false);
-		
-		//Clear data in the ticket and reservation
-		reservation.setBookDate(null);
-		reservation.setAccount(null);
-		reservation.getTicket().setName(null);
-		reservation.getTicket().setIdentityCode(null);
-		reservation.getTicket().setPhoneNumber(null);
-		
-		//Using list to reuse the code in service
-		List<Reservation> reservations = new ArrayList<>();
-		reservations.add(reservation);
-				 
-		//Update the reservation (this also update the ticket, because of Cascade setup in entity)
-		reservationService.updateReservations(reservations);
-		
-		//Return 0 if cancellable
-		return CANCELLABLE;
-	}
+//	public int cancel(Reservation reservation) {
+//		
+//		//Return 1 to reject cancelling
+//		if (policyService.isLateToCancel(reservation.getTicket().getFlight())) {
+//			return UNCANCELLABLE;
+//		}
+//		
+//		//Mark the ticket as has not booking yet
+//		reservation.getTicket().setIsBooked(false);
+//		
+//		//Clear data in the ticket and reservation
+//		reservation.setBookDate(null);
+//		reservation.setAccount(null);
+//		reservation.getTicket().setName(null);
+//		reservation.getTicket().setIdentityCode(null);
+//		reservation.getTicket().setPhoneNumber(null);
+//		
+//		//Using list to reuse the code in service
+//		List<Reservation> reservations = new ArrayList<>();
+//		reservations.add(reservation);
+//				 
+//		//Update the reservation (this also update the ticket, because of Cascade setup in entity)
+//		reservationService.updateReservations(reservations);
+//		
+//		//Return 0 if cancellable
+//		return CANCELLABLE;
+//	}
 }
  

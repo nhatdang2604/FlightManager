@@ -28,14 +28,14 @@ public class FlightTabbedControllerView extends BaseTabbedControllerView {
 		flightListTableView = new FlightListTableView();
 		flightListDetailView = new FlightListDetailView();
 		
+		//Init for booked reservation list tabbed
+		bookedReservationTableView = new BookedReservationTableView();
+		bookedReservationDetailView = new BookedReservationDetailView();
+		
 		//Add screen for flight list
 		this.addCenterAsTable(flightListTableView, "Danh sách chuyến bay");
 		this.addDetail(flightListDetailView);
 		this.addHeader(new JPanel());	//dummy header
-		
-		//Init for booked reservation list tabbed
-		bookedReservationTableView = new BookedReservationTableView();
-		bookedReservationDetailView = new BookedReservationDetailView();
 		
 		//Change detail panel and header panel while change tab
 		this.addCenterAsTable(bookedReservationTableView , "Vé đã đặt");

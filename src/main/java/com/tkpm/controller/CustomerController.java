@@ -59,7 +59,11 @@ public class CustomerController {
 		ticketClassService = TicketClassService.INSTANCE;
 		reservationService = ReservationService.INSTANCE;
 		ticketService = TicketService.INSTANCE;
-		reservationService.setTicketService(ticketService);	//resolve cycle dependency between ticketService and reservationService
+		
+		//resolve cycle dependency between ticketService and reservationService
+		reservationService.setTicketService(ticketService);	
+		ticketService.setReservationService(reservationService);
+		
 		policyService = PolicyService.INSTANCE;
 		transitionService = TransitionAirportService.INSTANCE;
 		
@@ -78,7 +82,7 @@ public class CustomerController {
 		initBookedReservationFeature();
 	}
 	
-	protected void initTicketForm() {
+	protected void initTicketForm(FlightTabbedControllerView controllerView) {
 		ticketForm.getSubmitButton().addActionListener(event -> {
 			String ticketClassName = ticketForm.getTicketClass();
 			
@@ -119,6 +123,9 @@ public class CustomerController {
 			ticketService.updateTicket(ticket);
 			//reservationService.updateReservation(reservation);
 			
+			//Update the data in booked reservation screen
+			initBookedReservationRead(controllerView);
+			
 			//Close the form
 			ticketForm.setError(TicketForm.NO_ERROR);
 			ticketForm.close();
@@ -154,7 +161,7 @@ public class CustomerController {
 		});
 		
 		//Init ticket form for book button
-		initTicketForm();
+		initTicketForm(controllerView);
 		
 		//Get detail view first
 		FlightListDetailView detailView = controllerView.getFlightListDetailView();
@@ -238,7 +245,7 @@ public class CustomerController {
 			
 			int input = JOptionPane.showConfirmDialog(mainFrame,
 	        		"Bạn có chắc chắn muốn hủy vé ?",
-	        		"Xóa",
+	        		"Hủy vé",
 	        		JOptionPane.YES_NO_OPTION);
 			
 			//Do nothing if click close
@@ -261,6 +268,10 @@ public class CustomerController {
 	
 	protected void initBookedReservationRead(FlightTabbedControllerView controllerView) {
 		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		List<Reservation> reservations = reservationService.findReservationsForAccount(account);
+		
+		table.setReservations(reservations);
+		table.update();
 		
 	}
 	

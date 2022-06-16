@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import com.tkpm.dao.ReservationDAO;
+import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.Reservation;
 import com.tkpm.entities.Ticket;
@@ -110,6 +111,10 @@ public enum ReservationService {
 		
 		//Then cancel the reservations
 		return reservationDAO.cancel(ids);
+	}
+
+	public List<Reservation> findReservationsForAccount(BaseAccount account) {
+		return reservationDAO.findAll(account);
 	}
 	
 }

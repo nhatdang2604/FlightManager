@@ -7,6 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
 import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
@@ -106,12 +107,16 @@ public class FlightListTableView extends JTable {
 		int size = flights.size();
 		for (int index = 0; index < size; ++index) {
 			
+			
 			Flight flight = flights.get(index);
+			String departureAirport = (null == flight.getDepartureAirport()?"":flight.getDepartureAirport().getName());
+			String arrivalAirport =  (null == flight.getArrivalAirport()?"":flight.getArrivalAirport().getName());
+			
 			Object[] row = {
 					index + 1, 
 					flight.getId(), 
-					flight.getDepartureAirport().getName(),
-					flight.getArrivalAirport().getName(),
+					departureAirport,
+					arrivalAirport,
 					flight.getDateTime()};
 			tableModel.addRow(row);		
 		}

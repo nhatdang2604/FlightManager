@@ -77,8 +77,8 @@ CREATE TABLE `ticket_class` (
 DROP TABLE IF EXISTS `flight`;
 CREATE TABLE `flight` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
- 	`departure_airport_id` int(11) NOT NULL,
-	`arrival_airport_id` int(11) NOT NULL,
+ 	`departure_airport_id` int(11) DEFAULT NULL,
+	`arrival_airport_id` int(11) DEFAULT NULL,
 	`date_time` date DEFAULT NULL,
 	
  	CONSTRAINT `fk_flight_departure` FOREIGN KEY(`departure_airport_id`) REFERENCES airport(`id`),
@@ -90,7 +90,7 @@ DROP TABLE IF EXISTS `transition_airport`;
 CREATE TABLE `transition_airport` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`flight_id` int(11) NOT NULL,
- 	`airport_id` int(11) NOT NULL,
+ 	`airport_id` int(11) DEFAULT NULL,
 	`transition_time` int(15) DEFAULT NULL,
 	`note` nvarchar(70) DEFAULT NULL,
 

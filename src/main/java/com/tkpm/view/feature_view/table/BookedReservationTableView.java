@@ -111,10 +111,13 @@ public class BookedReservationTableView extends JTable {
 			Reservation reservation = reservations.get(index);
 			Ticket ticket = reservation.getTicket();
 			Flight flight = ticket.getFlight();
+			String departureAirport = 
+					(null == flight.getDepartureAirport()?"":flight.getDepartureAirport().getName());
+			
 			Object[] row = {
 					index + 1, 
 					flight.getId(), 
-					flight.getDepartureAirport().getName(),
+					departureAirport,
 					flight.getDateTime().toString(),
 					ticket.getName(),
 			};

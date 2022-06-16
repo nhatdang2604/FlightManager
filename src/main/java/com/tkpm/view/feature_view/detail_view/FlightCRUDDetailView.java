@@ -21,9 +21,12 @@ public class FlightCRUDDetailView extends CRUDDetailView {
 	@Override
 	public void setDataToDetailPanel(Object object) {
 		Flight flight = (Flight) object;
+		String departureAirport = (null == flight.getDepartureAirport()?"":flight.getDepartureAirport().getName());
+		String arrivalAirport =  (null == flight.getArrivalAirport()?"":flight.getArrivalAirport().getName());
+		
 		attributeData.get(0).setText(flight.getId().toString());
-		attributeData.get(1).setText(flight.getDepartureAirport().getName());		
-		attributeData.get(2).setText(flight.getArrivalAirport().getName());	
+		attributeData.get(1).setText(departureAirport);		
+		attributeData.get(2).setText(arrivalAirport);	
 		attributeData.get(3).setText(flight.getDateTime().toString());	
 	}
 

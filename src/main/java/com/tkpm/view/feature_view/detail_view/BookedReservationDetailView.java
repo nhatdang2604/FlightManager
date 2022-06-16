@@ -48,10 +48,14 @@ public class BookedReservationDetailView extends BaseReadOnlyDetailView {
 		Reservation reservation = (Reservation) object;
 		Ticket ticket = reservation.getTicket();
 		Flight flight = ticket.getFlight();
+		
+		String departureAirport = (null == flight.getDepartureAirport()?"":flight.getDepartureAirport().getName());
+		String arrivalAirport =  (null == flight.getArrivalAirport()?"":flight.getArrivalAirport().getName());
+		
 		attributeData.get(0).setText(ticket.getId().toString());
 		attributeData.get(1).setText(flight.getDateTime().toString());		
-		attributeData.get(2).setText(flight.getDepartureAirport().toString());	
-		attributeData.get(3).setText(flight.getArrivalAirport().toString());	
+		attributeData.get(2).setText(departureAirport);	
+		attributeData.get(3).setText(arrivalAirport);	
 		attributeData.get(4).setText(reservation.getBookDate().toString());
 		attributeData.get(5).setText(ticket.getName());	
 		attributeData.get(6).setText(ticket.getIdentityCode());	

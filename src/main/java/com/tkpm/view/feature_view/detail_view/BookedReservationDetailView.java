@@ -19,7 +19,9 @@ public class BookedReservationDetailView extends BaseReadOnlyDetailView {
 			"Sân bay đi",
 			"Sân bay đến",
 			"Ngày đặt vé",
-			"Giá"
+			"Họ và tên",
+			"CMND/CCCD",
+			"Số điện thoại"
 	};
 
 	

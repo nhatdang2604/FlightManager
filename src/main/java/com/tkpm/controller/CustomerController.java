@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 
+import com.tkpm.entities.Airport;
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
@@ -22,8 +23,10 @@ import com.tkpm.service.TicketClassService;
 import com.tkpm.service.TicketService;
 import com.tkpm.service.TransitionAirportService;
 import com.tkpm.view.feature_view.FlightFeatureView;
+import com.tkpm.view.feature_view.detail_view.BookedReservationDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
+import com.tkpm.view.feature_view.table.BookedReservationTableView;
 import com.tkpm.view.feature_view.table.FlightListTableView;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.CustomerMainFrame;
@@ -71,6 +74,7 @@ public class CustomerController {
 	
 	protected void initFlightFeatures() {
 		initListFlightFeature();
+		initBookedReservationFeature();
 	}
 	
 	protected void initTicketForm() {
@@ -179,7 +183,6 @@ public class CustomerController {
 		
 	}
 	
-	
 	protected void initFlightListRead(FlightTabbedControllerView controllerView) {
 		FlightListTableView table = controllerView.getFlightListTableView();
 		List<Flight> flights = new ArrayList<>(flightService.findAllFlights());
@@ -191,6 +194,32 @@ public class CustomerController {
 				.collect(Collectors.toList());
 		table.setFlights( availableFlights);
 		table.update();
+	}
+	
+	protected void initBookedReservationFeature() {
+		FlightFeatureView featureView = (FlightFeatureView) mainFrame
+				.getFeatureViews()
+				.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+		
+		FlightTabbedControllerView controllerView = featureView.getTabbedControllerView();
+		
+		initBookReservationClickRowDisplayDetail(controllerView);
+		//initCancelBooking(controllerView);
+
+	}
+	
+	protected void initBookReservationClickRowDisplayDetail(FlightTabbedControllerView controllerView) {
+		BookedReservationDetailView detail = controllerView.getBookedReservationDetailView();
+		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		
+		table.getSelectionModel().addListSelectionListener(event -> {
+			if (table.getSelectedRow() > -1) {
+				Reservation reservation = table.getSelectedReservation();
+				if (null != reservation) {
+					detail.setDataToDetailPanel(reservation);
+				}
+			}
+		});
 	}
 	
 	public void run() {

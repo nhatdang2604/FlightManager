@@ -1,10 +1,10 @@
 package com.tkpm.view.feature_view.detail_view;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.util.List;
-
 import javax.swing.JButton;
+
+import com.tkpm.entities.Flight;
+import com.tkpm.entities.Reservation;
+import com.tkpm.entities.Ticket;
 
 @SuppressWarnings("serial")
 public class BookedReservationDetailView extends BaseReadOnlyDetailView {
@@ -33,4 +33,20 @@ public class BookedReservationDetailView extends BaseReadOnlyDetailView {
 		return bookButton;
 	}
 
+	@Override
+	public void setDataToDetailPanel(Object object) {
+		Reservation reservation = (Reservation) object;
+		Ticket ticket = reservation.getTicket();
+		Flight flight = ticket.getFlight();
+		attributeData.get(0).setText(ticket.getId().toString());
+		attributeData.get(1).setText(flight.getDateTime().toString());		
+		attributeData.get(2).setText(flight.getDepartureAirport().toString());	
+		attributeData.get(3).setText(flight.getArrivalAirport().toString());	
+		attributeData.get(4).setText(reservation.getBookDate().toString());
+		attributeData.get(5).setText(ticket.getName());	
+		attributeData.get(6).setText(ticket.getIdentityCode());	
+		attributeData.get(7).setText(ticket.getPhoneNumber());
+		
+	}
+	
 }

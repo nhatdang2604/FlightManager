@@ -69,7 +69,8 @@ public class RegistrationForm extends JDialog implements FormBehaviour {
 	
 	private void initComponents() {
 		
-		warningText = new JLabel();					
+		warningText = new JLabel();
+		warningText.setForeground(Color.RED);		//Warning have red text
 		
 		contentPanel = new JPanel();
 		centerPanel = new JPanel();

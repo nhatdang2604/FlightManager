@@ -63,13 +63,6 @@ public class FlightForm extends JDialog implements FormBehaviour {
 	private Flight model;
 	private JLabel warningText;	
 	
-	private static final String[] ERRORS = {
-			"",
-			"Có ít nhất một ô không có thông tin",
-			"Ô phải mang giá trị số nguyên dương",
-			"Sân bay đi và sân bay đến không được giống nhau",
-	};
-	
 	public static final int NO_ERROR = 0;
 	public static final int EMPTY_FIELD_ERROR = 1;
 	public static final int NUMBER_FIELD_ERROR = 2;

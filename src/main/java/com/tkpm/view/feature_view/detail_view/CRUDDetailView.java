@@ -6,10 +6,14 @@ import java.util.List;
 
 import javax.swing.JButton;
 
+import com.tkpm.view.component.Button;
+import com.tkpm.view.component.FilledButton;
+import com.tkpm.view.component.OutlinedButton;
+
 @SuppressWarnings("serial")
 public class CRUDDetailView extends BaseReadOnlyDetailView {
 	
-	protected List<JButton> buttons;
+	protected List<Button> buttons;
 	
 	public static final int CREATE_BUTTON_INDEX = 0;
 	public static final int DELETE_BUTTON_INDEX = 1;
@@ -18,14 +22,14 @@ public class CRUDDetailView extends BaseReadOnlyDetailView {
 		
 		//Create buttons
 		buttons = new ArrayList<>();
-		buttons.add(new JButton("Thêm"));
-		buttons.add(new JButton("Xóa"));
+		buttons.add(new FilledButton("Thêm"));
+		buttons.add(new OutlinedButton("Xóa"));
 		
 		//Edit "Them" button
 		editButton();
 		
 		//Add Buttons to detail panel
-		for (JButton button: buttons) {
+		for (Button button: buttons) {
 			paddingPanels.get(2).add(button);
 		}
 	}
@@ -37,7 +41,7 @@ public class CRUDDetailView extends BaseReadOnlyDetailView {
 	}
 	
 	
-	public List<JButton> getButtons() {
+	public List<Button> getButtons() {
 		return buttons;
 	}
 	

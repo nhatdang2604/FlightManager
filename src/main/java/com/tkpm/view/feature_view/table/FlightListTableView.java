@@ -1,9 +1,13 @@
 package com.tkpm.view.feature_view.table;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 

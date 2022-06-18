@@ -35,23 +35,17 @@ public class Registration extends JDialog implements FormBehaviour{
 	private JPanel panelButton;
 	
 	private JLabel background;
-	private JLabel jlbUsername;
-	private JLabel jlbPassword;
-	private JLabel jlbRetypePassword;
-	private JLabel jlbName;
-	private JLabel jlbIdentity;
-	private JLabel jlbMobileNumber;
 	private JCheckBox showPasswordCheckbox;
 	
-	private JTextField txtUsername;
-	private JPasswordField passtxtPassword;
-	private JPasswordField passtxtRetypePassword;
-	private JTextField txtName;
-	private JTextField txtIdentity;
-	private JTextField txtMobileNumber;
+	private TextField txtUsername;
+	private PasswordField passtxtPassword;
+	private PasswordField passtxtRetypePassword;
+	private TextField txtName;
+	private TextField txtIdentity;
+	private TextField txtMobileNumber;
 	
-	private JButton cancelButton;
-	private JButton okButton;
+	private OutlinedButton cancelButton;
+	private FilledButton okButton;
 	
 	public static final int NO_ERROR = 0;
 	public static final int EMPTY_STAR_FIELD_ERROR = 1;
@@ -216,15 +210,10 @@ public class Registration extends JDialog implements FormBehaviour{
 		panelRegistrate.add(panelInfo, BorderLayout.CENTER);
 		panelInfo.add(jlbUsername);
 		panelInfo.add(txtUsername);
-		panelInfo.add(jlbPassword);
 		panelInfo.add(passtxtPassword);
-		panelInfo.add(jlbRetypePassword);
 		panelInfo.add(passtxtRetypePassword);
-		panelInfo.add(jlbName);
 		panelInfo.add(txtName);
-		panelInfo.add(jlbIdentity);
 		panelInfo.add(txtIdentity);
-		panelInfo.add(jlbMobileNumber);
 		panelInfo.add(txtMobileNumber);
 		panelInfo.add(showPasswordCheckbox);
 		panelInfo.add(panelButton);
@@ -242,7 +231,6 @@ public class Registration extends JDialog implements FormBehaviour{
 	public Registration() {
 		setTitle("Đăng ký");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 770, 512);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -273,6 +261,7 @@ public class Registration extends JDialog implements FormBehaviour{
 		
 		this.pack();
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		
 	}
 	

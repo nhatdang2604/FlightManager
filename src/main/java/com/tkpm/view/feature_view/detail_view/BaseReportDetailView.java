@@ -13,10 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.tkpm.view.component.FilledButton;
 import com.tkpm.view.frame.form.FormBehaviour;
 
 @SuppressWarnings("serial")
-public class BaseReportDetailView extends JPanel implements FormBehaviour {
+public class BaseReportDetailView extends BaseDetailView implements FormBehaviour {
 	
 	protected String title;
 	protected List<JPanel> paddingPanels;
@@ -24,7 +25,7 @@ public class BaseReportDetailView extends JPanel implements FormBehaviour {
 	protected String[] attributeFieldNames;
 	
 	protected JLabel warningField;
-	protected JButton createButton;
+	protected FilledButton createButton;
 	
 	private static final String[] ERRORS = {
 		"",
@@ -70,6 +71,9 @@ public class BaseReportDetailView extends JPanel implements FormBehaviour {
 		int paddingSize = (null == attributeFieldNames?0:attributeFieldNames.length);
 		//paddingPanels.get(1).setLayout(new GridLayout(paddingSize, 2));
 		paddingPanels.get(2).setLayout(new FlowLayout());
+		for (JPanel panel : paddingPanels) {
+			panel.setBackground(Color.WHITE);
+		}
 	}
 	
 	protected void addTitle(String title) {
@@ -103,7 +107,7 @@ public class BaseReportDetailView extends JPanel implements FormBehaviour {
 	}
 	
 	public BaseReportDetailView(String title, String[] attributeFieldNames) {
-		
+		setBackground(Color.WHITE);
 		addTitle(title);
 		initComponents(attributeFieldNames);
 		setLayout();

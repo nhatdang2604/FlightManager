@@ -51,6 +51,14 @@ public class RegistrationForm extends JDialog implements FormBehaviour {
 	public static final int PASSWORD_MISMATCH_ERROOR = 3;
 	public static final int NUMBER_FIELD_ERROR = 4;
 	
+	private static final String[] ERRORS = {
+			"",
+			"Có ít nhất một ô (*) bị trống",
+			"Tên đăng nhập đã tồn tại",
+			"<html><body>Nhập lại mật khẩu và<br>mật khẩu mới không trùng khớp</body></html>",
+			"CMND/CCCD và SĐT phải là số"
+	};
+	
 	
 	public RegistrationForm setError(int errorCode) {
 		if (0 <= errorCode && errorCode < ERRORS.length) {

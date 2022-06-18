@@ -35,7 +35,7 @@ import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
 public class CreateAccountForm extends JDialog implements FormBehaviour {
 
-	final protected int HEIGHT = 300;
+	final protected int HEIGHT = 340;
 	final protected int WIDTH = 400;
 	
 	private JPanel centerPanel;

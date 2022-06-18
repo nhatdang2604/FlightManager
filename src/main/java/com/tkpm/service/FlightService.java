@@ -189,14 +189,14 @@ public enum FlightService {
 		if (null != departureAirport) {
 			flights = flights
 					.stream()
-					.filter(flight -> flight.getDepartureAirport().equals(departureAirport))
+					.filter(flight -> departureAirport.equals(flight.getDepartureAirport()))
 					.collect(Collectors.toSet());
 		}
 		
 		if (null != arrivalAirport) {
 			flights = flights
 					.stream()
-					.filter(flight -> flight.getArrivalAirport().equals(arrivalAirport))
+					.filter(flight -> arrivalAirport.equals(flight.getArrivalAirport()))
 					.collect(Collectors.toSet());
 		}
 		

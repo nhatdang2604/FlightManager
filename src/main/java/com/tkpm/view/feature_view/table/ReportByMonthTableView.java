@@ -42,7 +42,7 @@ public class ReportByMonthTableView extends JTable {
 				Class clazz = Integer.class;
 				switch (columnIndex) {
 				case RATIO_COLUMN_INDEX:
-					clazz = Double.class;
+					clazz = String.class;
 					break;
 				
 		      }
@@ -58,26 +58,8 @@ public class ReportByMonthTableView extends JTable {
 		
 	public ReportByMonthTableView() {
 		setupModelTable();
-		
-		getTableHeader().setReorderingAllowed(false);		
-		// Edit table header
-		getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
-				Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				component.setBackground(Color.WHITE);
-				setBorder(noFocusBorder);
-				if (isSelected) {
-					component.setForeground(new Color(113, 113, 102));
-				}
-				else {
-					component.setForeground(new Color(102, 102, 102));
-				}
-				setHorizontalAlignment(JLabel.CENTER);
-				return component;
-			}
-		});
+
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public ReportByMonthTableView clearData() {
@@ -104,13 +86,16 @@ public class ReportByMonthTableView extends JTable {
 			
 			
 			FlightStatisticWrapper wrapper = report.getWrappers().get(index);
-			double ratio = (double)(wrapper.getTurnover()/totalTurnover);
+			double ratio = 1;
+			if (0 != totalTurnover) {
+				ratio = (double)(wrapper.getTurnover()/totalTurnover);
+			}
 			Object[] row = {
 					index + 1, 
 					wrapper.getFlight().getId(),
 					wrapper.getTotalNumberOfSeat(),
-					ratio,
-					wrapper.getTurnover()};
+					new Double(ratio * 100).toString() + "%",
+					"$" + wrapper.getTurnover().toString()};
 			
 			tableModel.addRow(row);		
 		}

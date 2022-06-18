@@ -58,22 +58,9 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	@OneToOne(
 			mappedBy = "ticket",
 			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER,
-			optional = true)
+			fetch = FetchType.LAZY,
+			optional = false)
 	private Reservation reservation;
-	
-	@ManyToOne(
-			cascade = {
-					CascadeType.PERSIST,
-					CascadeType.MERGE,
-					CascadeType.DETACH,
-					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
-	@JoinColumn(
-			name = "customer_id", 
-			referencedColumnName = "id",
-			nullable = true)
-	private CustomerAccount customer;
 	
 	@Column(name = "price")
 	private Integer price;
@@ -93,14 +80,25 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	//Constructors
 	public Ticket() {
 		super();
-		
+	}
+	
+	//Copy constructor
+	public Ticket(Ticket other) {
+		if (null != other.getId()) {id = other.getId();};
+		flight = other.getFlight();
+		ticketClass = other.getTicketClass();
+		reservation = other.getReservation();
+		if (null != other.getPrice()) {price = new Integer(other.getPrice());};
+		if (null != other.getName()) {name = new String(other.getName());};
+		if (null != other.getIdentityCode()) {identityCode = new String(other.getIdentityCode());};
+		if (null != other.getPhoneNumber()) {phoneNumber = new String(other.getPhoneNumber());};
+		if (null != other.getIsBooked()) {isBooked = new Boolean(other.getIsBooked());};
 	}
 
 	//Getters
 	public Integer getId() {return id;}
 	public Flight getFlight() {return flight;}
 	public TicketClass getTicketClass() {return ticketClass;}
-	public CustomerAccount getCustomer() {return customer;}
 	public Integer getPrice() {return price;}
 	public String getName() {return name;}
 	public String getIdentityCode() {return identityCode;}
@@ -112,7 +110,6 @@ public class Ticket implements Serializable, Comparable<Ticket> {
 	public void setId(Integer id) {this.id = id;}
 	public void setFlight(Flight flight) {this.flight = flight;}
 	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
-	public void setCustomer(CustomerAccount customer) {this.customer = customer;}
 	public void setPrice(Integer price) {this.price = price;}
 	public void setName(String name) {this.name = name;}
 	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}

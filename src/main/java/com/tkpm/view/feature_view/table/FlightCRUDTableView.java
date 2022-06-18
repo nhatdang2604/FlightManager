@@ -29,21 +29,23 @@ public class FlightCRUDTableView extends JTable {
 	
 	protected List<JButton> actionButtons;
 	
+//	public static final String[] COLUMN_NAMES = {
+//		"Chọn", "STT", "Mã chuyến bay", "Thời gian", "Chi tiết", "Chỉnh sửa"
+//	};
+	
 	public static final String[] COLUMN_NAMES = {
-		"Chọn", "STT", "Mã chuyến bay", "Sân bay đi", "Sân bay đến", "Thời gian", "Chi tiết", "Chỉnh sửa"
+			"Chọn", "STT", "Mã chuyến bay", "Thời gian", "Chỉnh sửa"
 	};
 	
 	public static final int SELECT_COLUMN_INDEX = 0;
 	public static final int COLUMN_INDEX = 1;
 	public static final int FLIGHT_ID_COLUMN_INDEX = 2;
-	public static final int DEPARTURE_AIRPORT_COLUMN_INDEX = 3;
-	public static final int ARRIVAL_AIRPORT_COLUMN_INDEX = 4;
-	public static final int DATETIME_COLUMN_INDEX = 5;
-	public static final int DETAIL_COLUMN_INDEX = 6;
-	public static final int UPDATE_COLUMN_INDEX = 7;
+	public static final int DATETIME_COLUMN_INDEX = 3;
+	//public static final int DETAIL_COLUMN_INDEX = 4;
+	public static final int UPDATE_COLUMN_INDEX = 4;
 	
-	public static final int DETAIL_BUTTON_INDEX = 0;
-	public static final int UPDATE_BUTTON_INDEX = 1;
+	//public static final int DETAIL_BUTTON_INDEX = 0;
+	public static final int UPDATE_BUTTON_INDEX = 0;
 	
 	protected void setupModelTable() {
 		//Make uneditable table
@@ -53,7 +55,7 @@ public class FlightCRUDTableView extends JTable {
 			public boolean isCellEditable(int row, int column) {				
 						
 				//Make Detail button cell editable
-				if (DETAIL_COLUMN_INDEX == column ||
+				if (
 					SELECT_COLUMN_INDEX == column ||
 					UPDATE_COLUMN_INDEX == column) {
 					return true;
@@ -76,9 +78,9 @@ public class FlightCRUDTableView extends JTable {
 				case FLIGHT_ID_COLUMN_INDEX:
 					clazz = Integer.class;
 					break;
-				case DETAIL_COLUMN_INDEX:
-					clazz = Boolean.class;
-					break;
+//				case DETAIL_COLUMN_INDEX:
+//					clazz = Boolean.class;
+//					break;
 				case UPDATE_COLUMN_INDEX:
 					clazz = Boolean.class;
 					break;
@@ -98,10 +100,11 @@ public class FlightCRUDTableView extends JTable {
 		
 		//Setup the action buttons for "Action" column
 		actionButtons = new ArrayList<>(Arrays.asList(
-				new JButton("Chi tiết"),
+				//new JButton("Chi tiết"),
 				new JButton("Cập nhật")));
 		
-		int offset = DETAIL_COLUMN_INDEX;
+		//int offset = DETAIL_COLUMN_INDEX;
+		int offset = UPDATE_COLUMN_INDEX;
 		for (int i = 0; i < actionButtons.size(); ++i) {
 			TableColumn column = this.getColumn(COLUMN_NAMES[offset + i]);
 			column.setCellRenderer(new ButtonRenderer(actionButtons.get(i).getText()));
@@ -113,25 +116,7 @@ public class FlightCRUDTableView extends JTable {
 		setupModelTable();
 		initDetailButton();
 		
-		getTableHeader().setReorderingAllowed(false);		
-		// Edit table header
-		getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
-				Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				component.setBackground(Color.WHITE);
-				setBorder(noFocusBorder);
-				if (isSelected) {
-					component.setForeground(new Color(113, 113, 102));
-				}
-				else {
-					component.setForeground(new Color(102, 102, 102));
-				}
-				setHorizontalAlignment(JLabel.CENTER);
-				return component;
-			}
-		});
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public FlightCRUDTableView clearData() {
@@ -158,8 +143,6 @@ public class FlightCRUDTableView extends JTable {
 					false,
 					index + 1, 
 					flight.getId(), 
-					flight.getDepartureAirport().getName(),
-					flight.getArrivalAirport().getName(),
 					flight.getDateTime()};
 			tableModel.addRow(row);		
 		}
@@ -169,6 +152,7 @@ public class FlightCRUDTableView extends JTable {
 	
 	public Flight getSelectedFlight() {
 		int index = this.getSelectedRow();
+		if (-1 == index) return null;
 		return flights.get(index);
 	}
 	

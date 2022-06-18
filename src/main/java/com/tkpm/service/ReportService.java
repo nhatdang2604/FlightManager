@@ -1,7 +1,7 @@
 package com.tkpm.service;
 
 import java.time.Month;
-import java.time.Year;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,13 +23,27 @@ public enum ReportService {
 		
 		BaseReport report = null;
 		
-		//Filtering the flights by month and year, then get the wrapper for each flight
+		//Filtering the flights by month and year, then get the id for each flight
 		Set<Flight> flights = flightService.findAllFlights();
-		List<FlightStatisticWrapper> wrappers = flights
+		
+		List<Flight> filterFlights = flights
 				.stream()
 				.filter(flight -> 
 					flight.getDateTime().getMonth().equals(month) &&
 					flight.getDateTime().getYear() == year)
+				.collect(Collectors.toList());
+		
+		List<Integer> ids = filterFlights
+				.stream()
+				.map(flight -> flight.getId())
+				.collect(Collectors.toList());
+		
+		//Fetch ticket for each filtered flight
+		filterFlights = flightService.getFlightForReport(ids);
+		
+		//Get the wrappers
+		List<FlightStatisticWrapper> wrappers = filterFlights
+				.stream()
 				.map(flight -> new FlightStatisticWrapper(flight))
 				.collect(Collectors.toList());
 		
@@ -41,23 +55,48 @@ public enum ReportService {
 		return report;
 	}
 	
-	public BaseReport getReportByYear(int year) {
+	public List<BaseReport> getReportByYear(int year) {
 		
-		BaseReport report = null;
+		List<BaseReport> reports = new LinkedList<>();
 		
-		//Filtering the flights by month and year, then get the wrapper for each flight
+		
 		Set<Flight> flights = flightService.findAllFlights();
-		List<FlightStatisticWrapper> wrappers = flights
-				.stream()
-				.filter(flight -> flight.getDateTime().getYear() == year)
-				.map(flight -> new FlightStatisticWrapper(flight))
-				.collect(Collectors.toList());
+
+		//Filtering the flights by each month in year, then get the wrapper for each flight
+		final int NUMBER_OF_MONTH = 12;
+		for (int i = 1; i <= NUMBER_OF_MONTH; ++i) {
+			Month month = Month.of(i);
+			
+			List<Flight> filterFlights = flights
+					.stream()
+					.filter(flight -> 
+						flight.getDateTime().getMonth().equals(month) &&
+						flight.getDateTime().getYear() == year)
+					.collect(Collectors.toList());
+			
+			List<Integer> ids = filterFlights
+					.stream()
+					.map(flight -> flight.getId())
+					.collect(Collectors.toList());
+			
+			//Fetch ticket for each filtered flight
+			filterFlights = flightService.getFlightForReport(ids);
+			
+			//Get the wrappers
+			List<FlightStatisticWrapper> wrappers = filterFlights
+					.stream()
+					.map(flight -> new FlightStatisticWrapper(flight))
+					.collect(Collectors.toList());
+			
+			//Setup report
+			BaseReport report = new BaseReport(wrappers);
+			report
+			.setMonth(month)
+			.setYear(year);
 		
-		//Setup report
-		report = new BaseReport(wrappers);
-		report.setYear(year);
+			reports.add(report);
+		}
 		
-		return report;
-		
+		return reports;
 	}
 }

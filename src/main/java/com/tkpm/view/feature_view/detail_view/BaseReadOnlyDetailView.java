@@ -75,10 +75,14 @@ public class BaseReadOnlyDetailView extends BaseDetailView {
 		//Add jlabel and jbuttons to display data
 		addStuffsToPanel();
 		
+		//setBackground(Color.decode("#FDFBFF"));
+		setBackground(Color.WHITE);
+		
 	}
 		
 	@Override
 	public void setBackground(Color bg) {
+		super.setBackground(Color.WHITE);
 		try {
 			for (JPanel i: paddingPanels) {
 				i.setBackground(bg);

@@ -141,5 +141,36 @@ public enum TicketClassDAO {
 	
 		return ticketClass;
 	}
+	
+	//Find ticket class by name
+	public TicketClass find(String name) {
+			
+		Session session = factory.getCurrentSession();
+		TicketClass ticketClass = null;
+			
+		try {
+			session.beginTransaction();
+			String param = "name";
+			String query = "from " + TicketClass.class.getName() + " tc where tc.name = :" + param;
+			
+			ticketClass = session
+					.createQuery(query, TicketClass.class)
+					.setParameter(param, name)
+					.setMaxResults(1)
+					.stream()
+					.findFirst()
+					.orElse(null);
+				
+		} catch (Exception ex) {
+				
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+		
+		return ticketClass;
+	}
 }
  

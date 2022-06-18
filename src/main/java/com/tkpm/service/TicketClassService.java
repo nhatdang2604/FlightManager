@@ -41,8 +41,12 @@ public enum TicketClassService {
 	}
 	
 	//Find ticketClass by id
-	public TicketClass findAirportById(Integer id) {
+	public TicketClass findTicketClassById(Integer id) {
 		return ticketClassDAO.find(id);
+	}
+	
+	public TicketClass findTicketClassByName(String name) {
+		return ticketClassDAO.find(name);
 	}
 }
  

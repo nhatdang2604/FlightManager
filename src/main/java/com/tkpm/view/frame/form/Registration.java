@@ -1,44 +1,33 @@
 package com.tkpm.view.frame.form;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.nio.channels.NonWritableChannelException;
-import java.awt.Component;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.Dimension;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.BoxLayout;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import com.tkpm.entities.CustomerAccount;
 import com.tkpm.entities.User;
+import com.tkpm.entities.User.USER_ROLE;
 import com.tkpm.utils.HashingUtil;
-import com.tkpm.view.component.FilledButton;
-import com.tkpm.view.component.OutlinedButton;
-import com.tkpm.view.component.PasswordField;
-import com.tkpm.view.component.TextField;
 import javax.swing.SwingConstants;
+import java.awt.Insets;
 
-public class Registration extends JFrame implements FormBehaviour{
+public class Registration extends JDialog implements FormBehaviour{
 
 	private JPanel contentPane;
 	private JPanel panelRegistrate;
@@ -97,11 +86,11 @@ public class Registration extends JFrame implements FormBehaviour{
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') && (character != KeyEvent.VK_BACK_SPACE)) {
+		if (('0' <= character) && (character <= '9') || (KeyEvent.VK_BACK_SPACE == character )) {
+			setError(NO_ERROR);
+		} else {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
-		} else {
-			setError(NO_ERROR);
 		}
 	}
 	
@@ -129,6 +118,7 @@ public class Registration extends JFrame implements FormBehaviour{
 	private void initComponents() {
 		
 		background = new JLabel("");
+		background.setHorizontalAlignment(SwingConstants.CENTER);
 		background.setBackground(Color.WHITE);
 		background.setIcon(new ImageIcon(Registration.class.getResource("/com/tkpm/view/frame/form/rafiki.jpg")));
 		
@@ -140,48 +130,73 @@ public class Registration extends JFrame implements FormBehaviour{
 		panelInfo.setBackground(Color.WHITE);
 		
 		panelButton = new JPanel();
-		panelButton.setBorder(new EmptyBorder(8, 0, 8, 0));
+		panelButton.setBorder(new EmptyBorder(0, 20, 0, 20));
 		panelButton.setPreferredSize(new Dimension(260, 30));
 		panelButton.setBackground(Color.WHITE);
+
+		jlbUsername = new JLabel("Tên đăng nhập (*)");
+		jlbUsername.setPreferredSize(new Dimension(260, 30));
+		jlbUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		txtUsername = new TextField("Tên đăng nhập (*)");
-		txtUsername.setPreferredSize(new Dimension(260, 50));
+		txtUsername = new JTextField();
+		txtUsername.setPreferredSize(new Dimension(260, 30));
 		txtUsername.setColumns(10);
 		
-		passtxtPassword = new PasswordField("Mật khẩu (*)");
-		passtxtPassword.setPreferredSize(new Dimension(260, 50));
+		jlbPassword = new JLabel("Mật khẩu (*)");
+		jlbPassword.setPreferredSize(new Dimension(260, 30));
+		jlbPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		passtxtRetypePassword = new PasswordField("Nhập lại mật khẩu (*)");
-		passtxtRetypePassword.setPreferredSize(new Dimension(260, 50));
+		passtxtPassword = new JPasswordField();
+		passtxtPassword.setPreferredSize(new Dimension(260, 30));
 		
-		txtName = new TextField("Họ và tên");
-		txtName.setPreferredSize(new Dimension(260, 50));
+		jlbRetypePassword = new JLabel("Nhập lại mật khẩu (*)");
+		jlbRetypePassword.setPreferredSize(new Dimension(260, 30));
+		jlbRetypePassword.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		passtxtRetypePassword = new JPasswordField();
+		passtxtRetypePassword.setPreferredSize(new Dimension(260, 30));
+		
+		jlbName = new JLabel("Họ và tên");
+		jlbName.setPreferredSize(new Dimension(260, 30));
+		jlbName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		txtName = new JTextField();
+		txtName.setPreferredSize(new Dimension(260, 30));
 		txtName.setColumns(10);
 		
-		txtIdentity = new TextField("CMND/CCCD");
-		txtIdentity.setPreferredSize(new Dimension(260, 50));
+		jlbIdentity = new JLabel("CMND/CCCD");
+		jlbIdentity.setPreferredSize(new Dimension(260, 30));
+		jlbIdentity.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		txtIdentity = new JTextField();
+		txtIdentity.setPreferredSize(new Dimension(260, 30));
 		txtIdentity.setColumns(10);
 		
-		txtMobileNumber = new TextField("Số điện thoại");
-		txtMobileNumber.setPreferredSize(new Dimension(260, 50));
+		jlbMobileNumber = new JLabel("Số điện thoại");
+		jlbMobileNumber.setPreferredSize(new Dimension(260, 30));
+		jlbMobileNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		txtMobileNumber = new JTextField();
+		txtMobileNumber.setPreferredSize(new Dimension(260, 30));
 		txtMobileNumber.setColumns(10);
 		
 		showPasswordCheckbox = new JCheckBox("Hiện mật khẩu");
 		showPasswordCheckbox.setPreferredSize(new Dimension(260, 30));
 		showPasswordCheckbox.setBackground(Color.WHITE);
-		showPasswordCheckbox.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
-		cancelButton = new OutlinedButton("Huỷ");
-		cancelButton.setBorderPainted(false);
-		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		cancelButton = new JButton("Huỷ");
+		cancelButton.setBackground(Color.WHITE);
 		
-		okButton = new FilledButton("Đăng ký");
-		okButton.setBorderPainted(false);
-		okButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		okButton = new JButton("Đăng ký");
+		okButton.setForeground(Color.WHITE);
+		okButton.setBackground(new Color(41, 97, 213));
 		
 		warningText = new JLabel("");
-		warningText.setFont(new Font("Noto Sans", Font.PLAIN, 16));
 		warningText.setForeground(Color.RED);
+		
+		panelRegistrate.setLayout(new BorderLayout(0, 0));
+		panelInfo.setLayout(new GridLayout(15, 1, 0, 10));
+		panelButton.setLayout(new GridLayout(0, 2, 20, 0));
 		
 		initCheckbox();
 		initButtons();
@@ -189,12 +204,11 @@ public class Registration extends JFrame implements FormBehaviour{
 	}
 	
 	private void setLayout() {
-		contentPane.setLayout(new GridLayout(0, 2, 0, 0));
+		contentPane.setLayout(new GridLayout(0, 2, 10, 0));
 		
-		panelRegistrate.setLayout(new BorderLayout(0, 0));
-		panelInfo.setLayout(new GridLayout(9, 1, 0, 10));
-		panelButton.setLayout(new GridLayout(0, 2, 20, 0));
-		
+		contentPane.add(panelRegistrate);
+		panelRegistrate.add(panelInfo, BorderLayout.CENTER);
+		panelInfo.add(jlbUsername);
 		panelInfo.add(txtUsername);
 		panelInfo.add(passtxtPassword);
 		panelInfo.add(passtxtRetypePassword);
@@ -207,7 +221,6 @@ public class Registration extends JFrame implements FormBehaviour{
 		panelButton.add(okButton);
 		panelInfo.add(warningText);
 		
-		contentPane.add(panelInfo);
 		contentPane.add(background);
 	}
 
@@ -221,7 +234,26 @@ public class Registration extends JFrame implements FormBehaviour{
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(20, 50, 20, 50));
+		contentPane.setBorder(new EmptyBorder(50, 75, 25, 75));
+		setContentPane(contentPane);
+		
+		initComponents();
+		setLayout();
+		
+		this.pack();
+		
+	}
+	
+	public Registration(JFrame owner) {
+		super(owner, true);
+		setTitle("Đăng ký");
+		this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		this.setBounds(100, 100, 770, 512);
+		
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
+		contentPane.setBorder(new EmptyBorder(50, 75, 25, 75));
+		contentPane.setLayout(new BorderLayout(50, 0));
 		setContentPane(contentPane);
 		
 		initComponents();
@@ -272,12 +304,13 @@ public class Registration extends JFrame implements FormBehaviour{
 	}
 
 	@Override
-	public Object submit() {
+	public User submit() {
 		User user = new User();
 		user.setUsername(txtUsername.getText().trim());
 		String encryptedPassword = HashingUtil.passwordEncryption(
 				new String(passtxtPassword.getPassword()).trim());
 		user.setEncryptedPassword(encryptedPassword);
+		user.setRole(USER_ROLE.Customer.name());
 		
 		CustomerAccount account = new CustomerAccount();
 		account.setName(txtName.getText());

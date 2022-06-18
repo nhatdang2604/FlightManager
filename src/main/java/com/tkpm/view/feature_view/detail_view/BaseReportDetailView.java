@@ -30,20 +30,22 @@ public class BaseReportDetailView extends BaseDetailView implements FormBehaviou
 	private static final String[] ERRORS = {
 		"",
 		"Giá trị của ô phải là số ",
+		"Có một ô không có giá trị"
 	};
 	
 	public static final int NO_ERROR = 0;
 	public static final int NUMBER_FIELD_ERROR = 1;
+	public static final int EMPTY_FIELD_ERROR = 2;
 	
 	//Ignore not an number value from an event
 	//	And open the flag of nan error in number field
 	protected void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') || (character != KeyEvent.VK_BACK_SPACE)) {
+		if (('0' <= character) && (character <= '9') || (KeyEvent.VK_BACK_SPACE == character)) {
+			setError(NO_ERROR);
+		} else {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
-		} else {
-			setError(NO_ERROR);
 		}
 	}
 		
@@ -86,7 +88,9 @@ public class BaseReportDetailView extends BaseDetailView implements FormBehaviou
 		
 		paddingPanels = new ArrayList<>();
 		attributeFields = new ArrayList<>();
-		createButton = new FilledButton("Tạo báo cáo");
+		createButton = new JButton("Tạo báo cáo");
+		createButton.setBackground(new Color(41, 97, 213));
+		createButton.setForeground(Color.WHITE);
 		warningField = new JLabel();					
 		warningField.setForeground(Color.RED);		//Warning have red text
 		
@@ -108,6 +112,11 @@ public class BaseReportDetailView extends BaseDetailView implements FormBehaviou
 		initComponents(attributeFieldNames);
 		setLayout();
 		addButtonToLayout();
+		
+		setBackground(Color.WHITE);
+		for (JPanel panel : paddingPanels) {
+			panel.setBackground(Color.WHITE);
+		}
 		
 	}
 

@@ -1,7 +1,6 @@
 package com.tkpm.service;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import com.tkpm.dao.AirportDAO;
 import com.tkpm.entities.Airport;
@@ -10,11 +9,18 @@ import com.tkpm.entities.Airport;
 public enum AirportService {
 
 	INSTANCE;
+
+	//Services
+	private TransitionAirportService transitionService;
+	private FlightService flightService;
 	
+	//DAOs
 	private AirportDAO airportDAO;
 	
 	private AirportService() {
 		airportDAO = AirportDAO.INSTANCE;
+		transitionService = TransitionAirportService.INSTANCE;
+		flightService = FlightService.INSTANCE;
 	}
 	
 	//Create new airport
@@ -33,16 +39,30 @@ public enum AirportService {
 	}
 	
 	//Find all airports in database
-	public Set<Airport> findAllAirports() {
+	public List<Airport> findAllAirports() {
 		
-		//Using set, because query in DAO only return list
-		return new TreeSet<>(airportDAO.findAll());
+		return airportDAO.findAll();
 		
 	}
 	
 	//Find airport by id
 	public Airport findAirportById(Integer id) {
 		return airportDAO.find(id);
+	}
+
+	public Airport findAirportByName(String name) {
+		return airportDAO.find(name);
+	}
+
+	public int deleteAirports(List<Integer> ids) {
+		
+		//Set null for transition airport, which has airport with the same id with the delete airports
+		transitionService.removeAirportFieldWithGivenIds(ids);
+		
+		//Set null for transition airport, which has airport with the same id with the delete airports
+		flightService.removeAirportFieldWithGivenIds(ids);
+		
+		return airportDAO.delete(ids);
 	}
 }
  

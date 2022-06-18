@@ -6,17 +6,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -33,7 +36,7 @@ import com.tkpm.entities.FlightDetail;
 import com.tkpm.entities.Transition;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
-public class FlightForm extends JDialog {
+public class FlightForm extends JDialog implements FormBehaviour {
 
 	final protected int HEIGHT = 500;
 	final protected int WIDTH = 600;
@@ -64,12 +67,16 @@ public class FlightForm extends JDialog {
 			"",
 			"Có ít nhất một ô không có thông tin",
 			"Ô phải mang giá trị số nguyên dương",
+			"Sân bay đi và sân bay đến không được giống nhau",
 	};
 	
-	private static final int NO_ERROR = 0;
-	private static final int EMPTY_FIELD_ERROR = 1;
+	public static final int NO_ERROR = 0;
+	public static final int EMPTY_FIELD_ERROR = 1;
 	public static final int NUMBER_FIELD_ERROR = 2;
+	public static final int AIRPORT_MATCH_ERROR = 3;
 	
+	
+	@Override
 	public FlightForm setError(int errorCode) {
 		if (0 <= errorCode && errorCode < ERRORS.length) {
 			warningText.setText(ERRORS[errorCode]);
@@ -81,11 +88,11 @@ public class FlightForm extends JDialog {
 	//	And open the flag of nan error in number field
 	private void ignoreNANValue(KeyEvent event) {
 		char character = event.getKeyChar();
-		if ((character < '0') || (character > '9') || (character != KeyEvent.VK_BACK_SPACE)) {
+		if (('0' <= character) && (character <= '9') || (KeyEvent.VK_BACK_SPACE == character)) {
+			setError(NO_ERROR);
+		} else {
 			event.consume();
 			setError(NUMBER_FIELD_ERROR);
-		} else {
-			setError(NO_ERROR);
 		}
 	}
 	
@@ -103,14 +110,14 @@ public class FlightForm extends JDialog {
 		
 		centerPanel = new JPanel();
 		labels = new ArrayList<>(Arrays.asList(
-				new JLabel("Sân bay đi"),
-				new JLabel("Sân bay đến"),
-				new JLabel("Ngày - giờ"),
-				new JLabel("Thời gian bay"),
-				new JLabel("Số lượng ghế hạng 1"),
-				new JLabel("Số lượng ghế hạng 2"),
-				new JLabel("Giá vé hạng 1"),
-				new JLabel("Giá vé hạng 2")));
+				new JLabel("Sân bay đi (*)"),
+				new JLabel("Sân bay đến (*)"),
+				new JLabel("Ngày - giờ (*)"),
+				new JLabel("Thời gian bay (*)"),
+				new JLabel("Số lượng ghế hạng 1 (*)"),
+				new JLabel("Số lượng ghế hạng 2 (*)"),
+				new JLabel("Giá vé hạng 1 (*)"),
+				new JLabel("Giá vé hạng 2 (*)")));
 		
 		//Init datetime picker
 		flightDateTimePicker = new DateTimePicker();
@@ -151,10 +158,34 @@ public class FlightForm extends JDialog {
 			this.dispose();
 		});
 		
-		addTransitionButton.addActionListener(event -> {
-			transitionForm.clear();
-			transitionForm.open();
-		});
+//		addTransitionButton.addActionListener(event -> {
+//			transitionForm.clear();
+//			transitionForm.open();
+//		});
+		
+//		deleteTransitionButton.addActionListener(event -> {
+//			int input = JOptionPane.showConfirmDialog(this,
+//	        		"Bạn có chắc chắn muốn xóa ?",
+//	        		"Xóa",
+//	        		JOptionPane.YES_NO_OPTION);
+//			
+//			if (JOptionPane.YES_OPTION == input) {
+//				List<Transition> original = table.getTransitions();
+//				List<Transition> selected = table.getSelectedTransitions();
+//				
+//				//Delete the reference
+//				for (Transition trans: selected) {
+//					original.removeIf(iter -> iter == trans);
+//				}
+//				
+//				System.out.println(original.size());
+//				table.setTransitions(original);
+//				table.update();
+//				
+//				//Success message
+//				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
+//			}
+//		});
 		
 		transitionForm.getSubmitButton().addActionListener((event) -> {
 			if (!transitionForm.areThereAnyEmptyStarField()) {
@@ -162,7 +193,14 @@ public class FlightForm extends JDialog {
 				
 				//There is no error
 				if (null != transition) {
-					table.addTransition(transition);
+					if (!table.getTransitions().contains(transition)) {
+						table.addTransition(transition);
+					} else {
+						int index = table.getTransitions().indexOf(transition);
+						table.getTransitions().set(index, transition);
+					}
+					
+					table.update();
 					transitionForm.close();
 				}
 			} else {
@@ -255,8 +293,7 @@ public class FlightForm extends JDialog {
 	
 	private void initModel() {
 		model = new Flight();
-		model.setTransitions(new TreeSet<>());
-		model.setReservations(new TreeSet<>());
+		model.setTransitions(new ArrayList<>());
 		model.setTickets(new TreeSet<>());
 		model.setDetail(new FlightDetail());
 		model.setDateTime(null);
@@ -304,7 +341,7 @@ public class FlightForm extends JDialog {
 	}
 	public FlightForm setAirports(List<Airport> airports) {
 		for (JComboBox<Airport> cb: airportComboBoxes) {
-			cb.removeAll();
+			cb.removeAllItems();
 			airports.forEach(airport -> cb.addItem(airport));
 		}
 		
@@ -325,21 +362,79 @@ public class FlightForm extends JDialog {
 		detail.setPriceOfFirstClassSeat(Integer.parseInt(numericTextFields.get(3).getText()));
 		detail.setPriceOfSecondClassSeat(Integer.parseInt(numericTextFields.get(4).getText()));
 		
-		Set<Transition> transitions = new TreeSet<>(table.getTransitions());
+		List<Transition> transitions = table.getTransitions();
 		model.setTransitions(transitions);
 		
 		return model;
 	}
 	
+	public JButton getCancelButton() {return cancelButton;}
 	public AirportTransitionForm getTransitionForm() {return transitionForm;}
+	public JButton getAddTransitionButton() {return addTransitionButton;}
+	public JButton getDeleteTransitionButton() {return deleteTransitionButton;}
 	public TransitionCRUDTableView getTable() {return table;}
 	
 	public JButton getSubmitButton() {
 		return okButton;
 	}
 	
-	public static void main(String[] args) {
-		FlightForm form = new FlightForm(null);
-		form.setVisible(true);
+	public boolean areThereAnyEmptyStarField() {
+		
+		for (JComboBox<Airport> cb: airportComboBoxes) {
+			Airport airport = (Airport) cb.getSelectedItem();
+			if (null == airport) {
+				return true;
+			}
+		}
+		
+		LocalDateTime datetime = flightDateTimePicker.getDateTimePermissive();
+		if (null == datetime) {
+			return true;
+		}
+		
+		for (JTextField field: numericTextFields) {
+			String value = field.getText().trim();
+			if (null == value || value.equals("")) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public boolean areTheseAirportMatch() {
+		
+		Airport departure = (Airport) airportComboBoxes.get(0).getSelectedItem();
+		Airport arrival = (Airport) airportComboBoxes.get(1).getSelectedItem();
+		
+		if (departure.getId().equals(arrival.getId())) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void clear() {
+		airportComboBoxes.get(0).setSelectedIndex(-1);
+		airportComboBoxes.get(1).setSelectedIndex(-1);
+		flightDateTimePicker.setDateTimePermissive(LocalDateTime.now());
+		for (JTextField field: numericTextFields) {
+			field.setText("0");
+		}
+		
+		table.clearData();
+		transitionForm.clear();
+	}
+
+	@Override
+	public void close() {
+		initModel();
+		setVisible(false);
+	}
+	
+	public void open() {
+		clear();
+		setVisible(true);
 	}
 }

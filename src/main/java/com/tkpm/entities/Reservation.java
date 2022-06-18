@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,24 +28,28 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	private static final long serialVersionUID = -6565753193438714199L;
 	
 	@Id
+	private Integer id;
+	
+	@MapsId
 	@OneToOne(
 			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER)
+			fetch = FetchType.LAZY,
+			optional = false)
 	@JoinColumn(name = "id")
 	private Ticket ticket;
 	
-	@ManyToOne(
-			cascade = {
-					CascadeType.PERSIST,
-					CascadeType.MERGE,
-					CascadeType.DETACH,
-					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
-	@JoinColumn(
-			name = "flight_id", 
-			referencedColumnName = "id",
-			nullable = true)
-	private Flight flight;
+//	@ManyToOne(
+//			cascade = {
+//					CascadeType.PERSIST,
+//					CascadeType.MERGE,
+//					CascadeType.DETACH,
+//					CascadeType.REFRESH},
+//			fetch = FetchType.EAGER)
+//	@JoinColumn(
+//			name = "flight_id", 
+//			referencedColumnName = "id",
+//			nullable = true)
+//	private Flight flight;
 //	
 //	@ManyToOne(
 //			cascade = {
@@ -70,24 +75,15 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 					CascadeType.MERGE,
 					CascadeType.DETACH,
 					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
+			fetch = FetchType.LAZY)
 	@JoinColumn(
-			name = "customer_id", 
+			name = "account_id", 
 			referencedColumnName = "id",
 			nullable = true)
-	private CustomerAccount customer;
+	private BaseAccount account;
 	
 	@Column(name = "booking_date")
 	private LocalDate bookDate;
-	
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "identity_code")
-	private String identityCode;
-	
-	@Column(name = "phone_number")
-	private String phoneNumber;
 	
 	//Constructors
 	public Reservation() {
@@ -96,25 +92,15 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	}
 
 	//Getters
+	public Integer getId() {return id;}
 	public Ticket getTicket() {return ticket;}
-	public Flight getFlight() {return flight;}
-//	public TicketClass getTicketClass() {return ticketClass;}
-	public CustomerAccount getCustomer() {return customer;}
-//	public Integer getPrice() {return price;}
+	public BaseAccount getAccount() {return account;}
 	public LocalDate getBookDate() {return bookDate;}
-	public String getName() {return name;}
-	public String getIdentityCode() {return identityCode;}
-	public String getPhoneNumber() {return phoneNumber;}
 	
 	//Setters
+	public void setId(Integer id) {this.id = id;}
 	public void setTicket(Ticket ticket) {this.ticket = ticket;}
-	public void setFlight(Flight flight) {this.flight = flight;}
-//	public void setTicketClass(TicketClass ticketClass) {this.ticketClass = ticketClass;}
-	public void setCustomer(CustomerAccount customer) {this.customer = customer;}
-//	public void setPrice(Integer price) {this.price = price;}
-	public void setName(String name) {this.name = name;}
-	public void setIdentityCode(String identityCode) {this.identityCode = identityCode;}
-	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
+	public void setAccount(BaseAccount account) {this.account = account;}
 	public void setBookDate(LocalDate bookDate) {this.bookDate = bookDate;}
 	
 	//Compare for using Set, by implementing Comparable

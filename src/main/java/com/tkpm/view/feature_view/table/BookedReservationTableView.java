@@ -1,39 +1,36 @@
 package com.tkpm.view.feature_view.table;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.tkpm.entities.Airport;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.Reservation;
+import com.tkpm.entities.Ticket;
 import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
 
-public class FlightListTableView extends JTable {
+public class BookedReservationTableView extends JTable {
 
 	protected DefaultTableModel tableModel;
-	protected List<Flight> flights;
+	protected List<Reservation> reservations;
 	
-	protected JButton detailButton;
+	protected JButton cancelTicketButton;
 	
 	public static final String[] COLUMN_NAMES = {
-		"STT", "Mã chuyến bay", "Sân bay đi", "Sân bay đến", "Thời gian", "Thao tác"
+		"STT", "Mã chuyến bay", "Sân bay đi", "Thời gian", "Họ và tên khách hàng" , "Thao tác"
 	};
 	
 	//public static final int SELECT_COLUMN_INDEX = 0;
 	public static final int COLUMN_INDEX = 0;
 	public static final int FLIGHT_ID_COLUMN_INDEX = 1;
 	public static final int DEPARTURE_AIRPORT_COLUMN_INDEX = 2;
-	public static final int ARRIVAL_AIRPORT_COLUMN_INDEX = 3;
-	public static final int DATETIME_COLUMN_INDEX = 4;
-	public static final int DETAIL_COLUMN_INDEX = 5;
+	public static final int DATETIME_COLUMN_INDEX = 3;
+	public static final int NAME_COLUMN_INDEX = 4;
+	public static final int CANCEL_TICKET_COLUMN_INDEX = 5;
 	
 	protected void setupModelTable() {
 		//Make uneditable table
@@ -43,7 +40,7 @@ public class FlightListTableView extends JTable {
 			public boolean isCellEditable(int row, int column) {				
 						
 				//Make Detail button cell editable
-				if (DETAIL_COLUMN_INDEX == column) {
+				if (CANCEL_TICKET_COLUMN_INDEX == column) {
 					return true;
 				}
 						
@@ -61,7 +58,7 @@ public class FlightListTableView extends JTable {
 				case FLIGHT_ID_COLUMN_INDEX:
 					clazz = Integer.class;
 					break;
-				case DETAIL_COLUMN_INDEX:
+				case CANCEL_TICKET_COLUMN_INDEX:
 					clazz = Boolean.class;
 					break;
 		      }
@@ -76,25 +73,23 @@ public class FlightListTableView extends JTable {
 		
 	}
 	
-	protected void initDetailButton() {
+	protected void initCancelTicketButton() {
 		
 		//Setup for the Update button in cell
-		String detailButtonName = "Chi tiết";
-		detailButton = new JButton(detailButtonName);
-		TableColumn detailColumn = this.getColumn(COLUMN_NAMES[DETAIL_COLUMN_INDEX]);
-		detailColumn.setCellRenderer(new ButtonRenderer(detailButtonName));
-		detailColumn.setCellEditor(new ButtonEditor(detailButton));			
+		String cancelTicketButtonName = "Hủy vé";
+		cancelTicketButton = new JButton(cancelTicketButtonName);
+		TableColumn cancelTicketColumn = this.getColumn(COLUMN_NAMES[CANCEL_TICKET_COLUMN_INDEX]);
+		cancelTicketColumn.setCellRenderer(new ButtonRenderer(cancelTicketButtonName));
+		cancelTicketColumn.setCellEditor(new ButtonEditor(cancelTicketButton));			
 	
 	}
 		
-	public FlightListTableView() {
+	public BookedReservationTableView() {
 		setupModelTable();
-		initDetailButton();
-		
-		getTableHeader().setReorderingAllowed(false);
+		initCancelTicketButton();
 	}
 	
-	public FlightListTableView clearData() {
+	public BookedReservationTableView clearData() {
 		
 		//Clear the model
 		tableModel.setRowCount(0);
@@ -102,40 +97,42 @@ public class FlightListTableView extends JTable {
 		return this;
 	}
 	
-	public void setFlights(List<Flight> flights) {
-		this.flights = flights;
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 	
-	//Show all flight in flights to the table
-	public FlightListTableView update() {
+	//Show all reservation + corresponding ticket's  data to the table
+	public BookedReservationTableView update() {
 		
 		clearData();
-		int size = flights.size();
+		int size = reservations.size();
 		for (int index = 0; index < size; ++index) {
 			
-			
-			Flight flight = flights.get(index);
-			String departureAirport = (null == flight.getDepartureAirport()?"":flight.getDepartureAirport().getName());
-			String arrivalAirport =  (null == flight.getArrivalAirport()?"":flight.getArrivalAirport().getName());
+			Reservation reservation = reservations.get(index);
+			Ticket ticket = reservation.getTicket();
+			Flight flight = ticket.getFlight();
+			String departureAirport = 
+					(null == flight.getDepartureAirport()?"":flight.getDepartureAirport().getName());
 			
 			Object[] row = {
 					index + 1, 
 					flight.getId(), 
 					departureAirport,
-					arrivalAirport,
-					flight.getDateTime()};
+					flight.getDateTime().toString(),
+					ticket.getName(),
+			};
 			tableModel.addRow(row);		
 		}
 		return this;
 	}
 	
-	public Flight getSelectedFlight() {
+	public Reservation getSelectedReservation() {
 		int index = this.getSelectedRow();
 		if (-1 == index) return null;
-		return flights.get(index);
+		return reservations.get(index);
 	}
 	
-	public JButton getDetailButton() {
-		return detailButton;
+	public JButton getCancelTicketButton() {
+		return cancelTicketButton;
 	}
 }

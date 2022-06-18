@@ -46,8 +46,12 @@ public class ReportByYearTableView extends JTable {
 		    public Class<?> getColumnClass(int columnIndex) {
 				Class clazz = Integer.class;
 				switch (columnIndex) {
+				
+				case TURNOVER_COLUMN_INDEX:
+					clazz = String.class;
+					break;
 				case RATIO_COLUMN_INDEX:
-					clazz = Double.class;
+					clazz = String.class;
 					break;
 				
 		      }
@@ -64,25 +68,7 @@ public class ReportByYearTableView extends JTable {
 	public ReportByYearTableView() {
 		setupModelTable();
 		
-		getTableHeader().setReorderingAllowed(false);		
-		// Edit table header
-		getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
-				Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				component.setBackground(Color.WHITE);
-				setBorder(noFocusBorder);
-				if (isSelected) {
-					component.setForeground(new Color(113, 113, 102));
-				}
-				else {
-					component.setForeground(new Color(102, 102, 102));
-				}
-				setHorizontalAlignment(JLabel.CENTER);
-				return component;
-			}
-		});
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public ReportByYearTableView clearData() {
@@ -114,15 +100,18 @@ public class ReportByYearTableView extends JTable {
 		
 		//Print data
 		int size = reportModels.size();
-		for (int index = 1; index < size; ++index) {
+		for (int index = 0; index < size; ++index) {
 			
 			BaseReport reportByMonth = reportModels.get(index);
-			double ratio = (double)(turnovers[index]/totalTurnover);
+			double ratio = 1;
+			if (0 != totalTurnover) {
+				ratio = (double)(turnovers[index + 1]/totalTurnover);
+			}
 			Object[] row = {
-					index, 
+					index + 1, 
 					reportByMonth.getWrappers().size(),
-					turnovers[index],
-					ratio};
+					"$" + new Integer(turnovers[index + 1]).toString(),
+					new Double(ratio * 100).toString() + "%"};
 			
 			tableModel.addRow(row);		
 		}

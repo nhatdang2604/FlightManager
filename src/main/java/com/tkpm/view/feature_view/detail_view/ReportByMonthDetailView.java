@@ -76,7 +76,16 @@ public class ReportByMonthDetailView extends BaseReportDetailView {
 		paddingPanels.get(1).add(yearField, "6, 6, fill, default");
 	}
 	
-	
+	public boolean isYearFieldEmpty() {
+		
+		String data = yearField.getText().trim();
+		if (null == data || data.equals("")) {
+			return true;
+		}
+		
+		return false;
+	}
+ 	
 	public ReportByMonthDetailView() {
 		super(TITLE, DATA_FIELD_NAMES);
 		setOpaque(true);

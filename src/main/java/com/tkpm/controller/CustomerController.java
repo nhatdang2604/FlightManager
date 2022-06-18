@@ -55,6 +55,10 @@ public class CustomerController {
 	
 	protected TicketForm ticketForm;
 	
+	public BaseMainFrame getMainFrame() {
+		return mainFrame;
+	}
+	
 	public void setAccount(BaseAccount account) {
 		this.account = account;
 	}

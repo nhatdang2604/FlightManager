@@ -1,12 +1,21 @@
 package com.tkpm.controller;
 
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.tkpm.entities.User;
 import com.tkpm.entities.User.USER_ROLE;
 import com.tkpm.service.UserService;
+import com.tkpm.view.feature_view.BaseFeatureView;
+import com.tkpm.view.feature_view.FlightFeatureView;
+import com.tkpm.view.feature_view.FlightManagerFeatureView;
+import com.tkpm.view.feature_view.ReportFeatureView;
+import com.tkpm.view.feature_view.UserManagerFeatureView;
+import com.tkpm.view.feature_view.header_view.BaseHeader;
 import com.tkpm.view.frame.AdminMainFrame;
+import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.CustomerMainFrame;
 import com.tkpm.view.frame.ManagerMainFrame;
 import com.tkpm.view.frame.form.Login;
@@ -24,21 +33,87 @@ public class LoginController{
 	//Controller
 	private CustomerController controller;
 
+	private void returnToLoginForm(BaseMainFrame mainFrame) {
+		mainFrame.close();
+		loginForm.open();
+	}
+	
+	private void setupLogoutForCustomerController(CustomerController controller) {
+		
+		BaseMainFrame mainFrame = controller.getMainFrame();
+		List<BaseFeatureView> featureViews = mainFrame.getFeatureViews();
+		
+		FlightFeatureView flightFeatureView = (FlightFeatureView) featureViews.get(0);
+		List<BaseHeader> flightFeatureHeaders = flightFeatureView.getTabbedControllerView().getHeaderViews();
+		for (BaseHeader header: flightFeatureHeaders) {
+			header.getLogoutButton().addActionListener(event -> {
+				returnToLoginForm(mainFrame);
+			});
+		}
+	}
+	
+	private void setupLogoutForManagerController(CustomerController controller) {
+		
+		setupLogoutForCustomerController(controller);
+		
+		BaseMainFrame mainFrame = controller.getMainFrame();
+		List<BaseFeatureView> featureViews = mainFrame.getFeatureViews();
+		
+		//Init logout button for flight manager feature
+		FlightManagerFeatureView flightManagerFeatureView = (FlightManagerFeatureView) featureViews.get(1);
+		List<BaseHeader> flightManagerFeatureHeaders = flightManagerFeatureView.getTabbedControllerView().getHeaderViews();
+		for (BaseHeader header: flightManagerFeatureHeaders) {
+			header.getLogoutButton().addActionListener(event -> {
+				returnToLoginForm(mainFrame);
+			});
+		}
+		
+		//Init logout button for report  feature
+		ReportFeatureView reportFeatureView = (ReportFeatureView) featureViews.get(2);
+		List<BaseHeader> reportFeatureHeaders = reportFeatureView.getTabbedControllerView().getHeaderViews();
+		for (BaseHeader header: reportFeatureHeaders) {
+			header.getLogoutButton().addActionListener(event -> {
+				returnToLoginForm(mainFrame);
+			});
+		}
+	}
+	
+	private void setupLogoutForAdminController(CustomerController controller) {
+		
+		setupLogoutForManagerController(controller);
+		
+		BaseMainFrame mainFrame = controller.getMainFrame();
+		List<BaseFeatureView> featureViews = mainFrame.getFeatureViews();
+		
+		//Init logout button for flight manager feature
+		UserManagerFeatureView userManagerFeatureView = (UserManagerFeatureView) featureViews.get(3);
+		List<BaseHeader> userManagerFeatureHeaders = userManagerFeatureView.getTabbedControllerView().getHeaderViews();
+		for (BaseHeader header: userManagerFeatureHeaders) {
+			header.getLogoutButton().addActionListener(event -> {
+				returnToLoginForm(mainFrame);
+			});
+		}
+		
+	}
+	
 	private CustomerController getControllerBaseOnRole(User user) {
 		if (USER_ROLE.Customer.equals(USER_ROLE.convertStringToUSER_ROLE(user.getRole()))) {
 			
 			controller = new CustomerController(new CustomerMainFrame());
 			controller.setAccount(user.getAccount());
+			setupLogoutForCustomerController(controller);
 		}
 		else if (USER_ROLE.Manager.equals(USER_ROLE.convertStringToUSER_ROLE(user.getRole()))) {
 			
 			controller = new ManagerController(new ManagerMainFrame());
 			controller.setAccount(user.getAccount());
+			setupLogoutForManagerController(controller);
 		}
 		else if (USER_ROLE.Admin.equals(USER_ROLE.convertStringToUSER_ROLE(user.getRole()))) {
 			
 			controller = new AdminController(new AdminMainFrame());
 			controller.setAccount(user.getAccount());
+			setupLogoutForAdminController(controller);
 		}
 		else {
 			controller = null;

@@ -5,9 +5,8 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.tkpm.view.action.ChangeTabListener;
-import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.UserCRUDDetailView;
-import com.tkpm.view.feature_view.table.AirportCRUDTableView;
+import com.tkpm.view.feature_view.header_view.BaseHeader;
 import com.tkpm.view.feature_view.table.UserCRUDTableView;
 
 
@@ -29,7 +28,7 @@ public class UserManagerTabbedControllerView extends BaseTabbedControllerView {
 		//Add screen for user CRUD tab
 		this.addCenterAsTable(userCRUDTableView, "Tài khoản");
 		this.addDetail(userCRUDDetailView);
-		this.addHeader(new JPanel());	//dummy header
+		this.addHeader(new BaseHeader());	//dummy header
 		
 		//Change detail panel and header panel while change tab
 		tabbedPanel.addMouseListener(new ChangeTabListener(this, backgroundParts));

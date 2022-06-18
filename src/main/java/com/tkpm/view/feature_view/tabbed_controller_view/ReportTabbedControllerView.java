@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import com.tkpm.view.action.ChangeTabListener;
 import com.tkpm.view.feature_view.detail_view.ReportByMonthDetailView;
 import com.tkpm.view.feature_view.detail_view.ReportByYearDetailView;
+import com.tkpm.view.feature_view.header_view.BaseHeader;
 import com.tkpm.view.feature_view.header_view.ReportByMonthHeader;
 import com.tkpm.view.feature_view.header_view.ReportByYearHeader;
 import com.tkpm.view.feature_view.table.ReportByMonthTableView;
@@ -16,8 +17,10 @@ import com.tkpm.view.feature_view.table.ReportByYearTableView;
 public class ReportTabbedControllerView extends BaseTabbedControllerView {
 
 	//Header
-	private ReportByYearHeader reportByYearHeader;
-	private ReportByMonthHeader reportByMonthHeader;
+//	private ReportByYearHeader reportByYearHeader;
+//	private ReportByMonthHeader reportByMonthHeader;
+	private BaseHeader reportByYearHeader;
+	private BaseHeader reportByMonthHeader;
 	
 	//Tables
 	private ReportByYearTableView reportByYearTable;
@@ -31,12 +34,12 @@ public class ReportTabbedControllerView extends BaseTabbedControllerView {
 		super(backgroundParts);
 		
 		//Init for report by year feature
-		reportByYearHeader = new ReportByYearHeader();
+		reportByYearHeader = new BaseHeader(new ReportByYearHeader());
 		reportByYearTable = new ReportByYearTableView();
 		reportByYearDetailView = new ReportByYearDetailView();
 		
 		//Init for report by month feature
-		reportByMonthHeader = new ReportByMonthHeader();
+		reportByMonthHeader = new BaseHeader(new ReportByMonthHeader());
 		reportByMonthTable = new ReportByMonthTableView();
 		reportByMonthDetailView = new ReportByMonthDetailView();
 		
@@ -55,12 +58,12 @@ public class ReportTabbedControllerView extends BaseTabbedControllerView {
 			
 		initOption();
 	}
-
+	
+	public BaseHeader getReportByYearHeader() {return reportByYearHeader;}
 	public ReportByYearTableView getReportByYearTable() {return reportByYearTable;}
-	public ReportByYearHeader getReportByYearHeader() {return reportByYearHeader;}
 	public ReportByYearDetailView getReportByYearDetailView() {return reportByYearDetailView;}
 
-	public ReportByMonthHeader getReportByMonthHeader() {return reportByMonthHeader;}
+	public BaseHeader getReportByMonthHeader() {return reportByMonthHeader;}
 	public ReportByMonthTableView getReportByMonthTable() {return reportByMonthTable;}
 	public ReportByMonthDetailView getReportByMonthDetailView() {return reportByMonthDetailView;}
 	

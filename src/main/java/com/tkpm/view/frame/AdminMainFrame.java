@@ -9,7 +9,7 @@ import com.tkpm.view.widget.Category;
 
 public class AdminMainFrame extends BaseMainFrame {
 
-	//public static final int ADMIN_FEATURE_INDEX = 1;
+	public static final int USER_MANAGER_FEATURE_INDEX = 3;
 	
 	protected BaseFeatureView featureView;
 	protected BaseFeatureView featureView0;

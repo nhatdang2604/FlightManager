@@ -1,10 +1,14 @@
 package com.tkpm.service;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.tkpm.dao.UserDAO;
+import com.tkpm.entities.BaseAccount;
+import com.tkpm.entities.Reservation;
 import com.tkpm.entities.User;
+import com.tkpm.entities.User.USER_ROLE;
 
 //Using enum for applying Singleton Pattern
 public enum UserService {
@@ -12,9 +16,11 @@ public enum UserService {
 	INSTANCE;
 	
 	private UserDAO userDAO;
+	private ReservationService reservationService;
 	
 	private UserService() {
 		userDAO = UserDAO.INSTANCE;
+		reservationService = ReservationService.INSTANCE;
 	}
 	
 	//Create new user
@@ -33,10 +39,9 @@ public enum UserService {
 	}
 	
 	//Find all users in database
-	public Set<User> findAllUsers() {
+	public List<User> findAllUsers() {
 		
-		//Using set, because query in DAO only return list
-		return new TreeSet<>(userDAO.findAll());
+		return userDAO.findAll();
 		
 	}
 	
@@ -62,9 +67,44 @@ public enum UserService {
 		//Return null if the passwords are not matched
 		if (!user.getEncryptedPassword().equals(other.getEncryptedPassword())) {return null;}
 		
+		//Load the account for the user
+		BaseAccount account =  getExactlyAccountForUser(other);
+		other.setAccount(account);
+		account.setUser(other);
+		
 		//Return the user if ther username and password are matched
 		return other;
+	}
+
+	public List<User> getUsersWithReservations(List<Integer> ids) {
+		return userDAO.find(ids);
+	}
+	
+	public int deleteUsers(List<Integer> ids) {
+		//TODO:
+		List<User> users = getUsersWithReservations(ids);
 		
+		List<Reservation> reservations = new LinkedList<>();
+		
+		for (User user: users) {
+			reservations.addAll(user.getAccount().getReservations());
+		}
+		
+		//Get reservations id
+		List<Integer> reservation_ids = reservations
+				.stream()
+				.map(reservation -> reservation.getId())
+				.collect(Collectors.toList());
+		
+		//Cancel the reservation and ticket
+		reservationService.cancelReservations(reservation_ids);
+		
+		//Delete the user + account
+		return userDAO.delete(ids);
+	}
+
+	public BaseAccount getExactlyAccountForUser(User user) {
+		return userDAO.loadAccount(user, USER_ROLE.convertStringToUSER_ROLE(user.getRole()));
 	}
 }
  

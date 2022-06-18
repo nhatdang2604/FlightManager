@@ -1,5 +1,6 @@
 package com.tkpm.service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.tkpm.dao.TicketDAO;
 import com.tkpm.entities.Flight;
+import com.tkpm.entities.Reservation;
 import com.tkpm.entities.Ticket;
 import com.tkpm.entities.TicketClass;
 
@@ -18,15 +20,46 @@ public enum TicketService {
 	
 	private TicketDAO ticketDAO;
 	private FlightService flightService;
+	private ReservationService reservationService;
 	
 	private TicketService() {
 		ticketDAO = TicketDAO.INSTANCE;
 		flightService = FlightService.INSTANCE;
+		reservationService = ReservationService.INSTANCE;
 	}
 	
 	//Create new tickets
 	public Set<Ticket> createTickets(List<Ticket> tickets) {
-		return new TreeSet<>(ticketDAO.create(tickets));
+		
+		//Then create the according reservation for each ticket
+		//Use linkedlist for faster insertion
+		List<Reservation> reservations = new LinkedList<>();
+		
+		for (Ticket ticket: tickets) {
+			Reservation reservation = new Reservation();
+			reservation.setTicket(ticket);
+			ticket.setReservaion(reservation);
+			reservations.add(reservation);
+		}
+		
+		
+		//Create the ticket first
+		List<Ticket> creates = ticketDAO.create(tickets);
+		
+		//Then create the according reservation for each ticket
+		//Use linkedlist for faster insertion
+
+//		int index = 0;
+//		for (Reservation res: reservations) {
+//			res.setTicket(creates.get(index));
+//			++index;
+//		}
+//		
+//		//Create thoose reservations
+//		reservationService.createReservations(reservations);
+		
+		Set<Ticket> result = new TreeSet<>(creates);
+		return result;
 	}
 	
 	//Update tickets
@@ -40,7 +73,11 @@ public enum TicketService {
 	
 	//Delete tickets by the given ids
 	public int deleteTickets(List<Integer> ids) {
-		return ticketDAO.delete(ids);
+		
+		int errorCode = reservationService.deleteReservations(ids);
+		errorCode += ticketDAO.delete(ids);
+		
+		return errorCode;
 	}
 	
 	//Find all tickets in database
@@ -59,11 +96,7 @@ public enum TicketService {
 	//Find all tickets from a flight
 	public Set<Ticket> findTicketFromFlight(Flight flight) {
 		
-		if (null == flight.getTickets()) {
-			flight = flightService.findFlightById(flight.getId());
-		}
-		
-		return flight.getTickets();
+		return ticketDAO.find(flight);
 	}
 	
 	//Get all the not-booked tickets with the given ticket class from a flight
@@ -96,6 +129,14 @@ public enum TicketService {
 		ticket.setIsBooked(true);
 		
 		return updateTicket(ticket);
+	}
+	
+	public int cancelTickets(List<Integer> ids) {
+		return ticketDAO.cancel(ids);
+	}
+
+	public void setReservationService(ReservationService reservationService) {
+		this.reservationService = reservationService;
 	}
 }
  

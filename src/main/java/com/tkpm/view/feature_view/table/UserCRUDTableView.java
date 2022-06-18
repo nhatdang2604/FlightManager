@@ -21,19 +21,24 @@ public class UserCRUDTableView extends JTable {
 	
 	protected List<JButton> actionButtons;
 	
+//	public static final String[] COLUMN_NAMES = {
+//		"Chọn", "STT", "Mã người dùng", "Tên đăng nhập", "Chi tiết", "Chỉnh sửa"
+//	};
+	
+	
 	public static final String[] COLUMN_NAMES = {
-		"Chọn", "STT", "Mã người dùng", "Tên đăng nhập", "Chi tiết", "Chỉnh sửa"
+		"Chọn", "STT", "Mã người dùng", "Tên đăng nhập", "Chỉnh sửa"
 	};
 	
 	public static final int SELECT_COLUMN_INDEX = 0;
 	public static final int COLUMN_INDEX = 1;
 	public static final int USER_ID_COLUMN_INDEX = 2;
 	public static final int USERNAME_COLUMN_INDEX = 3;
-	public static final int DETAIL_COLUMN_INDEX = 4;
-	public static final int UPDATE_COLUMN_INDEX = 5;
+	//public static final int DETAIL_COLUMN_INDEX = 4;
+	public static final int UPDATE_COLUMN_INDEX = 4;
 	
-	public static final int DETAIL_BUTTON_INDEX = 0;
-	public static final int UPDATE_BUTTON_INDEX = 1;
+	//public static final int DETAIL_BUTTON_INDEX = 0;
+	public static final int UPDATE_BUTTON_INDEX = 0;
 	
 	protected void setupModelTable() {
 		//Make uneditable table
@@ -43,7 +48,7 @@ public class UserCRUDTableView extends JTable {
 			public boolean isCellEditable(int row, int column) {				
 						
 				//Make Detail button cell editable
-				if (DETAIL_COLUMN_INDEX == column ||
+				if (
 					SELECT_COLUMN_INDEX == column ||
 					UPDATE_COLUMN_INDEX == column) {
 					return true;
@@ -66,9 +71,6 @@ public class UserCRUDTableView extends JTable {
 				case USER_ID_COLUMN_INDEX:
 					clazz = Integer.class;
 					break;
-				case DETAIL_COLUMN_INDEX:
-					clazz = Boolean.class;
-					break;
 				case UPDATE_COLUMN_INDEX:
 					clazz = Boolean.class;
 					break;
@@ -88,10 +90,9 @@ public class UserCRUDTableView extends JTable {
 		
 		//Setup the action buttons for "Action" column
 		actionButtons = new ArrayList<>(Arrays.asList(
-				new JButton("Chi tiết"),
 				new JButton("Cập nhật")));
 		
-		int offset = DETAIL_COLUMN_INDEX;
+		int offset = UPDATE_COLUMN_INDEX;
 		for (int i = 0; i < actionButtons.size(); ++i) {
 			TableColumn column = this.getColumn(COLUMN_NAMES[offset + i]);
 			column.setCellRenderer(new ButtonRenderer(actionButtons.get(i).getText()));
@@ -139,6 +140,9 @@ public class UserCRUDTableView extends JTable {
 	
 	public User getSelectedUser() {
 		int index = this.getSelectedRow();
+		if (-1 == index) {
+			return null;
+		}
 		return users.get(index);
 	}
 	

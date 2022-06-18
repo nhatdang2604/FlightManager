@@ -14,7 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -28,7 +32,7 @@ public abstract class BaseAccount implements Serializable, Comparable<BaseAccoun
 
 	@Id
 	@Column(name = "id")
-	private Integer id;
+	protected Integer id;
 	
 	//Attributes
 	@OneToOne(
@@ -38,7 +42,8 @@ public abstract class BaseAccount implements Serializable, Comparable<BaseAccoun
 					CascadeType.PERSIST,
 					CascadeType.REFRESH
 			},
-			fetch = FetchType.EAGER)
+			fetch = FetchType.LAZY,
+			optional = false)
 	@MapsId
 	@JoinColumn(name = "id")
 	protected User user;
@@ -46,8 +51,8 @@ public abstract class BaseAccount implements Serializable, Comparable<BaseAccoun
 	@OneToMany(
 			cascade = CascadeType.ALL,
 			mappedBy = "account",
-			orphanRemoval = true)
-	private Set<Reservation> reservations;
+			orphanRemoval = false)
+	protected Set<Reservation> reservations;
 	
 	public BaseAccount() {
 		//do nothing
@@ -77,5 +82,12 @@ public abstract class BaseAccount implements Serializable, Comparable<BaseAccoun
 					(this.getId() < another.getId()? -1: 0));
 		
 		return result;
+	}
+	
+	@PreRemove
+	private void preRemove() {
+	    for (Reservation reservation: reservations) {
+	        reservation.setAccount(null);;
+	    }
 	}
 }

@@ -33,7 +33,7 @@ import com.tkpm.entities.User.USER_ROLE;
 import com.tkpm.utils.HashingUtil;
 import com.tkpm.view.feature_view.table.TransitionCRUDTableView;
 
-public class CreateAccountForm extends JDialog {
+public class CreateAccountForm extends JDialog implements FormBehaviour {
 
 	final protected int HEIGHT = 300;
 	final protected int WIDTH = 400;
@@ -349,9 +349,34 @@ public class CreateAccountForm extends JDialog {
 	public JButton getSubmitButton() {
 		return okButton;
 	}
+//	
+//	public static void main(String[] args) {
+//		CreateAccountForm form = new CreateAccountForm(null);
+//		form.setVisible(true);
+//	}
+
+	@Override
+	public void clear() {
+		for (JTextField field: textFields) {
+			field.setText("");
+		}
+		
+		for (JPasswordField field: passwordFields) {
+			field.setText("");
+		}
+		
+		for (JTextField field: numericTextFields) {
+			field.setText("");
+		}
+	}
 	
-	public static void main(String[] args) {
-		CreateAccountForm form = new CreateAccountForm(null);
-		form.setVisible(true);
+	public void open() {
+		clear();
+		setVisible(true);
+	}
+
+	@Override
+	public void close() {
+		setVisible(false);
 	}
 }

@@ -13,7 +13,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import com.tkpm.view.BaseView;
-import com.tkpm.view.feature_view.detail_view.BaseReadOnlyDetailView;
+import com.tkpm.view.feature_view.header_view.BaseHeader;
 
 public class BaseTabbedControllerView extends JPanel {
 
@@ -21,7 +21,7 @@ public class BaseTabbedControllerView extends JPanel {
 	protected List<JPanel> backgroundParts;
 	protected List<Component> centerViews;
 	protected List<JPanel> detailViews;
-	protected List<JPanel> headerViews;
+	protected List<BaseHeader> headerViews;
 	protected List<JPanel> footerViews;
 	
 	protected JTabbedPane tabbedPanel;
@@ -91,7 +91,7 @@ public class BaseTabbedControllerView extends JPanel {
 		tabbedPanel.addTab(name, scroll);
 	}
 	
-	public void addHeader(JPanel headerView) {
+	public void addHeader(BaseHeader headerView) {
 		headerViews.add(headerView);
 	}
 	
@@ -102,7 +102,7 @@ public class BaseTabbedControllerView extends JPanel {
 	public JTabbedPane getTabbedPanel() {return tabbedPanel;}
 	public List<Component> getCenterViews() {return centerViews; };
 	public List<JPanel> getDetailViews() {return detailViews; }
-	public List<JPanel> getHeaderViews() {return headerViews; }
+	public List<BaseHeader> getHeaderViews() {return headerViews; }
 	
 	public Component getCurrentCenterView() {return centerView; }
 	public JPanel getCurrentDetailView() {return detailView; }

@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,9 +28,13 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	private static final long serialVersionUID = -6565753193438714199L;
 	
 	@Id
+	private Integer id;
+	
+	@MapsId
 	@OneToOne(
 			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER)
+			fetch = FetchType.LAZY,
+			optional = false)
 	@JoinColumn(name = "id")
 	private Ticket ticket;
 	
@@ -70,7 +75,7 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 					CascadeType.MERGE,
 					CascadeType.DETACH,
 					CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
+			fetch = FetchType.LAZY)
 	@JoinColumn(
 			name = "account_id", 
 			referencedColumnName = "id",
@@ -87,11 +92,13 @@ public class Reservation implements Serializable, Comparable<Reservation>{
 	}
 
 	//Getters
+	public Integer getId() {return id;}
 	public Ticket getTicket() {return ticket;}
 	public BaseAccount getAccount() {return account;}
 	public LocalDate getBookDate() {return bookDate;}
 	
 	//Setters
+	public void setId(Integer id) {this.id = id;}
 	public void setTicket(Ticket ticket) {this.ticket = ticket;}
 	public void setAccount(BaseAccount account) {this.account = account;}
 	public void setBookDate(LocalDate bookDate) {this.bookDate = bookDate;}

@@ -1,12 +1,14 @@
 package com.tkpm.view.feature_view.detail_view;
 
+import com.tkpm.entities.Flight;
+import com.tkpm.entities.User;
+
 @SuppressWarnings("serial")
 public class UserCRUDDetailView extends CRUDDetailView {
 	
 	private static final String[] FIELD_NAMES = {
 			"Mã người dùng",	
 			"Tên đăng nhập",
-			"Mật khẩu (mã hóa)",
 			"Chức vụ",
 	};
 	
@@ -16,4 +18,12 @@ public class UserCRUDDetailView extends CRUDDetailView {
 		super(TITLE, FIELD_NAMES);
 	}
 	
+
+	@Override
+	public void setDataToDetailPanel(Object object) {
+		User user= (User) object;
+		attributeData.get(0).setText(user.getId().toString());
+		attributeData.get(1).setText(user.getUsername());		
+		attributeData.get(2).setText(user.getRole());	
+	}
 }

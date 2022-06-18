@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.tkpm.entities.AdminAccount;
+import com.tkpm.entities.Airport;
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.CustomerAccount;
 import com.tkpm.entities.Flight;
@@ -31,7 +33,7 @@ import com.tkpm.entities.Ticket;
 import com.tkpm.entities.User;
 import com.tkpm.entities.User.USER_ROLE;
 
-public class TicketForm extends JDialog {
+public class TicketForm extends JDialog implements FormBehaviour {
 
 	final protected int HEIGHT = 300;
 	final protected int WIDTH = 400;
@@ -100,9 +102,9 @@ public class TicketForm extends JDialog {
 		centerPanel = new JPanel();
 		labels = new ArrayList<>(Arrays.asList(
 				new JLabel("Số hiệu chuyến bay"),
-				new JLabel("Tên hành khách"),
-				new JLabel("CMND/CCCD"),
-				new JLabel("Số điện thoại"),
+				new JLabel("Tên hành khách (*)"),
+				new JLabel("CMND/CCCD (*)"),
+				new JLabel("Số điện thoại (*)"),
 				new JLabel("Hạng vé"),
 				new JLabel("Giá tiền")));
 		
@@ -228,6 +230,7 @@ public class TicketForm extends JDialog {
 	public void init() {
 		initComponents();
 		setLayout();
+		setTitle("Đặt vé");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 350);
 		setContentPane(contentPane);
@@ -254,6 +257,26 @@ public class TicketForm extends JDialog {
 	}
 	
 	
+	public boolean areThereAnyEmptyStarField() {
+		
+		for (JTextField field: textFields) {
+			String value = field.getText().trim();
+			if (null == value || value.equals("")) {
+				return true;
+			}
+		}
+		
+		for (JTextField field: numericFields) {
+			String value = field.getText().trim();
+			if (null == value || value.equals("")) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	
 	public JButton getOkButton() {return okButton;}
 	public JDialog setModel(Flight model) {
 		this.model = model;
@@ -274,16 +297,37 @@ public class TicketForm extends JDialog {
 	//Get information from the form
 	public String getTicketClass() {return (String) ticketClassComboBox.getSelectedItem();}
 	public Flight getFlight() {return model;}
-	public String getSubmitName() {return textFields.get(0).getText().trim();}
+	public String getSubmitName() {return textFields.get(1).getText().trim();}
 	public String getSubmitIdentityCode() {return numericFields.get(0).getText().trim();}
 	public String getSubmitPhone() {return numericFields.get(1).getText().trim();}
 	
 	public JButton getSubmitButton() {
 		return okButton;
 	}
-	
-	public static void main(String[] args) {
-		TicketForm form = new TicketForm(null);
-		form.setVisible(true);
+//	
+//	public static void main(String[] args) {
+//		TicketForm form = new TicketForm(null);
+//		form.setVisible(true);
+//	}
+
+	@Override
+	public Object submit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void clear() {
+		textFields.get(1).setText("");
+		for (JTextField field: numericFields) {
+			field.setText("");
+		}
+		
+	}
+
+	@Override
+	public void close() {
+		this.clear();
+		this.setVisible(false);
 	}
 }

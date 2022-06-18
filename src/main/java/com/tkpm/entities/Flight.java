@@ -2,6 +2,7 @@ package com.tkpm.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,8 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -32,8 +31,8 @@ public class Flight implements Serializable, Comparable<Flight> {
 	@OneToOne(
 			mappedBy = "flight",
 			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER,
-			optional = true)
+			fetch = FetchType.LAZY,
+			optional = false)
 	private FlightDetail detail;
 	
 	@Id
@@ -94,7 +93,7 @@ public class Flight implements Serializable, Comparable<Flight> {
 			cascade = CascadeType.ALL,
 			mappedBy = "flight",
 			orphanRemoval = true)
-	private Set<Transition> transitions;
+	private List<Transition> transitions;
 	
 	@Column(name = "date_time")
 	private LocalDateTime dateTime;
@@ -109,7 +108,7 @@ public class Flight implements Serializable, Comparable<Flight> {
 	public Integer getId() {return id; }
 	public Airport getDepartureAirport() {return departureAirport;}
 	public Airport getArrivalAirport() {return arrivalAirport;}
-	public Set<Transition> getTransitions() {return transitions;}
+	public List<Transition> getTransitions() {return transitions;}
 	public LocalDateTime getDateTime() {return dateTime;}
 	public FlightDetail getDetail() {return detail;}
 	public Set<Ticket> getTickets() {return tickets;}
@@ -119,7 +118,7 @@ public class Flight implements Serializable, Comparable<Flight> {
 	public void setId(Integer id) {this.id = id;}
 	public void setDepartureAirport(Airport departureAirport) {this.departureAirport = departureAirport;}
 	public void setArrivalAirport(Airport arrivalAirport) {this.arrivalAirport = arrivalAirport;}
-	public void setTransitions(Set<Transition> transitions) {this.transitions = transitions;}
+	public void setTransitions(List<Transition> transitions) {this.transitions = transitions;}
 	public void setDateTime(LocalDateTime dateTime) {this.dateTime = dateTime;}
 	public void setDetail(FlightDetail detail) {this.detail = detail;}
 	public void setTickets(Set<Ticket> tickets) {this.tickets = tickets;}

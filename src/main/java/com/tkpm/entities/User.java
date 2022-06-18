@@ -53,8 +53,8 @@ public class User implements Serializable {
 	@OneToOne(
 			mappedBy = "user",
 			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER,
-			optional = true)
+			fetch = FetchType.LAZY,
+			optional = false)
 	private BaseAccount account;
 	
 	//Constructors

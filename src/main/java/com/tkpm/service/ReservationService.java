@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import com.tkpm.dao.ReservationDAO;
+import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.Reservation;
 import com.tkpm.entities.Ticket;
@@ -20,6 +21,11 @@ public enum ReservationService {
 	private ReservationDAO reservationDAO;
 	private FlightService flightService;
 	private TicketService ticketService;
+	
+	//Resolving cycle dependency problem
+	public void setTicketService(TicketService ticketService) {
+		this.ticketService = ticketService;
+	}
 	
 	private ReservationService() {
 		reservationDAO = ReservationDAO.INSTANCE;
@@ -96,5 +102,20 @@ public enum ReservationService {
 		
 		return reservation;
 	}
+
+	//Cancel booking of list of ids from the ticket
+	public int cancelReservations(List<Integer> ids) {
+		
+		//Cancel the ticket first
+		ticketService.cancelTickets(ids);
+		
+		//Then cancel the reservations
+		return reservationDAO.cancel(ids);
+	}
+
+	public List<Reservation> findReservationsForAccount(BaseAccount account) {
+		return reservationDAO.findAll(account);
+	}
+	
 }
  

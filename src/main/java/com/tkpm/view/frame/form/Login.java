@@ -42,9 +42,12 @@ public class Login extends BaseFrame implements FormBehaviour {
 	//	1.) Wrong password or username: Type = 0
 	private JLabel jlbWarningText;		
 	
-	public static final int WRONG_ACCOUNT_ERROR = 0;
+	public static final int NO_ERROR = 0;
+	public static final int WRONG_ACCOUNT_ERROR = 1;
+	
 	private static final String[] ERRORS = {
-		"Sai mật khẩu hoặc tên đăng nhập"
+		"",
+		"Sai mật khẩu hoặc tên đăng nhập",
 	};
 	private JPanel panelInfo;
 		
@@ -198,6 +201,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 	
 	@Override
 	public void close() {
+		clear();
 		super.close();
 	}
 }

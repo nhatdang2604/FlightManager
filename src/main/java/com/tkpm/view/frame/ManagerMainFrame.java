@@ -8,7 +8,8 @@ import com.tkpm.view.widget.Category;
 
 public class ManagerMainFrame extends BaseMainFrame {
 
-	//public static final int MANAGER_FEATURE_INDEX = 1;
+	public static final int FLIGHT_MANAGER_FEATURE_INDEX = 1;
+	public static final int REPORT_FEATURE_INDEX = 2;
 	
 	protected BaseFeatureView featureView;
 	protected BaseFeatureView featureView0;

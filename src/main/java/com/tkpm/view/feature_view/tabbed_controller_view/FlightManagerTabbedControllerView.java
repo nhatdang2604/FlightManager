@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import com.tkpm.view.action.ChangeTabListener;
 import com.tkpm.view.feature_view.detail_view.AirportCRUDDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightCRUDDetailView;
+import com.tkpm.view.feature_view.header_view.BaseHeader;
 import com.tkpm.view.feature_view.table.AirportCRUDTableView;
 import com.tkpm.view.feature_view.table.FlightCRUDTableView;
 
@@ -35,12 +36,12 @@ public class FlightManagerTabbedControllerView extends BaseTabbedControllerView 
 		//Add screen for airport CRUD tab
 		this.addCenterAsTable(airportTableView, "Sân bay");
 		this.addDetail(airportDetailView);
-		this.addHeader(new JPanel());	//dummy header
+		this.addHeader(new BaseHeader());	//dummy header
 		
 		//Add screen for flight CRUD tab
 		this.addCenterAsTable(flightCRUDTableView, "Chuyến bay");
 		this.addDetail(flightCRUDDetailView);
-		this.addHeader(new JPanel());	//dummy header
+		this.addHeader(new BaseHeader());	//dummy header
 		
 		//Change detail panel and header panel while change tab
 		tabbedPanel.addMouseListener(new ChangeTabListener(this, backgroundParts));
@@ -48,8 +49,8 @@ public class FlightManagerTabbedControllerView extends BaseTabbedControllerView 
 		initOption();
 	}
 
-	public AirportCRUDTableView getAirportTableView() {return airportTableView;}
-	public AirportCRUDDetailView getAirportDetailView() {return airportDetailView;}
+	public AirportCRUDTableView getAirportCRUDTableView() {return airportTableView;}
+	public AirportCRUDDetailView getAirporCRUDDetailView() {return airportDetailView;}
 
 	public FlightCRUDTableView getFlightCRUDTableView() {return flightCRUDTableView;}
 	public FlightCRUDDetailView getFlightCRUDDetailView() {return flightCRUDDetailView;}

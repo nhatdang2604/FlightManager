@@ -77,8 +77,8 @@ CREATE TABLE `ticket_class` (
 DROP TABLE IF EXISTS `flight`;
 CREATE TABLE `flight` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
- 	`departure_airport_id` int(11) NOT NULL,
-	`arrival_airport_id` int(11) NOT NULL,
+ 	`departure_airport_id` int(11) DEFAULT NULL,
+	`arrival_airport_id` int(11) DEFAULT NULL,
 	`date_time` date DEFAULT NULL,
 	
  	CONSTRAINT `fk_flight_departure` FOREIGN KEY(`departure_airport_id`) REFERENCES airport(`id`),
@@ -90,7 +90,7 @@ DROP TABLE IF EXISTS `transition_airport`;
 CREATE TABLE `transition_airport` (
   	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`flight_id` int(11) NOT NULL,
- 	`airport_id` int(11) NOT NULL,
+ 	`airport_id` int(11) DEFAULT NULL,
 	`transition_time` int(15) DEFAULT NULL,
 	`note` nvarchar(70) DEFAULT NULL,
 
@@ -151,6 +151,10 @@ CREATE TABLE `policy` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 #Admin with username = 'admin' and password = hashing('admin')
-INSERT INTO `user` VALUES(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Role_Admin');
+INSERT INTO `user` VALUES(1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'Admin');
 INSERT INTO `base_account` VALUES(1);
 INSERT INTO `admin_account` VALUES(1, NULL, NULL, NULL);
+
+#Insert default ticket class
+INSERT INTO `ticket_class` VALUES(1, "1");
+INSERT INTO `ticket_class` VALUES(2, "2");

@@ -57,6 +57,15 @@ public class ReportByYearDetailView extends BaseReportDetailView {
 		paddingPanels.get(1).add(yearField, "6, 4, fill, default");
 	}
 	
+	public boolean isYearFieldEmpty() {
+		
+		String data = yearField.getText().trim();
+		if (null == data || data.equals("")) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	public ReportByYearDetailView() {
 		super(TITLE, DATA_FIELD_NAMES);

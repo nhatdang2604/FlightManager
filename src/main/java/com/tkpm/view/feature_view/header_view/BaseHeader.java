@@ -1,5 +1,6 @@
 package com.tkpm.view.feature_view.header_view;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,8 +10,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import com.tkpm.view.model.ReportInfoModel;
 
 public class BaseHeader extends JPanel{
 
@@ -22,20 +21,19 @@ public class BaseHeader extends JPanel{
 	
 	private void initComponents() {
 		panels = new ArrayList<>(Arrays.asList(
-					new JPanel(),
 					new JPanel()
 				));
 		logoutButton = new JButton("Đăng xuất");
 	}
 	
 	private void reupdatePanels() {
-		setLayout(new GridLayout(panels.size(), 1));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		for (JPanel panel: panels) {
 			add(panel);
 		}
 	}
 	
-	public void setLayout() {
+	public void setupLayout() {
 		reupdatePanels();
 		
 		//Setup the nav bar
@@ -43,18 +41,19 @@ public class BaseHeader extends JPanel{
 		navBarPanel.setLayout(new BoxLayout(navBarPanel, BoxLayout.X_AXIS));
 		navBarPanel.add(Box.createHorizontalGlue());
 		navBarPanel.add(logoutButton);
+		navBarPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 	}
 	
 	public BaseHeader() {
 		initComponents();
-		setLayout();
+		setupLayout();
 	}
 	
-	public void addPanel(JPanel panel) {
+	public BaseHeader(JPanel panel) {
+		initComponents();
 		panels.add(panel);
-		reupdatePanels();
+		setupLayout();
 	}
-	
 	public JButton getLogoutButton() {return logoutButton;}
 	
 }

@@ -180,7 +180,7 @@ public enum FlightService {
 	public Set<Flight> findFlightByCriterias(
 			Airport departureAirport,
 			Airport arrivalAirport,
-			LocalDateTime datetime,
+			//LocalDateTime datetime,
 			LocalDate startDate,
 			LocalDate endDate) {
 		
@@ -200,13 +200,13 @@ public enum FlightService {
 					.collect(Collectors.toSet());
 		}
 		
-		if (null != datetime) {
-			flights = flights
-					.stream()
-					.filter(flight -> flight.getDateTime().equals(datetime))
-					.collect(Collectors.toSet());
-		}
-		
+//		if (null != datetime) {
+//			flights = flights
+//					.stream()
+//					.filter(flight -> flight.getDateTime().equals(datetime))
+//					.collect(Collectors.toSet());
+//		}
+//		
 		if (null != startDate && null != endDate) {
 
 			flights = flights

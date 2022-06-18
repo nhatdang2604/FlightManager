@@ -7,12 +7,17 @@ import javax.swing.JPanel;
 import com.tkpm.view.action.ChangeTabListener;
 import com.tkpm.view.feature_view.detail_view.BookedReservationDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
+import com.tkpm.view.feature_view.header_view.BaseHeader;
+import com.tkpm.view.feature_view.header_view.components.SearchFlightPanel;
 import com.tkpm.view.feature_view.table.BookedReservationTableView;
 import com.tkpm.view.feature_view.table.FlightListTableView;
 
 
 public class FlightTabbedControllerView extends BaseTabbedControllerView {
 
+	//Headers;
+	private List<BaseHeader> headers;
+	
 	//Tables
 	private FlightListTableView flightListTableView;
 	private BookedReservationTableView bookedReservationTableView;
@@ -27,20 +32,23 @@ public class FlightTabbedControllerView extends BaseTabbedControllerView {
 		//Init for flight list tabbed
 		flightListTableView = new FlightListTableView();
 		flightListDetailView = new FlightListDetailView();
+		SearchFlightPanel searchPanel = new SearchFlightPanel();
+		BaseHeader flightListHeader = new BaseHeader(searchPanel);
 		
 		//Init for booked reservation list tabbed
 		bookedReservationTableView = new BookedReservationTableView();
 		bookedReservationDetailView = new BookedReservationDetailView();
+		BaseHeader bookedReservationHeader= new BaseHeader();
 		
 		//Add screen for flight list
 		this.addCenterAsTable(flightListTableView, "Danh sách chuyến bay");
 		this.addDetail(flightListDetailView);
-		this.addHeader(new JPanel());	//dummy header
+		this.addHeader(flightListHeader);	//dummy header
 		
 		//Change detail panel and header panel while change tab
 		this.addCenterAsTable(bookedReservationTableView , "Vé đã đặt");
 		this.addDetail(bookedReservationDetailView);
-		this.addHeader(new JPanel());	//dummy header
+		this.addHeader(bookedReservationHeader);	//dummy header
 		
 		//Change detail panel and header panel while change tab
 		tabbedPanel.addMouseListener(new ChangeTabListener(this, backgroundParts));			

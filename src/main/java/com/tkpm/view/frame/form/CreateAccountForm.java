@@ -100,6 +100,15 @@ public class CreateAccountForm extends JDialog implements FormBehaviour {
 		
 		centerPanel = new JPanel();
 		
+		labels = new ArrayList<>(Arrays.asList(
+				new JLabel("Tên đăng nhập (*)"),
+				new JLabel("Mật khẩu (*)"),
+				new JLabel("Nhập lại mật khẩu (*)"),
+				new JLabel("Chức vụ"),
+				new JLabel("Họ và tên"),
+				new JLabel("CMND/CCCD"),
+				new JLabel("Số điện thoại")));
+		
 		//Init text fields
 		textFields = new ArrayList<>();
 		int numberOfTextField = 2;
@@ -130,16 +139,6 @@ public class CreateAccountForm extends JDialog implements FormBehaviour {
 		for (int i = 0; i < numberOfNumericField; ++i) {
 			numericTextFields.add(new JTextField());
 		}
-		
-		labels = new ArrayList<>(Arrays.asList(
-				new JLabel("Tên đăng nhập (*)"),
-				new JLabel("Mật khẩu (*)"),
-				new JLabel("Nhập lại mật khẩu (*)"),
-				new JLabel("Chức vụ"),
-				new JLabel("Họ và tên"),
-				new JLabel("CMND/CCCD"),
-				new JLabel("Số điện thoại")));
-
 	
 		initCheckbox();
 		initButtons();

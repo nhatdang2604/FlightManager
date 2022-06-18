@@ -77,16 +77,7 @@ public class FlightDetailForm extends JDialog {
 		closeButton = new JButton("Đóng");
 		
 		centerPanel = new JPanel();
-		labels = new ArrayList<>(Arrays.asList(
-				new JLabel("Mã chuyến bay"),
-				new JLabel("Sân bay đi"),
-				new JLabel("Sân bay đến"),
-				new JLabel("Ngày - giờ"),
-				new JLabel("Thời gian bay"),
-				new JLabel("Số lượng ghế hạng 1"),
-				new JLabel("Số lượng ghế hạng 2"),
-				new JLabel("Giá vé hạng 1"),
-				new JLabel("Giá vé hạng 2")));
+		
 		
 		
 		//Init numeric fields

@@ -97,6 +97,8 @@ public class TransitionCRUDTableView extends JTable {
 		transitions = new ArrayList<>();
 		setupModelTable();
 		initDetailButton();
+		
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public TransitionCRUDTableView clearData() {

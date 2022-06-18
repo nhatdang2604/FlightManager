@@ -63,6 +63,8 @@ public class ReportByYearTableView extends JTable {
 		
 	public ReportByYearTableView() {
 		setupModelTable();
+		
+		getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public ReportByYearTableView clearData() {

@@ -1,5 +1,6 @@
 package com.tkpm.view.feature_view.detail_view;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class CRUDDetailView extends BaseReadOnlyDetailView {
 		buttons.add(new JButton("Thêm"));
 		buttons.add(new JButton("Xóa"));
 		
+		//Edit "Them" button
+		editButton();
 		
 		//Add Buttons to detail panel
 		for (JButton button: buttons) {
@@ -36,5 +39,10 @@ public class CRUDDetailView extends BaseReadOnlyDetailView {
 	
 	public List<JButton> getButtons() {
 		return buttons;
+	}
+	
+	public void editButton() {
+		buttons.get(0).setBackground(new Color(41, 97, 213));
+		buttons.get(0).setForeground(Color.WHITE);
 	}
 }

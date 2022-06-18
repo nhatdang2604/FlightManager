@@ -19,6 +19,9 @@ import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Canvas;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import javax.swing.border.EmptyBorder;
 
 public class Login extends BaseFrame implements FormBehaviour {
 	
@@ -33,7 +36,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 	private JPanel contentPanel;
 	private JLabel Background;
 	private JPanel panelLogin;
-	private JPanel panelRegistrate;
+	private JPanel panelButton;
 	
 	//Display when: 
 	//	1.) Wrong password or username: Type = 0
@@ -46,12 +49,13 @@ public class Login extends BaseFrame implements FormBehaviour {
 		"",
 		"Sai mật khẩu hoặc tên đăng nhập",
 	};
+	private JPanel panelInfo;
 		
 	//Create and add Show/Hide feature for chckbxShowPassword
 	private void initCheckbox() {
 		chckbxShowPassword = new JCheckBox("Hiện mật khẩu");
 		chckbxShowPassword.setBackground(Color.WHITE);
-		chckbxShowPassword.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		chckbxShowPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		chckbxShowPassword.addActionListener((event) -> {
 				
 			//If the check box is selected
@@ -75,105 +79,88 @@ public class Login extends BaseFrame implements FormBehaviour {
 		contentPanel = new JPanel();
 		contentPanel.setPreferredSize(new Dimension(750, 465));
 		contentPanel.setBackground(Color.WHITE);
-		contentPanel.setLayout(null);
+		contentPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		Background = new JLabel("");
 		Background.setIcon(new ImageIcon(Login.class.getResource("/com/tkpm/view/frame/form/rafiki.jpg")));
 		Background.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		panelLogin = new JPanel();
-		panelLogin.setBorder(null);
-		panelLogin.setBackground(Color.WHITE);
-		panelLogin.setLayout(null);
+		panelInfo = new JPanel();
+		panelInfo.setBackground(Color.WHITE);
+		panelInfo.setLayout(new GridLayout(8, 1, 0, 10));
 		
-		panelRegistrate = new JPanel();
-		panelRegistrate.setBorder(new LineBorder(Color.DARK_GRAY));
-		panelRegistrate.setBackground(Color.DARK_GRAY);
-		panelRegistrate.setLayout(null);
+		panelLogin = new JPanel();
+		panelLogin.setBorder(new EmptyBorder(80, 15, 0, 15));
+		panelLogin.setBackground(Color.WHITE);
+		panelLogin.setLayout(new BorderLayout(0, 0));
+		
+		panelButton = new JPanel();
+		panelButton.setBorder(new EmptyBorder(5, 30, 5, 30));
+		panelButton.setBackground(Color.WHITE);
+		panelButton.setLayout(new GridLayout(0, 2, 30, 0));
 		
 		btnLogin = new JButton("Đăng nhập");
 		btnLogin.setForeground(Color.WHITE);
-		btnLogin.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		btnLogin.setBorder(null);
 		btnLogin.setBackground(new Color(41, 97, 213));
 		
 		btnRegistrate = new JButton("Đăng ký");
-		btnRegistrate.setFont(new Font("Noto Sans", Font.PLAIN, 14));
-		btnRegistrate.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnRegistrate.setMinimumSize(new Dimension(90, 30));
-		btnRegistrate.setMaximumSize(new Dimension(90, 30));
-		btnRegistrate.setBackground(Color.WHITE);
-		btnRegistrate.setBorderPainted(false);
 		
 		jlbUsername = new JLabel("Tên đăng nhập");
 		jlbUsername.setBackground(Color.WHITE);
-		jlbUsername.setFont(new Font("Noto Sans", Font.BOLD, 16));
-		
+		jlbUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
+
 		jlbPassword = new JLabel("Mật khẩu");
 		jlbPassword.setBackground(Color.WHITE);
-		jlbPassword.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		jlbWarningText = new JLabel();					//No warning when start login form
 		jlbWarningText.setBackground(Color.WHITE);
 		jlbWarningText.setHorizontalAlignment(SwingConstants.CENTER);
-		jlbWarningText.setFont(new Font("Noto Sans", Font.PLAIN, 14));
+		jlbWarningText.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jlbWarningText.setForeground(Color.RED);		//Warning have red text
 		
 		txtUsername = new JTextField();
 		txtUsername.setBackground(Color.WHITE);
-		txtUsername.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		passtxtPassword = new JPasswordField();
-		passtxtPassword.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		initCheckbox();									//Create and add Show/Hide feature for chckbxShowPassword
 	}
 	
 	//Set size and location of each component
 	private void setComponentSizeAndLocation() {
-		Background.setBounds(375, 0, 380, 473);
-		
-		panelLogin.setBounds(0, 0, 380, 473);
-		panelRegistrate.setBounds(90, 320, 100, 30);
-		
-		btnLogin.setBounds(210, 320, 120, 30);
-		btnRegistrate.setBounds(1, 1, 98, 28);
-		
-		jlbUsername.setBounds(80, 120, 260, 30);
-		jlbPassword.setBounds(80, 200, 260, 30);
-	    jlbWarningText.setBounds(80, 365, 260, 30);
-	    txtUsername.setBounds(80, 155, 260, 30);
-	    passtxtPassword.setBounds(80, 235, 260, 30);
-	    chckbxShowPassword.setBounds(80, 275, 150, 30);
 	}
 	
 	//Connect all components into getContentPane()
 	private void addComponents() {
-		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(contentPanel);
 		contentPanel.add(panelLogin);
 		contentPanel.add(Background);
-		panelLogin.add(jlbUsername);
-		panelLogin.add(jlbPassword);
-		panelLogin.add(txtUsername);
-		panelLogin.add(passtxtPassword);
-		panelLogin.add(chckbxShowPassword);
-		panelLogin.add(btnLogin);
-		panelLogin.add(panelRegistrate);
-		panelRegistrate.add(btnRegistrate);
-		panelLogin.add(jlbWarningText);
+		panelLogin.add(panelInfo, BorderLayout.CENTER);
+		
+		panelInfo.add(jlbUsername);
+		panelInfo.add(txtUsername);
+		panelInfo.add(jlbPassword);
+		panelInfo.add(passtxtPassword);
+		panelInfo.add(chckbxShowPassword);
+		panelInfo.add(panelButton);
+		panelButton.add(btnRegistrate);
+		panelButton.add(btnLogin);
+		panelInfo.add(jlbWarningText);
+		
 	}
 	
 	public Login() {
 		this.setTitle("Đăng nhập");
 		this.getContentPane().setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setResizable(false);
 		
 		initComponents();
 		setComponentSizeAndLocation();
 		addComponents();
 		
 		this.pack();
+		setLocationRelativeTo(null);
 		
 	}
 

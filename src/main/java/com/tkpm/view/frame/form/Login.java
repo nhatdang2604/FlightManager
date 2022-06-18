@@ -51,7 +51,28 @@ public class Login extends BaseFrame implements FormBehaviour {
 	};
 	private JPanel panelInfo;
 		
-	
+	//Create and add Show/Hide feature for chckbxShowPassword
+	private void initCheckbox() {
+		chckbxShowPassword = new JCheckBox("Hiện mật khẩu");
+		chckbxShowPassword.setBackground(Color.WHITE);
+		chckbxShowPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		chckbxShowPassword.addActionListener((event) -> {
+				
+			//If the check box is selected
+			//	=> Show password of passtxtPassword
+			if (chckbxShowPassword.isSelected()) {
+				passtxtPassword.setEchoChar((char)0);
+			} else {
+					
+				//If the check box is not selected
+				//	=> Hide password of passtxtPassword
+				// by setting echo character with (char)'\u2022'
+				passtxtPassword.setEchoChar('\u2022');
+			}
+				
+		});
+
+	}
 	
 	//Create all components;
 	private void initComponents() {

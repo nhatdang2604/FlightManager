@@ -7,9 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.tkpm.entities.Airport;
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
 import com.tkpm.entities.FlightDetail;
@@ -17,6 +20,7 @@ import com.tkpm.entities.Reservation;
 import com.tkpm.entities.Ticket;
 import com.tkpm.entities.TicketClass;
 import com.tkpm.entities.Transition;
+import com.tkpm.service.AirportService;
 import com.tkpm.service.FlightService;
 import com.tkpm.service.PolicyService;
 import com.tkpm.service.ReservationService;
@@ -26,6 +30,8 @@ import com.tkpm.service.TransitionAirportService;
 import com.tkpm.view.feature_view.FlightFeatureView;
 import com.tkpm.view.feature_view.detail_view.BookedReservationDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
+import com.tkpm.view.feature_view.header_view.BaseHeader;
+import com.tkpm.view.feature_view.header_view.components.SearchFlightPanel;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
 import com.tkpm.view.feature_view.table.BookedReservationTableView;
 import com.tkpm.view.feature_view.table.FlightListTableView;
@@ -43,6 +49,7 @@ public class CustomerController {
 	protected ReservationService reservationService;
 	protected PolicyService policyService;
 	protected TransitionAirportService transitionService;
+	protected AirportService airportService;
 	
 	protected BaseAccount account;
 	
@@ -59,6 +66,7 @@ public class CustomerController {
 		ticketClassService = TicketClassService.INSTANCE;
 		reservationService = ReservationService.INSTANCE;
 		ticketService = TicketService.INSTANCE;
+		airportService = AirportService.INSTANCE;
 		
 		//resolve cycle dependency between ticketService and reservationService
 		reservationService.setTicketService(ticketService);	
@@ -141,6 +149,7 @@ public class CustomerController {
 		
 		//Init table
 		initFlightListRead(controllerView);
+		initFlightListSearch(controllerView);
 		
 		//Open detail flight view if clicked
 		FlightListTableView table = controllerView.getFlightListTableView();
@@ -200,8 +209,64 @@ public class CustomerController {
 				.stream()
 				.filter(flight -> flight.getDateTime().isAfter(LocalDateTime.now()))
 				.collect(Collectors.toList());
-		table.setFlights( availableFlights);
+		table.setFlights(availableFlights);
 		table.update();
+	}
+	
+	protected void updateAirportSearchCriteria() {
+		FlightFeatureView featureView = (FlightFeatureView) mainFrame
+				.getFeatureViews()
+				.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+		
+		FlightTabbedControllerView controllerView = featureView.getTabbedControllerView();
+		BaseHeader header = controllerView.getHeaders().get(FlightTabbedControllerView.FLIGHT_LIST_HEADER_INDEX);
+		List<Airport> airports = airportService.findAllAirports();
+		SearchFlightPanel flightSearchPanel = (SearchFlightPanel) header.getPanels().get(1);
+		
+		List<JComboBox<Airport>> comboBoxes = flightSearchPanel.getAirportComboBoxes();
+		for (JComboBox<Airport> cb: comboBoxes) {
+			cb.removeAllItems();
+			for (Airport airport: airports) {
+				cb.addItem(airport);
+			}
+			cb.setSelectedIndex(-1);
+		}
+	}
+	
+	protected void initFlightListSearch(FlightTabbedControllerView controllerView) {
+		BaseHeader header = controllerView.getHeaders().get(FlightTabbedControllerView.FLIGHT_LIST_HEADER_INDEX);
+		FlightListTableView table = controllerView.getFlightListTableView();
+		SearchFlightPanel flightSearchPanel = (SearchFlightPanel) header.getPanels().get(1);
+		List<JComboBox<Airport>> comboBoxes = flightSearchPanel.getAirportComboBoxes();
+		List<DatePicker> datePickers = flightSearchPanel.getDatePickers();
+		
+		updateAirportSearchCriteria();
+		
+		flightSearchPanel.getSearchButton().addActionListener(event -> {
+			Airport departureAirport = (Airport) comboBoxes.get(0).getSelectedItem();
+			Airport arrivalAirport =  (Airport) comboBoxes.get(1).getSelectedItem();
+			LocalDate startDate = datePickers.get(0).getDate();
+			LocalDate endDate = datePickers.get(1).getDate();
+			
+			List<Flight> flights = flightService.findFlightByCriterias(
+					departureAirport, 
+					arrivalAirport, 
+					startDate, 
+					endDate);
+			
+			table.setFlights(flights);
+			table.update();
+			
+			for (JComboBox<Airport> cb: comboBoxes) {
+				cb.setSelectedIndex(-1);
+			}
+			
+			for (DatePicker datePicker: datePickers) {
+				datePicker.setDate(null);
+			}
+			
+		});
+		
 	}
 	
 	protected void initBookedReservationFeature() {

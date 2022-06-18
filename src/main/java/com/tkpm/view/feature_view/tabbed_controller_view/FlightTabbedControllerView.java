@@ -1,5 +1,6 @@
 package com.tkpm.view.feature_view.tabbed_controller_view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -15,6 +16,9 @@ import com.tkpm.view.feature_view.table.FlightListTableView;
 
 public class FlightTabbedControllerView extends BaseTabbedControllerView {
 
+	//constants
+	public static final int FLIGHT_LIST_HEADER_INDEX = 0;
+	
 	//Headers;
 	private List<BaseHeader> headers;
 	
@@ -29,16 +33,21 @@ public class FlightTabbedControllerView extends BaseTabbedControllerView {
 	public FlightTabbedControllerView(List<JPanel> backgroundParts) {
 		super(backgroundParts);
 		
+		//Init headers
+		headers = new ArrayList<>();
+		
 		//Init for flight list tabbed
 		flightListTableView = new FlightListTableView();
 		flightListDetailView = new FlightListDetailView();
 		SearchFlightPanel searchPanel = new SearchFlightPanel();
 		BaseHeader flightListHeader = new BaseHeader(searchPanel);
+		headers.add(flightListHeader);
 		
 		//Init for booked reservation list tabbed
 		bookedReservationTableView = new BookedReservationTableView();
 		bookedReservationDetailView = new BookedReservationDetailView();
-		BaseHeader bookedReservationHeader= new BaseHeader();
+		BaseHeader bookedReservationHeader = new BaseHeader();
+		headers.add(bookedReservationHeader);
 		
 		//Add screen for flight list
 		this.addCenterAsTable(flightListTableView, "Danh sách chuyến bay");
@@ -60,4 +69,5 @@ public class FlightTabbedControllerView extends BaseTabbedControllerView {
 	public FlightListDetailView getFlightListDetailView() {return flightListDetailView;}
 	public BookedReservationTableView getBookedReservationTableView() {return bookedReservationTableView;};
 	public BookedReservationDetailView getBookedReservationDetailView() {return bookedReservationDetailView;}
+	public List<BaseHeader> getHeaders() {return headers;}
 }

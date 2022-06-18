@@ -39,6 +39,7 @@ public class Airport {
 
 	@Override
 	public String toString() {
+		if (null == id) return "";
 		return name;
 	}
 

@@ -55,5 +55,5 @@ public class BaseHeader extends JPanel{
 		setupLayout();
 	}
 	public JButton getLogoutButton() {return logoutButton;}
-	
+	public List<JPanel> getPanels() {return panels;}
 }

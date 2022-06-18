@@ -49,7 +49,7 @@ public class ManagerController extends CustomerController {
 	protected FlightForm updateFlightForm;
 	
 	//Services
-	protected AirportService airportService;
+	//protected AirportService airportService;
 	protected ReportService reportService;
 	
 	//Utilities
@@ -141,6 +141,9 @@ public class ManagerController extends CustomerController {
 			//Update the table view
 			initAirportRead(controllerView);
 			
+			//Update the airport criterias in flight list view
+			updateAirportSearchCriteria();
+			
 			//Close the form
 			createAirportForm.setError(AirportForm.NO_ERROR);
 			createAirportForm.close();
@@ -199,6 +202,9 @@ public class ManagerController extends CustomerController {
 			initFlightListRead(customerControllerView);
 			initBookedReservationRead(customerControllerView);	
 			
+			//Update the airport criterias in flight list view
+			updateAirportSearchCriteria();
+			
 			//Close the form
 			updateAirportForm.setError(AirportForm.NO_ERROR);
 			updateAirportForm.close();
@@ -242,6 +248,9 @@ public class ManagerController extends CustomerController {
 				FlightTabbedControllerView customerControllerView = featureView.getTabbedControllerView();
 				initFlightListRead(customerControllerView);
 				initBookedReservationRead(customerControllerView);	
+				
+				//Update the airport criterias in flight list view
+				updateAirportSearchCriteria();
 				
 				//Success message
 				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");

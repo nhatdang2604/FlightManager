@@ -177,7 +177,7 @@ public enum FlightService {
 		
 	}
 	
-	public Set<Flight> findFlightByCriterias(
+	public List<Flight> findFlightByCriterias(
 			Airport departureAirport,
 			Airport arrivalAirport,
 			//LocalDateTime datetime,
@@ -211,27 +211,34 @@ public enum FlightService {
 
 			flights = flights
 					.stream()
-					.filter(flight -> flight.getDateTime().toLocalDate().isAfter(startDate) &&
-										flight.getDateTime().toLocalDate().isBefore(endDate))
+					.filter(flight -> 
+									(flight.getDateTime().toLocalDate().isAfter(startDate) ||
+											flight.getDateTime().toLocalDate().isEqual(startDate)) &&
+									(flight.getDateTime().toLocalDate().isBefore(endDate) || 
+											flight.getDateTime().toLocalDate().isEqual(endDate)))
 					.collect(Collectors.toSet());
 			
 		} else if (null != startDate) {
 			
 			flights = flights
 					.stream()
-					.filter(flight -> flight.getDateTime().toLocalDate().isAfter(startDate))
+					.filter(flight -> 
+								flight.getDateTime().toLocalDate().isAfter(startDate) ||
+								flight.getDateTime().toLocalDate().isEqual(startDate))
 					.collect(Collectors.toSet());
 			
 		} else if (null != endDate) {
 			
 			flights = flights
 					.stream()
-					.filter(flight -> flight.getDateTime().toLocalDate().isBefore(endDate))
+					.filter(flight -> 
+								flight.getDateTime().toLocalDate().isBefore(endDate) || 
+								flight.getDateTime().toLocalDate().isEqual(endDate))
 					.collect(Collectors.toSet());
 			
 		}
 		
-		return flights;
+		return new ArrayList<>(flights);
 	}
 	
 	//Find flight by id

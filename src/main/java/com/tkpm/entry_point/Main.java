@@ -2,6 +2,7 @@ package com.tkpm.entry_point;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.tkpm.controller.LoginController;
 
@@ -12,6 +13,7 @@ public class Main {
 		try {
 			UIManager.setLookAndFeel(new FlatIntelliJLaf());
 		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
 		}
 
 		LoginController controller = new LoginController();

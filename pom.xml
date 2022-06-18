@@ -9,6 +9,7 @@
 		<mysql.connector.version>5.1.45</mysql.connector.version>
 		<lgooddatepicker.version>11.2.1</lgooddatepicker.version>
 		<jgoodies-forms.version>1.8.0</jgoodies-forms.version>
+		<flatlaf.version>2.3</flatlaf.version>
 	</properties>
   
   	<dependencies>
@@ -39,6 +40,13 @@
     		<groupId>com.jgoodies</groupId>
     		<artifactId>jgoodies-forms</artifactId>
     		<version>${jgoodies-forms.version}</version>
+		</dependency>
+		
+		<!-- For Look & Feel decorated -->
+		<dependency>
+		    <groupId>com.formdev</groupId>
+			<artifactId>flatlaf</artifactId>
+			<version>${flatlaf.version}</version>
 		</dependency>
 		
 	</dependencies>

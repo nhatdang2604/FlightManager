@@ -22,14 +22,14 @@ public class FlightListDetailView extends BaseReadOnlyDetailView {
 	
 	protected void makeButtons() {
 		
-		//Add Buttons to detail panel
-		paddingPanels.get(2).add(bookButton);
-
+		
 		bookButton = new JButton("ĐẶT VÉ");
-    bookButton.setBackground(new Color(41, 97, 213));
+		bookButton.setBackground(new Color(41, 97, 213));
 		bookButton.setForeground(Color.WHITE);
 		bookButton.setFont(new Font("Noto Sans", Font.BOLD, 26)); 
 
+		//Add Buttons to detail panel
+		paddingPanels.get(2).add(bookButton);
 		
 		//Setup button panel + add Buttons to detail panel
 		paddingPanels.get(1).setLayout(new BorderLayout());

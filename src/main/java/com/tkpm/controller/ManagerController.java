@@ -188,6 +188,16 @@ public class ManagerController extends CustomerController {
 			
 			//Update the table view
 			initAirportRead(controllerView);
+			initFlightRead(controllerView);
+			
+			//Update the flight view for customer
+			FlightFeatureView featureView = (FlightFeatureView) mainFrame
+					.getFeatureViews()
+					.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+					
+			FlightTabbedControllerView customerControllerView = featureView.getTabbedControllerView();
+			initFlightListRead(customerControllerView);
+			initBookedReservationRead(customerControllerView);	
 			
 			//Close the form
 			updateAirportForm.setError(AirportForm.NO_ERROR);
@@ -222,6 +232,16 @@ public class ManagerController extends CustomerController {
 				
 				//Update the table view
 				initAirportRead(controllerView);
+				initFlightRead(controllerView);
+				
+				//Update the flight view for customer
+				FlightFeatureView featureView = (FlightFeatureView) mainFrame
+						.getFeatureViews()
+						.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+						
+				FlightTabbedControllerView customerControllerView = featureView.getTabbedControllerView();
+				initFlightListRead(customerControllerView);
+				initBookedReservationRead(customerControllerView);	
 				
 				//Success message
 				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");
@@ -496,7 +516,8 @@ public class ManagerController extends CustomerController {
 					
 			FlightTabbedControllerView customerControllerView = featureView.getTabbedControllerView();
 			initFlightListRead(customerControllerView);
-					
+			initBookedReservationRead(customerControllerView);		
+			
 			//Close the form
 			updateFlightForm.setError(AirportForm.NO_ERROR);
 			updateFlightForm.close();
@@ -530,6 +551,14 @@ public class ManagerController extends CustomerController {
 				
 				//Update the table view
 				initFlightRead(controllerView);
+				
+				//Update the flight view for customer
+				FlightFeatureView featureView = (FlightFeatureView) mainFrame
+						.getFeatureViews()
+						.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+				FlightTabbedControllerView customerControllerView = featureView.getTabbedControllerView();
+				initFlightListRead(customerControllerView);
+				initBookedReservationRead(customerControllerView);	
 				
 				//Success message
 				JOptionPane.showMessageDialog(null, "Đã xóa thành công.");

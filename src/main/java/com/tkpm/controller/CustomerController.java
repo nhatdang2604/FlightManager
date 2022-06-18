@@ -3,8 +3,12 @@ package com.tkpm.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.tkpm.entities.BaseAccount;
 import com.tkpm.entities.Flight;
@@ -20,8 +24,10 @@ import com.tkpm.service.TicketClassService;
 import com.tkpm.service.TicketService;
 import com.tkpm.service.TransitionAirportService;
 import com.tkpm.view.feature_view.FlightFeatureView;
+import com.tkpm.view.feature_view.detail_view.BookedReservationDetailView;
 import com.tkpm.view.feature_view.detail_view.FlightListDetailView;
 import com.tkpm.view.feature_view.tabbed_controller_view.FlightTabbedControllerView;
+import com.tkpm.view.feature_view.table.BookedReservationTableView;
 import com.tkpm.view.feature_view.table.FlightListTableView;
 import com.tkpm.view.frame.BaseMainFrame;
 import com.tkpm.view.frame.CustomerMainFrame;
@@ -48,11 +54,16 @@ public class CustomerController {
 	
 	public CustomerController(BaseMainFrame mainFrame) { 
 		this.mainFrame = mainFrame;
+		this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		flightService = FlightService.INSTANCE;
 		ticketClassService = TicketClassService.INSTANCE;
 		reservationService = ReservationService.INSTANCE;
 		ticketService = TicketService.INSTANCE;
-		reservationService.setTicketService(ticketService);	//resolve cycle dependency between ticketService and reservationService
+		
+		//resolve cycle dependency between ticketService and reservationService
+		reservationService.setTicketService(ticketService);	
+		ticketService.setReservationService(reservationService);
+		
 		policyService = PolicyService.INSTANCE;
 		transitionService = TransitionAirportService.INSTANCE;
 		
@@ -68,9 +79,10 @@ public class CustomerController {
 	
 	protected void initFlightFeatures() {
 		initListFlightFeature();
+		initBookedReservationFeature();
 	}
 	
-	protected void initTicketForm() {
+	protected void initTicketForm(FlightTabbedControllerView controllerView) {
 		ticketForm.getSubmitButton().addActionListener(event -> {
 			String ticketClassName = ticketForm.getTicketClass();
 			
@@ -111,6 +123,9 @@ public class CustomerController {
 			ticketService.updateTicket(ticket);
 			//reservationService.updateReservation(reservation);
 			
+			//Update the data in booked reservation screen
+			initBookedReservationRead(controllerView);
+			
 			//Close the form
 			ticketForm.setError(TicketForm.NO_ERROR);
 			ticketForm.close();
@@ -146,7 +161,7 @@ public class CustomerController {
 		});
 		
 		//Init ticket form for book button
-		initTicketForm();
+		initTicketForm(controllerView);
 		
 		//Get detail view first
 		FlightListDetailView detailView = controllerView.getFlightListDetailView();
@@ -176,7 +191,6 @@ public class CustomerController {
 		
 	}
 	
-	
 	protected void initFlightListRead(FlightTabbedControllerView controllerView) {
 		FlightListTableView table = controllerView.getFlightListTableView();
 		List<Flight> flights = new ArrayList<>(flightService.findAllFlights());
@@ -188,6 +202,84 @@ public class CustomerController {
 				.collect(Collectors.toList());
 		table.setFlights( availableFlights);
 		table.update();
+	}
+	
+	protected void initBookedReservationFeature() {
+		FlightFeatureView featureView = (FlightFeatureView) mainFrame
+				.getFeatureViews()
+				.get(CustomerMainFrame.FLIGHT_FEATURE_INDEX);
+		
+		FlightTabbedControllerView controllerView = featureView.getTabbedControllerView();
+		
+		initBookedReservationRead(controllerView);
+		initBookReservationClickRowDisplayDetail(controllerView);
+		initCancelBooking(controllerView);
+
+	}
+	
+	protected void initBookReservationClickRowDisplayDetail(FlightTabbedControllerView controllerView) {
+		BookedReservationDetailView detail = controllerView.getBookedReservationDetailView();
+		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		
+		table.getSelectionModel().addListSelectionListener(event -> {
+			if (table.getSelectedRow() > -1) {
+				Reservation reservation = table.getSelectedReservation();
+				if (null != reservation) {
+					detail.setDataToDetailPanel(reservation);
+				}
+			}
+		});
+	}
+	
+	protected void initCancelBooking(FlightTabbedControllerView controllerView) {
+		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		
+		table.getCancelTicketButton().addActionListener(event -> {
+			
+			if (table.isEditing()) {
+				table.getCellEditor().stopCellEditing();
+			}
+			
+			Reservation reservation = table.getSelectedReservation();
+			if (policyService.isLateToCancel(reservation)) {
+				JOptionPane.showMessageDialog(mainFrame, "Đã quá hạn hủy vé");
+				return;
+			}
+			
+			int input = JOptionPane.showConfirmDialog(mainFrame,
+	        		"Bạn có chắc chắn muốn hủy vé ?",
+	        		"Hủy vé",
+	        		JOptionPane.YES_NO_OPTION);
+			
+			//Do nothing if click close
+			if (JOptionPane.YES_OPTION == input) {
+				
+				//Cancel the selected ticket
+				List<Integer> ids = new ArrayList<>(Arrays.asList(reservation.getId()));
+				reservationService.cancelReservations(ids);
+				
+				//Update the current table
+				initBookedReservationRead(controllerView);
+				
+				JOptionPane.showMessageDialog(mainFrame, "Đã hủy vé thành công");
+			}
+			
+		});
+		
+	}
+	
+	protected void initBookedReservationRead(FlightTabbedControllerView controllerView) {
+		BookedReservationTableView table = controllerView.getBookedReservationTableView();
+		BookedReservationDetailView detail = controllerView.getBookedReservationDetailView();
+		List<Reservation> reservations = reservationService.findReservationsForAccount(account);
+		
+		if (null == reservations || reservations.isEmpty()) {
+			detail.setDataToDetailPanel(null);
+		}
+		
+		table.setReservations(reservations);
+		table.update();
+		
 	}
 	
 	public void run() {

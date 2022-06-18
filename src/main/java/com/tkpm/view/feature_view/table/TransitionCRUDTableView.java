@@ -2,7 +2,6 @@ package com.tkpm.view.feature_view.table;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -10,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.tkpm.entities.Airport;
 import com.tkpm.entities.Transition;
 import com.tkpm.view.widget.ButtonEditor;
 import com.tkpm.view.widget.ButtonRenderer;
@@ -124,10 +124,12 @@ public class TransitionCRUDTableView extends JTable {
 		for (int index = 0; index < size; ++index) {
 			
 			Transition transition = transitions.get(index);
+			Airport airport = transition.getAirport();
+			String airportName = (null == airport?"":airport.getName());
 			Object[] row = {
 					false,
 					index + 1, 
-					transition.getAirport().getName(),
+					airportName,
 					transition.getTransitionTime(), 
 					transition.getNote()};
 			tableModel.addRow(row);		

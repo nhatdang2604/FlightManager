@@ -250,5 +250,10 @@ public enum FlightService {
 	public List<Flight> getFlightForReport(List<Integer> ids) {
 		return flightDAO.findForReport(ids);
 	}
+
+	//ids: id of the AIRPORT, not the transition
+	public int removeAirportFieldWithGivenIds(List<Integer> ids) {
+		return flightDAO.setAirportNull(ids);
+	}
 }
  

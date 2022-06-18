@@ -205,9 +205,14 @@ public class FlightDetailForm extends JDialog {
 		this.model = model;
 		
 		if (null != model) {
+			
+			String departureAirport = (null == model.getDepartureAirport()?"":model.getDepartureAirport().getName());
+			String arrivalAirport =  (null == model.getArrivalAirport()?"":model.getArrivalAirport().getName());
+			
+			
 			fields.get(0).setText(model.getId().toString());
-			fields.get(1).setText(model.getDepartureAirport().getName());
-			fields.get(2).setText(model.getArrivalAirport().getName());
+			fields.get(1).setText(departureAirport);
+			fields.get(2).setText(arrivalAirport);
 			fields.get(3).setText(model.getDateTime().toString());
 			FlightDetail detail = model.getDetail();
 			fields.get(4).setText(detail.getFlightTime().toString() + " phút");

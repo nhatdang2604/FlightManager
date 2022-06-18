@@ -61,5 +61,10 @@ public enum TransitionAirportService {
 	public int deleteTransitions(List<Integer> ids) {
 		return transitionDAO.delete(ids);
 	}
+
+	//ids: id of the AIRPORT, not the transition
+	public int removeAirportFieldWithGivenIds(List<Integer> ids) {
+		return transitionDAO.setAirportNull(ids);
+	}
 }
  

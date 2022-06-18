@@ -297,7 +297,7 @@ public class TicketForm extends JDialog implements FormBehaviour {
 	//Get information from the form
 	public String getTicketClass() {return (String) ticketClassComboBox.getSelectedItem();}
 	public Flight getFlight() {return model;}
-	public String getSubmitName() {return textFields.get(0).getText().trim();}
+	public String getSubmitName() {return textFields.get(1).getText().trim();}
 	public String getSubmitIdentityCode() {return numericFields.get(0).getText().trim();}
 	public String getSubmitPhone() {return numericFields.get(1).getText().trim();}
 	

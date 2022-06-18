@@ -67,9 +67,13 @@ public enum UserService {
 		//Return null if the passwords are not matched
 		if (!user.getEncryptedPassword().equals(other.getEncryptedPassword())) {return null;}
 		
+		//Load the account for the user
+		BaseAccount account =  getExactlyAccountForUser(other);
+		other.setAccount(account);
+		account.setUser(other);
+		
 		//Return the user if ther username and password are matched
 		return other;
-		
 	}
 
 	public List<User> getUsersWithReservations(List<Integer> ids) {

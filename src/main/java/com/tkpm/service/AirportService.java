@@ -9,11 +9,18 @@ import com.tkpm.entities.Airport;
 public enum AirportService {
 
 	INSTANCE;
+
+	//Services
+	private TransitionAirportService transitionService;
+	private FlightService flightService;
 	
+	//DAOs
 	private AirportDAO airportDAO;
 	
 	private AirportService() {
 		airportDAO = AirportDAO.INSTANCE;
+		transitionService = TransitionAirportService.INSTANCE;
+		flightService = FlightService.INSTANCE;
 	}
 	
 	//Create new airport
@@ -48,6 +55,13 @@ public enum AirportService {
 	}
 
 	public int deleteAirports(List<Integer> ids) {
+		
+		//Set null for transition airport, which has airport with the same id with the delete airports
+		transitionService.removeAirportFieldWithGivenIds(ids);
+		
+		//Set null for transition airport, which has airport with the same id with the delete airports
+		flightService.removeAirportFieldWithGivenIds(ids);
+		
 		return airportDAO.delete(ids);
 	}
 }

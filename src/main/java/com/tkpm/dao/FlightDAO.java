@@ -404,5 +404,73 @@ public enum FlightDAO {
 	
 		return flights;
 	}
+
+	public int setAirportNull(List<Integer> ids) {
+
+		Session session = factory.getCurrentSession();
+		int errorCode = 0;
+		
+		try {
+			session.beginTransaction();
+			
+			//Get param to delete reservation
+			int size = ids.size();
+			List<String> params = new LinkedList<>();
+			for (int i = 0; i <size; ++i) {
+				params.add("param" + i);
+			}
+			
+			//Build the id set
+			StringBuilder builder = new StringBuilder();
+			builder.append("(-1");	//Using -1 for dynamically without checking "," if there is only 1 element in ids 
+			for (String param: params) {
+				builder.append(", :" + param);
+			}
+			builder.append(")");
+			String idSet = builder.toString();
+			
+			//Param for the value
+			String valueParam = "value";
+			
+			//Query to update departure airport
+			String query = 
+					"update " + Flight.class.getName() + " f set " +
+					"f.departureAirport = :" + valueParam + " " +
+					"where f.departureAirport.id in " + idSet;
+		
+			Query<?> hql = session.createQuery(query);
+			for (int i = 0; i < size; ++i) {
+				hql = hql.setParameter(params.get(i), ids.get(i));
+			}
+			hql = hql.setParameter(valueParam, null);
+			hql.executeUpdate();
+			
+			//Query to update arrival airport
+			query = 
+					"update " + Flight.class.getName() + " f set " +
+					"f.arrivalAirport = :" + valueParam + " " +
+					"where f.arrivalAirport.id in " + idSet;
+		
+			hql = session.createQuery(query);
+			for (int i = 0; i < size; ++i) {
+				hql = hql.setParameter(params.get(i), ids.get(i));
+			}
+			hql = hql.setParameter(valueParam, null);
+			hql.executeUpdate();
+			
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+			errorCode = 1;
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return errorCode;	
+		
+	}
 }
  

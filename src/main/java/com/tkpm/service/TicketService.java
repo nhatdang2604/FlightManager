@@ -134,5 +134,9 @@ public enum TicketService {
 	public int cancelTickets(List<Integer> ids) {
 		return ticketDAO.cancel(ids);
 	}
+
+	public void setReservationService(ReservationService reservationService) {
+		this.reservationService = reservationService;
+	}
 }
  

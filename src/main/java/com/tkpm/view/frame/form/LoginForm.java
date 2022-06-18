@@ -85,18 +85,7 @@ public class LoginForm extends BaseFrame implements FormBehaviour {
 		initCheckbox();									//Create and add Show/Hide feature for chckbxShowPassword
 	}
 	
-	//Set size and location of each component
-	private void setComponentSizeAndLocation() {
-		btnLogin.setBounds(144, 128, 100, 30);
-		btnRegistrate.setBounds(249,128,100,30);
-		
-		jlbUsername.setBounds(50,46,100,30);
-	    jlbPassword.setBounds(50,87,100,30);
-	    jlbWarningText.setBounds(130, 11, 190, 30);
-	    txtUsername.setBounds(148,46,200,30);
-	    passtxtPassword.setBounds(148,87,200,30);
-	    chckbxShowPassword.setBounds(30, 132, 110, 23);
-	}
+	
 	
 	//Connect all components into contentPane
 	private void addComponents() {

@@ -93,12 +93,17 @@ public class CreateAccountForm extends JDialog implements FormBehaviour {
 		warningText.setForeground(Color.RED);		//Warning have red text
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		
 		footerPanel = new JPanel();
-		okButton = new JButton("OK");
-		cancelButton = new JButton("Cancel");
+		footerPanel.setBackground(Color.WHITE);
+		okButton = new JButton("Tạo");
+		okButton.setBackground(new Color(41, 97, 213));
+		okButton.setForeground(Color.WHITE);
+		cancelButton = new JButton("Huỷ");
 		
 		centerPanel = new JPanel();
+		centerPanel.setBackground(Color.WHITE);
 		labels = new ArrayList<>(Arrays.asList(
 				new JLabel("Tên đăng nhập (*)"),
 				new JLabel("Mật khẩu (*)"),
@@ -245,7 +250,6 @@ public class CreateAccountForm extends JDialog implements FormBehaviour {
 		footerPanel.add(showPasswordCheckbox);
 		footerPanel.add(okButton);
 		footerPanel.add(cancelButton);
-				
 	}
 	
 	public void init() {
@@ -254,6 +258,8 @@ public class CreateAccountForm extends JDialog implements FormBehaviour {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 350);
 		setContentPane(contentPane);
+		
+		setLocationRelativeTo(null);
 		
 	}
 	

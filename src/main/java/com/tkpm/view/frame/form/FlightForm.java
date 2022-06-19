@@ -104,7 +104,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		
 		footerPanel = new JPanel();
 		okButton = new JButton("OK");
-		cancelButton = new JButton("Cancel");
+		cancelButton = new JButton("Huỷ");
 		addTransitionButton = new JButton("Thêm");
 		deleteTransitionButton = new JButton("Xóa");
 		

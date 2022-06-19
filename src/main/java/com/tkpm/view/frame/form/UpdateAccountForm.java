@@ -103,7 +103,7 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 		
 		footerPanel = new JPanel();
 		okButton = new JButton("OK");
-		cancelButton = new JButton("Cancel");
+		cancelButton = new JButton("Huỷ");
 		
 		centerPanel = new JPanel();
 		labels = new ArrayList<>(Arrays.asList(

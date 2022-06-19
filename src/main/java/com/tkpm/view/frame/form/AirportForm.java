@@ -26,7 +26,6 @@ public class AirportForm extends JDialog implements FormBehaviour {
 
 	private JLabel jlbAirportName;
 	private JPanel panelButton;
-	private JPanel panelCancel;
 	private JPanel panelInfo;
 	
 	private JTextField txtAirportName;
@@ -43,7 +42,7 @@ public class AirportForm extends JDialog implements FormBehaviour {
 	
 	private static final String[] ERRORS = {
 			"",
-			"Có ít nhất một ô (*) bị trống",
+			"Tên sân bay bị trống",
 			"Tên sân bay đã tồn tại"
 	};
 
@@ -63,7 +62,7 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		panelInfo.setBorder(new EmptyBorder(25, 50, 10, 50));
 		
 		jlbAirportName = new JLabel("Tên sân bay (*)");
-		jlbAirportName.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbAirportName.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		txtAirportName = new JTextField();
 		txtAirportName.setPreferredSize(new Dimension(7, 30));
@@ -80,16 +79,12 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		panelButton.setBorder(new EmptyBorder(10, 75, 20, 75));
 		panelButton.setLayout(new GridLayout(0, 2, 30, 0));
 		
-		panelCancel = new JPanel();
-		panelCancel.setBorder(new LineBorder(Color.DARK_GRAY));
-		panelCancel.setBackground(Color.DARK_GRAY);
 		cancelButton = new JButton("Huỷ");
 		cancelButton.setBackground(Color.WHITE);
-		cancelButton.setBorderPainted(false);
-		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 16));
+		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		okButton = new JButton("Thêm");
-		okButton.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		okButton.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		okButton.setBorderPainted(false);
 		okButton.setBackground(new Color(41, 97, 213));
 		okButton.setForeground(Color.WHITE);
@@ -106,9 +101,7 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		panelInfo.add(warningText);
 		
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
-		panelButton.add(panelCancel);
-		panelCancel.setLayout(new GridLayout(0, 1, 1, 1));
-		panelCancel.add(cancelButton);
+		panelButton.add(cancelButton);
 		panelButton.add(okButton);
 	}
 	
@@ -121,6 +114,8 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		addComponents();
 		
 		model = new Airport();
+		
+		setLocationRelativeTo(null);
 	}
 
 	/**

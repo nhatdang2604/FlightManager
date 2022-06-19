@@ -27,7 +27,6 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private JLabel jlbTransitionAir;
 	private JLabel jlbAirportId;
 	private JPanel panelButton;
-	private JPanel panelCancel;
 	private JPanel panelInfo;
 	
 	private JComboBox<Airport> airportComboBox;
@@ -92,7 +91,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		
 		jlbAirportId = new JLabel("Sân bay (*)");
 		jlbAirportId.setPreferredSize(new Dimension(55, 30));
-		jlbAirportId.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbAirportId.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		airportComboBox = new JComboBox<>();
 		airportComboBox.setBackground(Color.WHITE);
@@ -100,7 +99,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		airportComboBox.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		jlbTransitionTime = new JLabel("Thời gian dừng (*)");
-		jlbTransitionTime.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbTransitionTime.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		txtTransitionTime = new JTextField();
 		txtTransitionTime.setPreferredSize(new Dimension(7, 30));
@@ -108,7 +107,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		txtTransitionTime.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		jlbNote = new JLabel("Ghi chú");
-		jlbNote.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		jlbNote.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		txtNote = new JTextField();
 		txtNote.setPreferredSize(new Dimension(7, 60));
@@ -123,17 +122,13 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		panelButton.setPreferredSize(new Dimension(10, 60));
 		panelButton.setBorder(new EmptyBorder(10, 75, 20, 75));
 		panelButton.setLayout(new GridLayout(0, 2, 30, 0));
-		
-		panelCancel = new JPanel();
-		panelCancel.setBorder(new LineBorder(Color.DARK_GRAY));
-		panelCancel.setBackground(Color.DARK_GRAY);
+
 		cancelButton = new JButton("Huỷ");
 		cancelButton.setBackground(Color.WHITE);
-		cancelButton.setBorderPainted(false);
-		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 16));
+		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		okButton = new JButton("Thêm");
-		okButton.setFont(new Font("Noto Sans", Font.BOLD, 16));
+		okButton.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		okButton.setBorderPainted(false);
 		okButton.setBackground(new Color(41, 97, 213));
 		okButton.setForeground(Color.WHITE);
@@ -156,10 +151,8 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		panelInfo.add(warningText);
 		
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
-		panelButton.add(panelCancel);
-		panelCancel.setLayout(new GridLayout(0, 1, 1, 1));
-		panelCancel.add(cancelButton);
 		panelButton.add(okButton);
+		panelButton.add(cancelButton);
 	}
 	
 	public void init() {
@@ -171,6 +164,8 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		addComponents();
 		
 		model = new Transition();
+		
+		setLocationRelativeTo(null);
 	}
 
 	/**

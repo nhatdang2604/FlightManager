@@ -37,8 +37,9 @@ public class FlightStatisticWrapper {
 		return this;
 	}
 
-	
-}
+	public Integer getNumberOfEmptySeat() {
+		return numberOfEmptySeat;
+	}
 	
 //	public Double getRatio() {
 //		return (double)(getNumberOfBookedSeat()/getTotalNumberOfSeat());

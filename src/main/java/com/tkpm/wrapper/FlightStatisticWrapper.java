@@ -15,7 +15,13 @@ public class FlightStatisticWrapper {
 		update();
 	}
 
+	// Getter and Setter
 	public Flight getFlight() {return flight;}
+	public void setFlights(Flight flight) {
+		this.flight = flight;
+		update();
+	}
+	
 	
 	//Utility
 	public Integer getNumberOfEmptySeat() {

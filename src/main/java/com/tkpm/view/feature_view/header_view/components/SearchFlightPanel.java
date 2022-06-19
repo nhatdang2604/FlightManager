@@ -1,6 +1,7 @@
 package com.tkpm.view.feature_view.header_view.components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -54,12 +55,14 @@ public class SearchFlightPanel extends JPanel{
 		//Search button panel
 		JPanel searchButtonPanel = new JPanel();
 		searchButtonPanel.setLayout(new BoxLayout(searchButtonPanel, BoxLayout.X_AXIS));
+		searchButtonPanel.setBackground(Color.WHITE);
 		searchButtonPanel.add(searchButton);
 		searchButtonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		
 		//Search criteria panel
 		JPanel searchCriteriaPanel = new JPanel();
 		searchCriteriaPanel.setLayout(new GridLayout(2, 2));
+		searchCriteriaPanel.setBackground(Color.WHITE);
 		int size = labels.size();
 		List<JPanel> panels = new ArrayList<>();
 		for (int i = 0; i < size; ++i) {
@@ -68,6 +71,7 @@ public class SearchFlightPanel extends JPanel{
 		
 		panels.forEach(panel -> {
 			panel.setLayout(new FlowLayout());
+			panel.setBackground(Color.WHITE);
 			searchCriteriaPanel.add(panel);
 		});
 		

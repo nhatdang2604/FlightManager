@@ -5,16 +5,12 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
-import com.tkpm.view.component.ComboBox;
-import com.tkpm.view.component.TextField;
 import com.tkpm.view.model.ReportInfoModel;
-import java.awt.Color;
 
 public class ReportByMonthDetailView extends BaseReportDetailView {
 
@@ -25,19 +21,18 @@ public class ReportByMonthDetailView extends BaseReportDetailView {
 			"Năm",	
 	};
 	
-	private TextField yearField;
-	private ComboBox<Integer> monthField;
+	private JTextField yearField;
+	private JComboBox<Integer> monthField;
 	
 	private void setupDataField() {
-		yearField = new TextField("");
-		yearField.setBorder(new EmptyBorder(0, 3, 10, 3));
+		yearField = new JTextField();
 		yearField.addKeyListener(new KeyAdapter() {
 			   public void keyTyped(KeyEvent e) {
 				   ignoreNANValue(e);
 			   }
 		});
 		
-		monthField = new ComboBox<>("Tháng");
+		monthField = new JComboBox<>();
 		
 		//Add 12 months into combobox
 		for (int i = 1; i <= 12; ++i) {
@@ -88,8 +83,6 @@ public class ReportByMonthDetailView extends BaseReportDetailView {
  	
 	public ReportByMonthDetailView() {
 		super(TITLE, DATA_FIELD_NAMES);
-		setOpaque(true);
-		setBackground(Color.WHITE);
 		setupDataField();
 		setLayoutForDataPanel();
 	}

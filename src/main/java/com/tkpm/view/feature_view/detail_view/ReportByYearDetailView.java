@@ -1,18 +1,14 @@
 package com.tkpm.view.feature_view.detail_view;
 
-import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
-import com.tkpm.view.component.TextField;
 import com.tkpm.view.model.ReportInfoModel;
 
 public class ReportByYearDetailView extends BaseReportDetailView {
@@ -23,11 +19,10 @@ public class ReportByYearDetailView extends BaseReportDetailView {
 			"Năm",
 	};
 	
-	private TextField yearField;
+	private JTextField yearField;
 	
 	private void setupDataField() {
-		yearField = new TextField("");
-		yearField.setBorder(new EmptyBorder(0, 3, 10, 3));
+		yearField = new JTextField();
 		yearField.addKeyListener(new KeyAdapter() {
 			   public void keyTyped(KeyEvent e) {
 				   ignoreNANValue(e);

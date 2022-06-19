@@ -8,15 +8,12 @@ import java.util.List;
 
 import javax.swing.JButton;
 
-import com.tkpm.view.component.FilledButton;
-import java.awt.Color;
-
 @SuppressWarnings("serial")
 public class FlightListDetailView extends BaseReadOnlyDetailView {
 	
 	public static final int BOOK_BUTTON_INDEX = 0;
 	
-	private FilledButton bookButton;
+	private JButton bookButton;
 	
 
 //	private static final String[] FIELD_NAMES = {

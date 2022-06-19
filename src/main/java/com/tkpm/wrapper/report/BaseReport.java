@@ -16,8 +16,12 @@ public class BaseReport {
 		this.setWrappers(wrappers);
 	}
 
-	
+	//Getters
+	public List<FlightStatisticWrapper> getWrappers() {return wrappers;}
+	public Month getMonth() {return month;}
+	public Integer getYear() {return year;}
 
+	
 	
 	public Integer getTurnover() {
 		int turnover = 0;

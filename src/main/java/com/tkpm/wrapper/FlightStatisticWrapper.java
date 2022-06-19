@@ -15,27 +15,9 @@ public class FlightStatisticWrapper {
 		update();
 	}
 
-	//Getter and setter
-	public Flight getFlight() {return flight;}
-	public void setFlights(Flight flight) {
-		this.flight = flight;
-		update();
-	}
 	
-	//Update the numberOfEmptySeat after set the flight
-	private FlightStatisticWrapper update() {
-			
-		numberOfEmptySeat = 0;
-		Set<Ticket> tickets = flight.getTickets();
-			
-		for (Ticket ticket: tickets) {
-			if (!ticket.getIsBooked()) {
-				++numberOfEmptySeat;
-			}
-		}
-		
-		return this;
-	}
+	
+	
 	
 	//Utility
 	public Integer getNumberOfEmptySeat() {

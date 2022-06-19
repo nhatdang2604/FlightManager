@@ -5,11 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import com.tkpm.entities.User;
 import com.tkpm.utils.HashingUtil;
-import com.tkpm.view.component.Button;
-import com.tkpm.view.component.FilledButton;
-import com.tkpm.view.component.OutlinedButton;
-import com.tkpm.view.component.PasswordField;
-import com.tkpm.view.component.TextField;
 import com.tkpm.view.frame.BaseFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -17,9 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 import javax.swing.border.LineBorder;
@@ -33,16 +25,17 @@ import javax.swing.border.EmptyBorder;
 
 public class Login extends BaseFrame implements FormBehaviour {
 	
-	private TextField txtUsername;				//Username text field
-	private PasswordField passtxtPassword;		//Password text field
+	private JLabel jlbUsername;					//Label for username field
+	private JTextField txtUsername;				//Username text field
+	private JLabel jlbPassword;					//Label for password field
+	private JPasswordField passtxtPassword;		//Password text field
 	private JCheckBox chckbxShowPassword;		//Checkbox to show/hide password
-	private FilledButton btnLogin;				//Login button
-	private OutlinedButton btnRegistrate;		//Registrate button
+	private JButton btnLogin;					//Login button
+	private JButton btnRegistrate;				//Registrate button
 	
 	private JPanel contentPanel;
 	private JLabel Background;
 	private JPanel panelLogin;
-
 	private JPanel panelButton;
 	
 	//Display when: 
@@ -56,7 +49,6 @@ public class Login extends BaseFrame implements FormBehaviour {
 		"",
 		"Sai mật khẩu hoặc tên đăng nhập",
 	};
-
 	private JPanel panelInfo;
 		
 	//Create and add Show/Hide feature for chckbxShowPassword
@@ -120,7 +112,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 		jlbPassword = new JLabel("Mật khẩu");
 		jlbPassword.setBackground(Color.WHITE);
 		jlbPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
-
+		
 		jlbWarningText = new JLabel();					//No warning when start login form
 		jlbWarningText.setBackground(Color.WHITE);
 		jlbWarningText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -131,7 +123,6 @@ public class Login extends BaseFrame implements FormBehaviour {
 		txtUsername.setBackground(Color.WHITE);
 		
 		passtxtPassword = new JPasswordField();
-
 		initCheckbox();									//Create and add Show/Hide feature for chckbxShowPassword
 	}
 	
@@ -143,7 +134,6 @@ public class Login extends BaseFrame implements FormBehaviour {
 	private void addComponents() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(contentPanel);
-		contentPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		contentPanel.add(panelLogin);
 		contentPanel.add(Background);
 		panelLogin.add(panelInfo, BorderLayout.CENTER);
@@ -157,7 +147,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 		panelButton.add(btnRegistrate);
 		panelButton.add(btnLogin);
 		panelInfo.add(jlbWarningText);
-
+		
 	}
 	
 	public Login() {
@@ -190,7 +180,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 	}
 
 	@Override
-	public Button getSubmitButton() {return btnLogin;}
+	public JButton getSubmitButton() {return btnLogin;}
 	public JButton getRegistrateButton() {return btnRegistrate;}
 
 	@Override

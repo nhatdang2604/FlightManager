@@ -12,6 +12,11 @@ public class Main {
 
 		try {
 			UIManager.setLookAndFeel(new FlatIntelliJLaf());
+			UIManager.put("Component.arrowType", "chevron");
+			UIManager.put( "Button.arc", 8 );
+			UIManager.put( "Component.arc", 8 );
+			UIManager.put( "ProgressBar.arc", 8 );
+			UIManager.put( "TextComponent.arc", 8 );
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}

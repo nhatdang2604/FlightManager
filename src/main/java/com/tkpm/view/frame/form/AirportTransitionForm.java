@@ -82,7 +82,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private void initComponents() {
 		jlbTransitionAir = new JLabel("Sân bay trung gian");
 		jlbTransitionAir.setPreferredSize(new Dimension(91, 50));
-		jlbTransitionAir.setFont(new Font("Noto Sans", Font.BOLD, 18));
+		jlbTransitionAir.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		jlbTransitionAir.setHorizontalAlignment(JLabel.CENTER);
 		
 		panelInfo = new JPanel();
@@ -91,23 +91,18 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		
 		jlbAirportId = new JLabel("Sân bay (*)");
 		jlbAirportId.setPreferredSize(new Dimension(55, 30));
-		jlbAirportId.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		airportComboBox = new JComboBox<>();
 		airportComboBox.setBackground(Color.WHITE);
 		airportComboBox.setPreferredSize(new Dimension(7, 30));
-		airportComboBox.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		jlbTransitionTime = new JLabel("Thời gian dừng (*)");
-		jlbTransitionTime.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		txtTransitionTime = new JTextField();
 		txtTransitionTime.setPreferredSize(new Dimension(7, 30));
 		txtTransitionTime.setColumns(10);
-		txtTransitionTime.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		jlbNote = new JLabel("Ghi chú");
-		jlbNote.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		txtNote = new JTextField();
 		txtNote.setPreferredSize(new Dimension(7, 60));
@@ -115,7 +110,6 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		
 		warningText = new JLabel("");
 		warningText.setForeground(Color.RED);
-		warningText.setFont(new Font("Dialog", Font.PLAIN, 14));
 		
 		panelButton = new JPanel();
 		panelButton.setBackground(Color.WHITE);
@@ -125,11 +119,8 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
 		cancelButton = new JButton("Huỷ");
 		cancelButton.setBackground(Color.WHITE);
-		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		okButton = new JButton("Thêm");
-		okButton.setFont(new Font("Noto Sans", Font.BOLD, 14));
-		okButton.setBorderPainted(false);
 		okButton.setBackground(new Color(41, 97, 213));
 		okButton.setForeground(Color.WHITE);
 		

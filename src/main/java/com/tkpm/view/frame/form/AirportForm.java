@@ -62,16 +62,13 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		panelInfo.setBorder(new EmptyBorder(25, 50, 10, 50));
 		
 		jlbAirportName = new JLabel("Tên sân bay (*)");
-		jlbAirportName.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		
 		txtAirportName = new JTextField();
 		txtAirportName.setPreferredSize(new Dimension(7, 30));
 		txtAirportName.setColumns(10);
-		txtAirportName.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		warningText = new JLabel("");
 		warningText.setForeground(Color.RED);
-		warningText.setFont(new Font("Dialog", Font.PLAIN, 14));
 		
 		panelButton = new JPanel();
 		panelButton.setBackground(Color.WHITE);
@@ -81,11 +78,8 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		
 		cancelButton = new JButton("Huỷ");
 		cancelButton.setBackground(Color.WHITE);
-		cancelButton.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		
 		okButton = new JButton("Thêm");
-		okButton.setFont(new Font("Noto Sans", Font.BOLD, 14));
-		okButton.setBorderPainted(false);
 		okButton.setBackground(new Color(41, 97, 213));
 		okButton.setForeground(Color.WHITE);
 		

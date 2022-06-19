@@ -37,15 +37,16 @@ public class FlightStatisticWrapper {
 		return this;
 	}
 
+	// Utility methods
 	public Integer getNumberOfEmptySeat() {
 		return numberOfEmptySeat;
 	}
-		public Integer getTotalNumberOfSeat() {
-			return flight.getTickets().size();
-		}
-		public Integer getNumberOfBookedSeat() {
-			return  getTotalNumberOfSeat() - getNumberOfEmptySeat();
-		}
+	public Integer getTotalNumberOfSeat() {
+		return flight.getTickets().size();
+	}
+	public Integer getNumberOfBookedSeat() {
+		return  getTotalNumberOfSeat() - getNumberOfEmptySeat();
+	}
 	
 //	public Double getRatio() {
 //		return (double)(getNumberOfBookedSeat()/getTotalNumberOfSeat());

@@ -15,9 +15,7 @@ public class FlightStatisticWrapper {
 		update();
 	}
 
-	
-	
-	
+	public Flight getFlight() {return flight;}
 	
 	//Utility
 	public Integer getNumberOfEmptySeat() {

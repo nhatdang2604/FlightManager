@@ -1,6 +1,11 @@
 package com.tkpm.view.feature_view.table;
 
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.tkpm.wrapper.FlightStatisticWrapper;
@@ -53,7 +58,7 @@ public class ReportByMonthTableView extends JTable {
 		
 	public ReportByMonthTableView() {
 		setupModelTable();
-		
+
 		getTableHeader().setReorderingAllowed(false);
 	}
 	

@@ -55,6 +55,7 @@ public class ReportByYearDetailView extends BaseReportDetailView {
 		//Add data afterward
 		paddingPanels.get(1).add(warningField, "6, 2, center, default");
 		paddingPanels.get(1).add(yearField, "6, 4, fill, default");
+		
 	}
 	
 	public boolean isYearFieldEmpty() {

@@ -18,7 +18,6 @@ public class Main {
 
 		LoginController controller = new LoginController();
 		controller.run();
-		
 	}
 
 }

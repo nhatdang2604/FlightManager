@@ -59,6 +59,7 @@ public class ReportByMonthTableView extends JTable {
 	public ReportByMonthTableView() {
 		setupModelTable();
 
+		setAlignmentContent();
 		getTableHeader().setReorderingAllowed(false);
 	}
 	
@@ -102,5 +103,17 @@ public class ReportByMonthTableView extends JTable {
 		return this;
 	}
 	
+	public void setAlignmentContent() {
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+		
+		setRowHeight(30);
+	}
 
 }

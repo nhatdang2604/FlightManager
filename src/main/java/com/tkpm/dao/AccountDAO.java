@@ -70,6 +70,35 @@ public enum AccountDAO {
 			return account;
 		}
 		
+		//Delete an account by the given id and class (class is based on role)
+				public int delete(Integer id, Class accountClass) {
+
+					Session session = factory.getCurrentSession();
+					int errorCode = 0;
+					
+					try {
+						session.beginTransaction();
+						
+						BaseAccount account = (BaseAccount) session.get(accountClass, id);
+						
+						if (null !=  account) {
+							session.delete(account);
+						}
+						
+					} catch (Exception ex) {
+						
+						ex.printStackTrace();
+						session.getTransaction().rollback();
+						errorCode = 1;
+					} finally {
+						session.getTransaction().commit();
+						session.close();
+					}
+				
+					return errorCode;
+				}
+				
+				
 		
 		
 }

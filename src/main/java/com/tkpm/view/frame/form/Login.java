@@ -47,7 +47,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 	
 	private static final String[] ERRORS = {
 		"",
-		"Sai mật khẩu hoặc tên đăng nhập",
+		"Sai tên đăng nhập hoặc mật khẩu!",
 	};
 	private JPanel panelInfo;
 		

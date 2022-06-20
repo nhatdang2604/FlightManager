@@ -99,6 +99,7 @@ public class CreateAccountForm extends JDialog implements FormBehaviour {
 		cancelButton = new JButton("Cancel");
 		
 		centerPanel = new JPanel();
+		
 		labels = new ArrayList<>(Arrays.asList(
 				new JLabel("Tên đăng nhập (*)"),
 				new JLabel("Mật khẩu (*)"),

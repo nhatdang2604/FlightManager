@@ -15,6 +15,7 @@ public class FlightListDetailView extends BaseReadOnlyDetailView {
 	
 	private JButton bookButton;
 	
+
 //	private static final String[] FIELD_NAMES = {
 //			"Tình trạng ghế hạng 1",	//Còn/Hết
 //			"Tình trạng ghế hạng 2",	//Còn/Hết

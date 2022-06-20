@@ -70,6 +70,9 @@ public class BaseReportDetailView extends JPanel implements FormBehaviour {
 		int paddingSize = (null == attributeFieldNames?0:attributeFieldNames.length);
 		//paddingPanels.get(1).setLayout(new GridLayout(paddingSize, 2));
 		paddingPanels.get(2).setLayout(new FlowLayout());
+		for (JPanel panel : paddingPanels) {
+			panel.setBackground(Color.WHITE);
+		}
 	}
 	
 	protected void addTitle(String title) {

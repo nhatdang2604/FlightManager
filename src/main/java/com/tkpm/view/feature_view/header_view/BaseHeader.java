@@ -1,5 +1,6 @@
 package com.tkpm.view.feature_view.header_view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class BaseHeader extends JPanel{
 	private void reupdatePanels() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		for (JPanel panel: panels) {
+			panel.setBackground(Color.WHITE);
 			add(panel);
 		}
 	}
@@ -47,6 +49,7 @@ public class BaseHeader extends JPanel{
 	public BaseHeader() {
 		initComponents();
 		setupLayout();
+		setBackground(Color.WHITE);
 	}
 	
 	public BaseHeader(JPanel panel) {

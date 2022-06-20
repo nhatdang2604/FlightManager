@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -72,6 +74,7 @@ public class TransitionTableView extends JTable {
 	public TransitionTableView() {
 		transitions = new ArrayList<>();
 		setupModelTable();
+		setAlignmentContent();
 	}
 	
 	public TransitionTableView clearData() {
@@ -120,6 +123,16 @@ public class TransitionTableView extends JTable {
 	
 	public List<Transition> getTransitions() {
 		return transitions;
+	}
+	
+	public void setAlignmentContent() {
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		
+		setRowHeight(30);
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.tkpm.view.feature_view.header_view.components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.tkpm.entities.Airport;
@@ -54,12 +56,14 @@ public class SearchFlightPanel extends JPanel{
 		//Search button panel
 		JPanel searchButtonPanel = new JPanel();
 		searchButtonPanel.setLayout(new BoxLayout(searchButtonPanel, BoxLayout.X_AXIS));
+		searchButtonPanel.setBackground(Color.WHITE);
 		searchButtonPanel.add(searchButton);
 		searchButtonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		
 		//Search criteria panel
 		JPanel searchCriteriaPanel = new JPanel();
-		searchCriteriaPanel.setLayout(new GridLayout(2, 2));
+		searchCriteriaPanel.setLayout(new GridLayout(2, 2, 5, 5));
+		searchCriteriaPanel.setBackground(Color.WHITE);
 		int size = labels.size();
 		List<JPanel> panels = new ArrayList<>();
 		for (int i = 0; i < size; ++i) {
@@ -67,7 +71,10 @@ public class SearchFlightPanel extends JPanel{
 		}
 		
 		panels.forEach(panel -> {
-			panel.setLayout(new FlowLayout());
+			//panel.setLayout(new FlowLayout());
+			panel.setLayout(new GridLayout(0, 2, 0, 0));
+			panel.setBorder(new EmptyBorder(10, 30, 10, 30));
+			panel.setBackground(Color.WHITE);
 			searchCriteriaPanel.add(panel);
 		});
 		
@@ -79,6 +86,7 @@ public class SearchFlightPanel extends JPanel{
 		//Add combo boxes
 		int offset = 0;
 		for (int i = 0; i < airportComboBoxes.size(); ++i) {
+			airportComboBoxes.get(i).setPreferredSize(datePickers.get(i).getPreferredSize());
 			panels.get(i).add(airportComboBoxes.get(i));
 		}
 		

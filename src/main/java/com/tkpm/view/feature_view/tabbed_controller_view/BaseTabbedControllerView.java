@@ -30,7 +30,8 @@ public class BaseTabbedControllerView extends JPanel {
 	protected JPanel headerView;
 	protected JPanel footerView;
 	
-	private final Color FOOTER_COLOR = new Color(230, 242, 255);
+	//private final Color FOOTER_COLOR = new Color(230, 242, 255);
+	private final Color FOOTER_COLOR = new Color(255, 255, 255);
 	
 	protected void setLayout() {
 		double heightRatio = 0.95;
@@ -68,13 +69,15 @@ public class BaseTabbedControllerView extends JPanel {
 		//Use basic footer view, cause we not implement anything here
 		footerView = new BaseView();
 		footerView.setBackground(FOOTER_COLOR);
+		
+		tabbedPanel.setBackground(Color.WHITE);
 	}
 	
 	public BaseTabbedControllerView(List<JPanel> backgroundParts) {
 		this.backgroundParts = backgroundParts;
 		initComponents();
 		setLayout();
-		
+		setBackground(Color.WHITE);
 	}
 	
 	public void addCenter(Component centerView, String name) {

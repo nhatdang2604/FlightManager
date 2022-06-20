@@ -142,7 +142,6 @@ public class Registration extends JDialog implements FormBehaviour{
 
 		jlbUsername = new JLabel("Tên đăng nhập (*)");
 		jlbUsername.setPreferredSize(new Dimension(260, 30));
-		jlbUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtUsername = new JTextField();
 		txtUsername.setPreferredSize(new Dimension(260, 30));
@@ -150,21 +149,18 @@ public class Registration extends JDialog implements FormBehaviour{
 		
 		jlbPassword = new JLabel("Mật khẩu (*)");
 		jlbPassword.setPreferredSize(new Dimension(260, 30));
-		jlbPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		passtxtPassword = new JPasswordField();
 		passtxtPassword.setPreferredSize(new Dimension(260, 30));
 		
 		jlbRetypePassword = new JLabel("Nhập lại mật khẩu (*)");
 		jlbRetypePassword.setPreferredSize(new Dimension(260, 30));
-		jlbRetypePassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		passtxtRetypePassword = new JPasswordField();
 		passtxtRetypePassword.setPreferredSize(new Dimension(260, 30));
 		
 		jlbName = new JLabel("Họ và tên");
 		jlbName.setPreferredSize(new Dimension(260, 30));
-		jlbName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtName = new JTextField();
 		txtName.setPreferredSize(new Dimension(260, 30));
@@ -172,7 +168,6 @@ public class Registration extends JDialog implements FormBehaviour{
 		
 		jlbIdentity = new JLabel("CMND/CCCD");
 		jlbIdentity.setPreferredSize(new Dimension(260, 30));
-		jlbIdentity.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtIdentity = new JTextField();
 		txtIdentity.setPreferredSize(new Dimension(260, 30));
@@ -180,7 +175,6 @@ public class Registration extends JDialog implements FormBehaviour{
 		
 		jlbMobileNumber = new JLabel("Số điện thoại");
 		jlbMobileNumber.setPreferredSize(new Dimension(260, 30));
-		jlbMobileNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		txtMobileNumber = new JTextField();
 		txtMobileNumber.setPreferredSize(new Dimension(260, 30));
@@ -273,6 +267,7 @@ public class Registration extends JDialog implements FormBehaviour{
 		
 		this.pack();
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		
 	}
 	

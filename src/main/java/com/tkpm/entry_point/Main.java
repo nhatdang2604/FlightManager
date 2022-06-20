@@ -12,6 +12,7 @@ public class Main {
 
 		try {
 			UIManager.setLookAndFeel(new FlatIntelliJLaf());
+			UIManager.put("Component.arrowType", "chevron");
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}

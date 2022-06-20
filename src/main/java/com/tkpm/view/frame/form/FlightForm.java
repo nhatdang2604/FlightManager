@@ -101,14 +101,17 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		warningText.setForeground(Color.RED);		//Warning have red text
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		
 		footerPanel = new JPanel();
+		footerPanel.setBackground(Color.WHITE);
 		okButton = new JButton("OK");
-		cancelButton = new JButton("Cancel");
+		cancelButton = new JButton("Huỷ");
 		addTransitionButton = new JButton("Thêm");
 		deleteTransitionButton = new JButton("Xóa");
 		
 		centerPanel = new JPanel();
+		centerPanel.setBackground(Color.WHITE);
 		labels = new ArrayList<>(Arrays.asList(
 				new JLabel("Sân bay đi (*)"),
 				new JLabel("Sân bay đến (*)"),
@@ -121,6 +124,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		
 		//Init datetime picker
 		flightDateTimePicker = new DateTimePicker();
+		flightDateTimePicker.setBackground(Color.WHITE);
 		
 		//Init airport combo boxes
 		airportComboBoxes = new ArrayList<>();
@@ -268,10 +272,12 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		footerPanel.setLayout(new BorderLayout());
 		JPanel controlButtonPanel = new JPanel();
 		controlButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		controlButtonPanel.setBackground(Color.WHITE);
 		controlButtonPanel.add(addTransitionButton);
 		controlButtonPanel.add(deleteTransitionButton);
 		JPanel confirmButtonPanel = new JPanel();
 		confirmButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		confirmButtonPanel.setBackground(Color.WHITE);
 		confirmButtonPanel.add(okButton);
 		confirmButtonPanel.add(cancelButton);
 		JScrollPane tableScroll = new JScrollPane(table);
@@ -308,6 +314,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		init();
 		setModel(model);
 		setSize(WIDTH, HEIGHT);
+		setLocationRelativeTo(null);
 	}
 	
 	public FlightForm(JFrame owner) {
@@ -315,6 +322,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		init();
 		initModel();
 		setSize(WIDTH, HEIGHT);
+		setLocationRelativeTo(null);
 	}
 	
 	

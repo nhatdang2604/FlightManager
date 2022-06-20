@@ -1,11 +1,14 @@
 package com.tkpm.view.feature_view.header_view;
 
+import java.awt.Color;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.tkpm.view.model.ReportInfoModel;
+import java.awt.Component;
 
 public class ReportByMonthHeader extends JPanel{
 
@@ -22,6 +25,7 @@ public class ReportByMonthHeader extends JPanel{
 	
 	private void setLayout() {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setBackground(Color.WHITE);
 		add(Box.createHorizontalGlue());
 		add(titleLabel);
 		add(Box.createHorizontalGlue());

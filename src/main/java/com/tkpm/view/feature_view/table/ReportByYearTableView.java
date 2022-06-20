@@ -67,7 +67,7 @@ public class ReportByYearTableView extends JTable {
 		
 	public ReportByYearTableView() {
 		setupModelTable();
-		
+		setAlignmentContent();
 		getTableHeader().setReorderingAllowed(false);
 	}
 	
@@ -110,13 +110,23 @@ public class ReportByYearTableView extends JTable {
 			Object[] row = {
 					index + 1, 
 					reportByMonth.getWrappers().size(),
-					"$" + new Integer(turnovers[index + 1]).toString(),
+					new Integer(turnovers[index + 1]).toString() + " VND",
 					new Double(ratio * 100).toString() + "%"};
 			
 			tableModel.addRow(row);		
 		}
 		return this;
 	}
-	
 
+	public void setAlignmentContent() {
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+		
+		setRowHeight(30);
+	}
 }

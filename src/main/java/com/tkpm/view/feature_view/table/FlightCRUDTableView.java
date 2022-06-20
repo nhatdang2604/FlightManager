@@ -116,6 +116,7 @@ public class FlightCRUDTableView extends JTable {
 		setupModelTable();
 		initDetailButton();
 		
+		setAlignmentContent();
 		getTableHeader().setReorderingAllowed(false);
 	}
 	
@@ -176,5 +177,15 @@ public class FlightCRUDTableView extends JTable {
 		return actionButtons;
 	}
 	
+	public void setAlignmentContent() {
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+		
+		setRowHeight(30);
+	}
 	
 }

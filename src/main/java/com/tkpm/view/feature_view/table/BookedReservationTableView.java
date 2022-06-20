@@ -3,7 +3,9 @@ package com.tkpm.view.feature_view.table;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -87,6 +89,7 @@ public class BookedReservationTableView extends JTable {
 	public BookedReservationTableView() {
 		setupModelTable();
 		initCancelTicketButton();
+		setAlignmentContent();
 	}
 	
 	public BookedReservationTableView clearData() {
@@ -134,5 +137,16 @@ public class BookedReservationTableView extends JTable {
 	
 	public JButton getCancelTicketButton() {
 		return cancelTicketButton;
+	}
+	
+	public void setAlignmentContent() {
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+		
+		setRowHeight(30);
 	}
 }

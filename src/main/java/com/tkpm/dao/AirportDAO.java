@@ -99,7 +99,52 @@ public enum AirportDAO {
 			return errorCode;
 		}
 		
-		
+		//Find all airports in database
+				public List<Airport> findAll() {
+					
+					Session session = factory.getCurrentSession();
+					List<Airport> airports = new ArrayList<>();
+					
+					try {
+						session.beginTransaction();
+						
+						//Get the list of airports
+						airports = session.createQuery("from " + Airport.class.getName(), Airport.class).getResultList();
+						
+					} catch (Exception ex) {
+						ex.printStackTrace();
+						session.getTransaction().rollback();
+					} finally {
+						session.getTransaction().commit();
+						session.close();
+					}
+					
+					return airports;
+					
+				}
+				
+				//Find airport by id
+				public Airport find(Integer id) {
+					
+					Session session = factory.getCurrentSession();
+					Airport airport = null;
+					
+					try {
+						session.beginTransaction();
+						
+						airport = session.get(Airport.class, id);
+						
+					} catch (Exception ex) {
+						
+						ex.printStackTrace();
+						session.getTransaction().rollback();
+					} finally {
+						session.getTransaction().commit();
+						session.close();
+					}
+				
+					return airport;
+				}	
 
 	public Airport find(String name) {
 		Session session = factory.getCurrentSession();

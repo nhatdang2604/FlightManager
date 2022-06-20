@@ -94,12 +94,15 @@ public class TicketForm extends JDialog implements FormBehaviour {
 		warningText.setForeground(Color.RED);		//Warning have red text
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		
 		footerPanel = new JPanel();
+		footerPanel.setBackground(Color.WHITE);
 		okButton = new JButton("OK");
 		cancelButton = new JButton("Huỷ");
 		
 		centerPanel = new JPanel();
+		centerPanel.setBackground(Color.WHITE);
 		labels = new ArrayList<>(Arrays.asList(
 				new JLabel("Số hiệu chuyến bay"),
 				new JLabel("Tên hành khách (*)"),
@@ -115,9 +118,11 @@ public class TicketForm extends JDialog implements FormBehaviour {
 			textFields.add(new JTextField());
 		}	
 		textFields.get(0).setEditable(false);	//make flight id field uneditable
+		textFields.get(0).setBackground(Color.WHITE);
 		
 		//Init price field
 		priceField = new JTextField();
+		priceField.setBackground(Color.WHITE);
 		priceField.setEditable(false);
 		
 		//Init ticket class combo box

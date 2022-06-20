@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.tkpm.entities.Airport;
@@ -61,7 +62,7 @@ public class SearchFlightPanel extends JPanel{
 		
 		//Search criteria panel
 		JPanel searchCriteriaPanel = new JPanel();
-		searchCriteriaPanel.setLayout(new GridLayout(2, 2));
+		searchCriteriaPanel.setLayout(new GridLayout(2, 2, 5, 5));
 		searchCriteriaPanel.setBackground(Color.WHITE);
 		int size = labels.size();
 		List<JPanel> panels = new ArrayList<>();
@@ -70,7 +71,9 @@ public class SearchFlightPanel extends JPanel{
 		}
 		
 		panels.forEach(panel -> {
-			panel.setLayout(new FlowLayout());
+			//panel.setLayout(new FlowLayout());
+			panel.setLayout(new GridLayout(0, 2, 0, 0));
+			panel.setBorder(new EmptyBorder(10, 30, 10, 30));
 			panel.setBackground(Color.WHITE);
 			searchCriteriaPanel.add(panel);
 		});
@@ -83,6 +86,7 @@ public class SearchFlightPanel extends JPanel{
 		//Add combo boxes
 		int offset = 0;
 		for (int i = 0; i < airportComboBoxes.size(); ++i) {
+			airportComboBoxes.get(i).setPreferredSize(datePickers.get(i).getPreferredSize());
 			panels.get(i).add(airportComboBoxes.get(i));
 		}
 		

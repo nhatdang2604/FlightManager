@@ -24,79 +24,79 @@ public enum AccountDAO {
 	}
 	
 	//Create new account
-		public BaseAccount create(BaseAccount account) {
+	public BaseAccount create(BaseAccount account) {
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
 			
-			Session session = factory.getCurrentSession();
+			//Save the account to database
+			Integer id = (Integer) session.save(account);
 			
-			try {
-				session.beginTransaction();
-				
-				//Save the account to database
-				Integer id = (Integer) session.save(account);
-				
-				//Update the current id for the given account
-				account.setId(id);
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
+			//Update the current id for the given account
+			account.setId(id);
 			
-			return account;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
 		}
 		
-		//Update an account
-		public BaseAccount update(BaseAccount account) {
+		return account;
+	}
+		
+	//Update an account
+	public BaseAccount update(BaseAccount account) {
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			session.beginTransaction();
 			
-			Session session = factory.getCurrentSession();
+			//Update the account
+			session.update(account);
 			
-			try {
-				session.beginTransaction();
-				
-				//Update the account
-				session.update(account);
-				
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				session.getTransaction().rollback();
-			} finally {
-				session.getTransaction().commit();
-				session.close();
-			}
-			
-			return account;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
 		}
 		
-		//Delete an account by the given id and class (class is based on role)
-				public int delete(Integer id, Class accountClass) {
+		return account;
+	}
+	
+	//Delete an account by the given id and class (class is based on role)
+	public int delete(Integer id, Class accountClass) {
 
-					Session session = factory.getCurrentSession();
-					int errorCode = 0;
-					
-					try {
-						session.beginTransaction();
-						
-						BaseAccount account = (BaseAccount) session.get(accountClass, id);
-						
-						if (null !=  account) {
-							session.delete(account);
-						}
-						
-					} catch (Exception ex) {
-						
-						ex.printStackTrace();
-						session.getTransaction().rollback();
-						errorCode = 1;
-					} finally {
-						session.getTransaction().commit();
-						session.close();
-					}
-				
-					return errorCode;
-				}
+		Session session = factory.getCurrentSession();
+		int errorCode = 0;
+		
+		try {
+			session.beginTransaction();
+			
+			BaseAccount account = (BaseAccount) session.get(accountClass, id);
+			
+			if (null !=  account) {
+				session.delete(account);
+			}
+			
+		} catch (Exception ex) {
+			
+			ex.printStackTrace();
+			session.getTransaction().rollback();
+			errorCode = 1;
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return errorCode;
+	}
 				
 				
 		

@@ -72,11 +72,14 @@ public class FlightDetailForm extends JDialog {
 		warningText.setForeground(Color.RED);		//Warning have red text
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		
 		footerPanel = new JPanel();
+		footerPanel.setBackground(Color.WHITE);
 		closeButton = new JButton("Đóng");
 		
 		centerPanel = new JPanel();
+		centerPanel.setBackground(Color.WHITE);
 		labels = new ArrayList<>(Arrays.asList(
 				new JLabel("Mã chuyến bay"),
 				new JLabel("Sân bay đi"),
@@ -95,6 +98,7 @@ public class FlightDetailForm extends JDialog {
 		for (int i = 0; i < numberOfField; ++i) {
 			fields.add(new JTextField());
 			fields.get(i).setEditable(false);
+			fields.get(i).setBackground(Color.WHITE);
 		}
 		
 		table = new TransitionTableView();
@@ -163,6 +167,7 @@ public class FlightDetailForm extends JDialog {
 		footerPanel.setLayout(new BorderLayout());
 		JPanel confirmButtonPanel = new JPanel();
 		confirmButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		confirmButtonPanel.setBackground(Color.WHITE);
 		confirmButtonPanel.add(closeButton);
 		JScrollPane tableScroll = new JScrollPane(table);
 		tableScroll.setPreferredSize(new Dimension(200, 100));

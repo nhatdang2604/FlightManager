@@ -55,7 +55,7 @@ public class Login extends BaseFrame implements FormBehaviour {
 	private void initCheckbox() {
 		chckbxShowPassword = new JCheckBox("Hiện mật khẩu");
 		chckbxShowPassword.setBackground(Color.WHITE);
-		chckbxShowPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		chckbxShowPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		chckbxShowPassword.addActionListener((event) -> {
 				
 			//If the check box is selected
@@ -107,16 +107,13 @@ public class Login extends BaseFrame implements FormBehaviour {
 		
 		jlbUsername = new JLabel("Tên đăng nhập");
 		jlbUsername.setBackground(Color.WHITE);
-		jlbUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		jlbPassword = new JLabel("Mật khẩu");
 		jlbPassword.setBackground(Color.WHITE);
-		jlbPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		jlbWarningText = new JLabel();					//No warning when start login form
 		jlbWarningText.setBackground(Color.WHITE);
 		jlbWarningText.setHorizontalAlignment(SwingConstants.CENTER);
-		jlbWarningText.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jlbWarningText.setForeground(Color.RED);		//Warning have red text
 		
 		txtUsername = new JTextField();

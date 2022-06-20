@@ -91,6 +91,7 @@ public class FlightListTableView extends JTable {
 		setupModelTable();
 		initDetailButton();
 		
+		setAlignmentContent();
 		getTableHeader().setReorderingAllowed(false);
 	}
 	
@@ -137,5 +138,16 @@ public class FlightListTableView extends JTable {
 	
 	public JButton getDetailButton() {
 		return detailButton;
+	}
+	
+	public void setAlignmentContent() {
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+		getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+		
+		setRowHeight(30);
 	}
 }

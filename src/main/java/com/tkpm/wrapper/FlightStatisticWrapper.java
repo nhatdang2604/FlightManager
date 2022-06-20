@@ -15,7 +15,7 @@ public class FlightStatisticWrapper {
 		update();
 	}
 
-	//Getter and setter
+	// Getter and Setter
 	public Flight getFlight() {return flight;}
 	public void setFlights(Flight flight) {
 		this.flight = flight;
@@ -36,16 +36,14 @@ public class FlightStatisticWrapper {
 		
 		return this;
 	}
-	
-	//Utility
+
+	// Utility methods
 	public Integer getNumberOfEmptySeat() {
 		return numberOfEmptySeat;
 	}
-	
 	public Integer getTotalNumberOfSeat() {
 		return flight.getTickets().size();
 	}
-	
 	public Integer getNumberOfBookedSeat() {
 		return  getTotalNumberOfSeat() - getNumberOfEmptySeat();
 	}

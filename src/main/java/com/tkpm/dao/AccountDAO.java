@@ -47,7 +47,7 @@ public enum AccountDAO {
 		
 		return account;
 	}
-	
+		
 	//Update an account
 	public BaseAccount update(BaseAccount account) {
 		
@@ -97,7 +97,7 @@ public enum AccountDAO {
 	
 		return errorCode;
 	}
-	
+				
 	//Find all accounts in database with the given class (class is based on role)
 	public List<BaseAccount> findAll(Class accountClass) {
 		
@@ -152,6 +152,8 @@ public enum AccountDAO {
 		}
 	
 		return account;
-	}
+	}			
+		
+		
 }
  

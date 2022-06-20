@@ -123,36 +123,36 @@ public enum AccountDAO {
 	}
 	
 	//Find account by id and class (class is based on role)
-	public BaseAccount find(Integer id, Class accountClass) {
-		
-		Session session = factory.getCurrentSession();
-		BaseAccount account = null;
-		
-		try {
-			session.beginTransaction();
+		public BaseAccount find(Integer id, Class accountClass) {
 			
-			//Try to find the account base on role
-			if (accountClass.equals(CustomerAccount.class)) {
-				account = (CustomerAccount) session.get(accountClass, id);
-			} 
-			else if (accountClass.equals(ManagerAccount.class)){
-				account = (ManagerAccount) session.get(accountClass, id);
+			Session session = factory.getCurrentSession();
+			BaseAccount account = null;
+			
+			try {
+				session.beginTransaction();
+				
+				//Try to find the account base on role
+				if (accountClass.equals(CustomerAccount.class)) {
+					account = (CustomerAccount) session.get(accountClass, id);
+				} 
+				else if (accountClass.equals(ManagerAccount.class)){
+					account = (ManagerAccount) session.get(accountClass, id);
+				}
+				else if (accountClass.equals(AdminAccount.class)){
+					account = (AdminAccount) session.get(accountClass, id);
+				}
+				
+			} catch (Exception ex) {
+				
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
 			}
-			else if (accountClass.equals(AdminAccount.class)){
-				account = (AdminAccount) session.get(accountClass, id);
-			}
-			
-		} catch (Exception ex) {
-			
-			ex.printStackTrace();
-			session.getTransaction().rollback();
-		} finally {
-			session.getTransaction().commit();
-			session.close();
-		}
-	
-		return account;
-	}			
+		
+			return account;
+		}			
 		
 		
 }

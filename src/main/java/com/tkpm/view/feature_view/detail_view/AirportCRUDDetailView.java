@@ -18,6 +18,8 @@ public class AirportCRUDDetailView extends CRUDDetailView {
 	
 	@Override
 	public void setDataToDetailPanel(Object object) {
+		super.setDataToDetailPanel(object);
+		if (null == object) {return;}
 		Airport airport = (Airport) object;
 		attributeData.get(0).setText(airport.getId().toString());
 		attributeData.get(1).setText(airport.getName());		

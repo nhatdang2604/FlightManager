@@ -240,6 +240,9 @@ public class ManagerController extends CustomerController {
 				initAirportRead(controllerView);
 				initFlightRead(controllerView);
 				
+				//Clear the detail view
+				detail.setDataToDetailPanel(null);
+				
 				//Update the flight view for customer
 				FlightFeatureView featureView = (FlightFeatureView) mainFrame
 						.getFeatureViews()
@@ -557,6 +560,9 @@ public class ManagerController extends CustomerController {
 				
 				//Delete thoose airports
 				flightService.deleteFlights(ids);
+				
+				//Clear the detail view
+				detail.setDataToDetailPanel(null);
 				
 				//Update the table view
 				initFlightRead(controllerView);

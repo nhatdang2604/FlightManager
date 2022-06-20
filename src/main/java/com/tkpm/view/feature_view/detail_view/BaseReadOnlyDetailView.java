@@ -47,7 +47,11 @@ public class BaseReadOnlyDetailView extends JPanel {
 	}
 	
 	public void setDataToDetailPanel(Object data) {
-		//do nothing
+		if (null == data) {
+			for (JLabel field: attributeData) {
+				field.setText("");
+			}
+		}
 	};
 	
 	public BaseReadOnlyDetailView(String title, String[] attributeFieldNames) {

@@ -20,6 +20,8 @@ public class FlightCRUDDetailView extends CRUDDetailView {
 	
 	@Override
 	public void setDataToDetailPanel(Object object) {
+		super.setDataToDetailPanel(object);
+		if (null == object) {return;}
 		Flight flight = (Flight) object;
 		String departureAirport = (null == flight.getDepartureAirport()?"":flight.getDepartureAirport().getName());
 		String arrivalAirport =  (null == flight.getArrivalAirport()?"":flight.getArrivalAirport().getName());

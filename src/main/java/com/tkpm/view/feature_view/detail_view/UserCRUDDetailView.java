@@ -21,6 +21,8 @@ public class UserCRUDDetailView extends CRUDDetailView {
 
 	@Override
 	public void setDataToDetailPanel(Object object) {
+		super.setDataToDetailPanel(object);
+		if (null == object) {return;}
 		User user= (User) object;
 		attributeData.get(0).setText(user.getId().toString());
 		attributeData.get(1).setText(user.getUsername());		

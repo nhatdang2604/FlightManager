@@ -208,6 +208,9 @@ public class AdminController extends ManagerController {
 				//Delete thoose airports
 				userService.deleteUsers(ids);
 				
+				//Clear the detail view
+				detail.setDataToDetailPanel(null);
+				
 				//Update the table view
 				initUserRead(controllerView);
 				

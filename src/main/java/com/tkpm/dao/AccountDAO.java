@@ -48,5 +48,29 @@ public enum AccountDAO {
 			return account;
 		}
 		
+		//Update an account
+		public BaseAccount update(BaseAccount account) {
+			
+			Session session = factory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				
+				//Update the account
+				session.update(account);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				session.getTransaction().rollback();
+			} finally {
+				session.getTransaction().commit();
+				session.close();
+			}
+			
+			return account;
+		}
+		
+		
+		
 }
  

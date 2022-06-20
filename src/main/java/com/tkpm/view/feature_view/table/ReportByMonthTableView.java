@@ -96,7 +96,7 @@ public class ReportByMonthTableView extends JTable {
 					wrapper.getFlight().getId(),
 					wrapper.getTotalNumberOfSeat(),
 					new Double(ratio * 100).toString() + "%",
-					"$" + wrapper.getTurnover().toString()};
+					wrapper.getTurnover().toString() + " VND"};
 			
 			tableModel.addRow(row);		
 		}

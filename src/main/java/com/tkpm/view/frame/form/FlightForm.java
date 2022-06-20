@@ -308,6 +308,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		init();
 		setModel(model);
 		setSize(WIDTH, HEIGHT);
+		setLocationRelativeTo(null);
 	}
 	
 	public FlightForm(JFrame owner) {
@@ -315,6 +316,7 @@ public class FlightForm extends JDialog implements FormBehaviour {
 		init();
 		initModel();
 		setSize(WIDTH, HEIGHT);
+		setLocationRelativeTo(null);
 	}
 	
 	

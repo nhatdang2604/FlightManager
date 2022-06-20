@@ -234,7 +234,7 @@ public class TicketForm extends JDialog implements FormBehaviour {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 350);
 		setContentPane(contentPane);
-		
+		setLocationRelativeTo(null);
 	}
 	
 	private void initModel() {

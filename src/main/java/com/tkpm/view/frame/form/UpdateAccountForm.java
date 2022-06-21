@@ -117,7 +117,7 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 				new JLabel("CMND/CCCD"),
 				new JLabel("Số điện thoại")));
 		
-		//Init text fields
+		//Initiate text fields
 		textFields = new ArrayList<>();
 		int numberOfTextField = 3;
 		for (int i = 0; i < numberOfTextField; ++i) {
@@ -126,14 +126,14 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 		textFields.get(1).setEditable(false);	//make encrypted password field uneditable
 		
 		
-		//Init combo box
+		//Initiate combo box
 		roleComboBox = new JComboBox<>();
 		for (USER_ROLE role: USER_ROLE.values()) {
 			roleComboBox.addItem(role);
 		}
 	
 		
-		//Init numeric fields
+		//Initiate numeric fields
 		numericTextFields = new ArrayList<>();
 		int numberOfNumericField = 2;
 		for (int i = 0; i < numberOfNumericField; ++i) {

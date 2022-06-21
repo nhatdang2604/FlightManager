@@ -64,7 +64,7 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 	
 	private static final String[] ERRORS = {
 			"",
-			"Có ít nhất một ô (*) không có thông tin",
+			"Có ít nhất một ô (*) bị bỏ trống",
 			"Ô phải mang giá trị số",
 			"Tên đăng nhập đã tồn tại",
 

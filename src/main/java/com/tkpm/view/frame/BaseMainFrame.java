@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -152,7 +153,7 @@ public class BaseMainFrame extends BaseFrame {
 
 		leftPanel.setBackground(Color.WHITE);
 		if (categories.size() > 1) {
-			leftPanel.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+			leftPanel.setBorder(BorderFactory.createTitledBorder("Menu"));
 		}
 		else {
 			leftPanel.setBorder(new EmptyBorder(0, 0, 0, 8));

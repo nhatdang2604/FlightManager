@@ -3,6 +3,7 @@ package com.tkpm.view.feature_view.detail_view;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class FlightListDetailView extends BaseReadOnlyDetailView {
 		bookButton = new JButton("ĐẶT VÉ");
 		bookButton.setBackground(new Color(41, 97, 213));
 		bookButton.setForeground(Color.WHITE);
-		bookButton.setFont(new Font("Noto Sans", Font.BOLD, 26)); 
+		bookButton.setFont(new Font("Noto Sans", Font.BOLD, 26));
 
 		//Add Buttons to detail panel
 		paddingPanels.get(2).add(bookButton);

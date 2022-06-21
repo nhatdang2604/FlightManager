@@ -369,13 +369,6 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 	@Override
 	public void clear() {
 		for (JTextField field: textFields) {field.setText("");}
-		for (JTextField field: numericTextFields) {field.setText("");}
-		
-	}
-
-	@Override
-	public void close() {
-		clear();
-		setVisible(false);
+		for (JTextField field: numericTextFields) {field.setText("");}	
 	}
 }

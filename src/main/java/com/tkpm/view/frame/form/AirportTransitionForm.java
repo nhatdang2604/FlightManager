@@ -41,11 +41,40 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	
 	private Transition model;
 	
+	public static final int NO_ERROR = 0;
+	public static final int EMPTY_STAR_FIELD_ERROR = 1;
+	public static final int NUMBER_FIELD_ERROR = 2;
+	
+	private static final String[] ERRORS = {
+			"",
+			"Có ít nhất một ô (*) bị trống",
+			"Thời gian dừng phải là số nguyên"
+	};
+	
+	//Ignore not an number value from an event
+	//	And open the flag of nan error in number field
+	private void ignoreNANValue(KeyEvent event) {
+		char character = event.getKeyChar();
+		if (('0' <= character) && (character <= '9') || (KeyEvent.VK_BACK_SPACE == character)) {
+			setError(NO_ERROR);
+		} else {
+			event.consume();
+			setError(NUMBER_FIELD_ERROR);
+		}
+	}
+		
+	private void initNumberFields() {
+		txtTransitionTime.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ignoreNANValue(e);
+			}
+		});
+	}
+	
 	private void initButtons() {
 		cancelButton.addActionListener((event)->{
 			close();
-		});
-		
+		});	
 	}
 	
 	private void initComponents() {
@@ -92,7 +121,8 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		okButton = new JButton("Thêm");
 		okButton.setBackground(new Color(41, 97, 213));
 		okButton.setForeground(Color.WHITE);
-
+		
+		initNumberFields();
 		initButtons();
 	}
 	
@@ -143,6 +173,22 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 		super(owner, true);
 		init();
 	}
+	
+	
+	public boolean areThereAnyEmptyStarField() {
+		
+		Airport airport = (Airport) airportComboBox.getSelectedItem();
+		if (null == airport) {
+			return true;
+		}
+		
+		String transitionTime = txtTransitionTime.getText().trim();
+		if (null == transitionTime || transitionTime.equals("")) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	public void loadAirport(List<Airport> airports)  {
 		airportComboBox.removeAllItems();
@@ -171,7 +217,9 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
 	@Override
 	public FormBehaviour setError(int errorCode) {
-		
+		if (0 <= errorCode && errorCode < ERRORS.length) {
+			warningText.setText(ERRORS[errorCode]);
+		}
 		return this;
 	}
 

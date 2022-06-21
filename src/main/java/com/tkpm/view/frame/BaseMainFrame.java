@@ -11,6 +11,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.tkpm.view.action.MappingFeatureActionListener;
 import com.tkpm.view.feature_view.BaseFeatureView;
@@ -52,7 +54,7 @@ public class BaseMainFrame extends BaseFrame {
 		// Only add button to left panel, if there are more than 1 option
 		//	1 option does not need to show up the button
 		if (size > 1) {
-			leftPanel.setLayout(new GridLayout(size, 1));
+			leftPanel.setLayout(new GridLayout(size, 1, 0, 40));
 			
 			//Add n button on the left side menu
 			categories.forEach(category -> {
@@ -82,7 +84,8 @@ public class BaseMainFrame extends BaseFrame {
 			
 			//Just coloring the left panel with the category's border color,
 			//	because we don not need button if we only have 1 option
-			leftPanel.setBackground(Category.BORDER_COLOR);
+			//leftPanel.setBackground(Category.BORDER_COLOR);
+			leftPanel.setBackground(Color.WHITE);
 		}
 	}
 	
@@ -131,6 +134,8 @@ public class BaseMainFrame extends BaseFrame {
         setContentPane(basePanel);
         setLocationRelativeTo(null);
         
+        //Design the panels
+        designPanel();
 	}
 	
 	public BaseMainFrame() {
@@ -139,6 +144,19 @@ public class BaseMainFrame extends BaseFrame {
 
 	public List<BaseFeatureView> getFeatureViews() {
 		return featureViews;
+	}
+	
+	protected void designPanel() {
+		basePanel.setBackground(Color.WHITE);
+		basePanel.setBorder(new EmptyBorder(10, 8, 0, 16));
+
+		leftPanel.setBackground(Color.WHITE);
+		if (categories.size() > 1) {
+			leftPanel.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+		}
+		else {
+			leftPanel.setBorder(new EmptyBorder(0, 0, 0, 8));
+		}
 	}
 }
 

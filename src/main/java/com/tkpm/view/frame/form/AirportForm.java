@@ -28,6 +28,16 @@ public class AirportForm extends JDialog implements FormBehaviour {
 	
 	private Airport model;
 	
+	public static final int NO_ERROR = 0;
+	public static final int EMPTY_STAR_FIELD_ERROR = 1;
+	public static final int NAME_EXISTED_FIELD_ERROR = 2;
+	
+	private static final String[] ERRORS = {
+			"",
+			"Tên sân bay bị trống",
+			"Tên sân bay đã tồn tại"
+	};
+	
 	private void initButtons() {
 		cancelButton.addActionListener((event)->{
 			close();
@@ -139,6 +149,9 @@ public class AirportForm extends JDialog implements FormBehaviour {
 
 	@Override
 	public FormBehaviour setError(int errorCode) {
+		if (0 <= errorCode && errorCode < ERRORS.length) {
+			warningText.setText(ERRORS[errorCode]);
+		}
 		
 		return this;
 	}

@@ -277,10 +277,10 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 			phone = customerAccount.getPhoneNumber();
 			
 		} else if (role.equals(USER_ROLE.Manager)) {
-			ManagerAccount  acc = (ManagerAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
+			ManagerAccount  managerAccount = (ManagerAccount) model.getAccount();
+			name = managerAccount.getName();
+			identity_code = managerAccount.getIdentityCode();
+			phone = managerAccount.getPhoneNumber();
 			
 		}
 		

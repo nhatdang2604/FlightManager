@@ -355,11 +355,6 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 	public User getModel() {return model;}
 	public BaseAccount getNewAccount() {return newAccount;}
 	public boolean isChangeRole() {return isChangeRole;}
-	
-//	public static void main(String[] args) {
-//		UpdateAccountForm form = new UpdateAccountForm(null);
-//		form.setVisible(true);
-//	}
 
 	public boolean areThereAnyEmptyStarField() {
 		

@@ -265,10 +265,10 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 		name = identity_code = phone = null;
 		
 		if (role.equals(USER_ROLE.Admin)) {
-			AdminAccount acc = (AdminAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
+			AdminAccount adminAccount = (AdminAccount) model.getAccount();
+			name = adminAccount.getName();
+			identity_code = adminAccount.getIdentityCode();
+			phone = adminAccount.getPhoneNumber();
 			
 		} else if (role.equals(USER_ROLE.Customer)) {
 			CustomerAccount acc = (CustomerAccount) model.getAccount();

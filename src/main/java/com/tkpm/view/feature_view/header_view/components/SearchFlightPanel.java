@@ -89,7 +89,13 @@ public class SearchFlightPanel extends JPanel{
 					airportComboBoxes.get(i).setPreferredSize(datePickers.get(i).getPreferredSize());
 					panels.get(i).add(airportComboBoxes.get(i));
 				}
-		
+				
+				//Add date pickers
+				offset += airportComboBoxes.size();
+				for (int i = 0; i < datePickers.size(); ++i) {
+					panels.get(offset + i).add(datePickers.get(i));
+				}
+				offset += datePickers.size();
 		
 	}
 	

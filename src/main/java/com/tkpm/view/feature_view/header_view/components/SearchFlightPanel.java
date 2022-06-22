@@ -108,7 +108,8 @@ public class SearchFlightPanel extends JPanel{
 		setLayout();
 	}
 
-	
-	
-	
+	//Getters
+		public List<JComboBox<Airport>> getAirportComboBoxes() {return airportComboBoxes;}
+		public List<DatePicker> getDatePickers() {return datePickers;}
+		public JButton getSearchButton() {return searchButton;}
 }

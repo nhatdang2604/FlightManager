@@ -78,6 +78,10 @@ public class SearchFlightPanel extends JPanel{
 			searchCriteriaPanel.add(panel);
 		});
 		
+		//Add labels
+				for (int i = 0; i < size; ++i) {
+					panels.get(i).add(labels.get(i));
+				}
 		
 		
 	}

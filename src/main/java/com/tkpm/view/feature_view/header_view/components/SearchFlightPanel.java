@@ -78,28 +78,7 @@ public class SearchFlightPanel extends JPanel{
 			searchCriteriaPanel.add(panel);
 		});
 		
-		//Add labels
-		for (int i = 0; i < size; ++i) {
-			panels.get(i).add(labels.get(i));
-		}
 		
-		//Add combo boxes
-		int offset = 0;
-		for (int i = 0; i < airportComboBoxes.size(); ++i) {
-			airportComboBoxes.get(i).setPreferredSize(datePickers.get(i).getPreferredSize());
-			panels.get(i).add(airportComboBoxes.get(i));
-		}
-		
-		//Add date pickers
-		offset += airportComboBoxes.size();
-		for (int i = 0; i < datePickers.size(); ++i) {
-			panels.get(offset + i).add(datePickers.get(i));
-		}
-		offset += datePickers.size();
-		
-		//Add 2 panels together
-		add(searchCriteriaPanel, BorderLayout.CENTER);
-		add(searchButtonPanel, BorderLayout.EAST);
 		
 	}
 	
@@ -108,10 +87,7 @@ public class SearchFlightPanel extends JPanel{
 		setLayout();
 	}
 
-	//Getters
-	public List<JComboBox<Airport>> getAirportComboBoxes() {return airportComboBoxes;}
-	public List<DatePicker> getDatePickers() {return datePickers;}
-	public JButton getSearchButton() {return searchButton;}
+	
 	
 	
 }

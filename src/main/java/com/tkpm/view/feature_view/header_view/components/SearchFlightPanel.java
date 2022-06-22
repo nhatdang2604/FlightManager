@@ -97,6 +97,10 @@ public class SearchFlightPanel extends JPanel{
 		}
 		offset += datePickers.size();
 		
+		//Add 2 panels together
+		add(searchCriteriaPanel, BorderLayout.CENTER);
+		add(searchButtonPanel, BorderLayout.EAST);
+		
 	}
 	
 	public SearchFlightPanel() {

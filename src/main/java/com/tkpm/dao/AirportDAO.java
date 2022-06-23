@@ -206,7 +206,7 @@ public enum AirportDAO {
 					"from " + Airport.class.getName() + " " + 
 					"where id in " + idSet;
 		
-			Query<Ticket> hql = session.createQuery(query);
+			Query<Airport> hql = session.createQuery(query);
 			for (int i = 0; i < size; ++i) {
 				hql = hql.setParameter(params.get(i), ids.get(i));
 			}

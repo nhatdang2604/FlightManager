@@ -157,9 +157,11 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
+			// Using param to avoid sql jnjection
 			String param = "name";
 			String query = "from " + Airport.class.getName() + " a where a.name = :" + param;
 			
+			// Create query, execute, and receive the result
 			airport = session
 					.createQuery(query, Airport.class)
 					.setParameter(param, name)

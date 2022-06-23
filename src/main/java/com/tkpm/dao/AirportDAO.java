@@ -212,10 +212,15 @@ public enum AirportDAO {
 					"from " + Airport.class.getName() + " " + 
 					"where id in " + idSet;
 		
+			// Create the query but not set the parameters for it yet
 			Query<Airport> hql = session.createQuery(query);
+			
+			// Set the list of parameters one by one to the query
 			for (int i = 0; i < size; ++i) {
 				hql = hql.setParameter(params.get(i), ids.get(i));
 			}
+			
+			// Execute the query
 			hql.executeUpdate();
 			
 			

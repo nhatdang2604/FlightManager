@@ -80,6 +80,7 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
+			// Find the airport with specified ID to make sure it exists
 			Airport airport = session.get(Airport.class, id);
 			
 			if (null !=  airport) {
@@ -108,7 +109,8 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
-			//Get the list of airports
+			// Get the list of airports
+			// This equals to "select *"
 			airports = session.createQuery("from " + Airport.class.getName(), Airport.class).getResultList();
 			
 		} catch (Exception ex) {
@@ -132,6 +134,8 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
+			// Get airport with specified ID
+			// This will automatically find the correspondent table
 			airport = session.get(Airport.class, id);
 			
 		} catch (Exception ex) {

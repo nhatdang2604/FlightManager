@@ -195,10 +195,10 @@ public enum AirportDAO {
 			StringBuilder builder = new StringBuilder();
 			builder.append("(-1");	//Using -1 for dynamically without checking "," if there is only 1 element in ids 
 			for (String param: params) {
-				builder.append(", :" + param);
+				builder.append(", :" + param); 
 			}
 			builder.append(")");
-			String idSet = builder.toString();
+			String idSet = builder.toString(); 
 			
 			//Query to delete
 			String query = 

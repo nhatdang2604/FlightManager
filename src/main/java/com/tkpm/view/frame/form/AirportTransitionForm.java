@@ -17,24 +17,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
 import com.tkpm.entities.Airport;
 import com.tkpm.entities.Transition;
 
+@SuppressWarnings("serial")
 public class AirportTransitionForm extends JDialog implements FormBehaviour {
 
-	private JLabel jlbTransitionAir;
-	private JLabel jlbAirportId;
 	private JPanel panelButton;
 	private JPanel panelInfo;
 	
-	private JComboBox<Airport> airportComboBox;
+	private JLabel jlbTransitionAir;
+	private JLabel jlbAirportId;
 	private JLabel jlbTransitionTime;
-	private JTextField txtTransitionTime;
 	private JLabel jlbNote;
-	private JTextField txtNote;
 	private JLabel warningText;
+	
+	private JComboBox<Airport> airportComboBox;
+	private JTextField txtTransitionTime;
+	private JTextField txtNote;
 	
 	private JButton cancelButton;
 	private JButton okButton;
@@ -50,7 +50,6 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 			"Có ít nhất một ô (*) bị trống",
 			"Thời gian dừng phải là số nguyên"
 	};
-	
 	
 	//Ignore not an number value from an event
 	//	And open the flag of nan error in number field
@@ -75,8 +74,7 @@ public class AirportTransitionForm extends JDialog implements FormBehaviour {
 	private void initButtons() {
 		cancelButton.addActionListener((event)->{
 			close();
-		});
-		
+		});	
 	}
 	
 	private void initComponents() {

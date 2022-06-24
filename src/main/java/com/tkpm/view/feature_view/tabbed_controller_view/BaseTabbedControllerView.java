@@ -2,6 +2,7 @@ package com.tkpm.view.feature_view.tabbed_controller_view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class BaseTabbedControllerView extends JPanel {
 		
 		gbc.gridy = 1;
 		gbc.weighty = 1 - heightRatio;
-		this.add(footerView, gbc);
+		//this.add(footerView, gbc);
 		
 	}
 	

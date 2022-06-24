@@ -1,14 +1,18 @@
 package com.tkpm.view.widget;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 
 @SuppressWarnings("serial")
@@ -36,16 +40,16 @@ public class Category extends JPanel {
 		
 		gbc.weighty = borderSize;
 		gbc.gridwidth = 3;
-		this.add(borders.get(0), gbc);
+		//this.add(borders.get(0), gbc);
 		
 		gbc.gridwidth = 1;
 		gbc.weightx = borderSize;
 		gbc.weighty = 1 - 2 *borderSize;
 		gbc.gridy = 1;
-		this.add(borders.get(1), gbc);
+		//this.add(borders.get(1), gbc);
 		
 		gbc.gridx = 2;
-		this.add(borders.get(2), gbc);
+		//this.add(borders.get(2), gbc);
 		
 		gbc.gridx = 1;
 		this.add(button, gbc);
@@ -54,12 +58,12 @@ public class Category extends JPanel {
 		gbc.gridx = 0;
 		gbc.weighty = borderSize;
 		gbc.gridwidth = 3;
-		this.add(borders.get(3), gbc);
+		//this.add(borders.get(3), gbc);
 	
 	}
 	
 	
-	/**** Constuctor ****/
+	/**** Constructor ****/
 	public Category(String name) {
 		
 		this.name = name;
@@ -83,5 +87,6 @@ public class Category extends JPanel {
 	private void editButton() {
 		button.setBorder(null);
 	}
+	
 }
 

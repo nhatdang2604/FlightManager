@@ -3,33 +3,25 @@ package com.tkpm.view.frame.form;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.List;
-
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
 import com.tkpm.entities.Airport;
-import com.tkpm.entities.Transition;
 
+@SuppressWarnings("serial")
 public class AirportForm extends JDialog implements FormBehaviour {
 
-	private JLabel jlbAirportName;
 	private JPanel panelButton;
 	private JPanel panelInfo;
 	
-	private JTextField txtAirportName;
+	private JLabel jlbAirportName;
 	private JLabel warningText;
+	private JTextField txtAirportName;
 	
 	private JButton cancelButton;
 	private JButton okButton;
@@ -45,14 +37,11 @@ public class AirportForm extends JDialog implements FormBehaviour {
 			"Tên sân bay bị trống",
 			"Tên sân bay đã tồn tại"
 	};
-
-
 	
 	private void initButtons() {
 		cancelButton.addActionListener((event)->{
 			close();
 		});
-		
 	}
 	
 	private void initComponents() {
@@ -95,8 +84,8 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		panelInfo.add(warningText);
 		
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
-		panelButton.add(cancelButton);
 		panelButton.add(okButton);
+		panelButton.add(cancelButton);
 	}
 	
 	public void init() {
@@ -163,6 +152,7 @@ public class AirportForm extends JDialog implements FormBehaviour {
 		if (0 <= errorCode && errorCode < ERRORS.length) {
 			warningText.setText(ERRORS[errorCode]);
 		}
+		
 		return this;
 	}
 

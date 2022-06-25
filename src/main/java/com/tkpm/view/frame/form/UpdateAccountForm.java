@@ -64,8 +64,8 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 	
 	private static final String[] ERRORS = {
 			"",
-			"Có ít nhất một ô (*) không có thông tin",
-			"Ô phải mang giá trị số",
+			"Có ít nhất một ô (*) bị bỏ trống",
+			"Ô phải có giá trị là số",
 			"Tên đăng nhập đã tồn tại",
 
 	};
@@ -117,7 +117,7 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 				new JLabel("CMND/CCCD"),
 				new JLabel("Số điện thoại")));
 		
-		//Init text fields
+		//Initiate text fields
 		textFields = new ArrayList<>();
 		int numberOfTextField = 3;
 		for (int i = 0; i < numberOfTextField; ++i) {
@@ -126,14 +126,14 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 		textFields.get(1).setEditable(false);	//make encrypted password field uneditable
 		
 		
-		//Init combo box
+		//Initiate combo box
 		roleComboBox = new JComboBox<>();
 		for (USER_ROLE role: USER_ROLE.values()) {
 			roleComboBox.addItem(role);
 		}
 	
 		
-		//Init numeric fields
+		//Initiate numeric fields
 		numericTextFields = new ArrayList<>();
 		int numberOfNumericField = 2;
 		for (int i = 0; i < numberOfNumericField; ++i) {
@@ -265,22 +265,22 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 		name = identity_code = phone = null;
 		
 		if (role.equals(USER_ROLE.Admin)) {
-			AdminAccount acc = (AdminAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
+			AdminAccount adminAccount = (AdminAccount) model.getAccount();
+			name = adminAccount.getName();
+			identity_code = adminAccount.getIdentityCode();
+			phone = adminAccount.getPhoneNumber();
 			
 		} else if (role.equals(USER_ROLE.Customer)) {
-			CustomerAccount acc = (CustomerAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
+			CustomerAccount customerAccount = (CustomerAccount) model.getAccount();
+			name = customerAccount.getName();
+			identity_code = customerAccount.getIdentityCode();
+			phone = customerAccount.getPhoneNumber();
 			
 		} else if (role.equals(USER_ROLE.Manager)) {
-			ManagerAccount  acc = (ManagerAccount) model.getAccount();
-			name = acc.getName();
-			identity_code = acc.getIdentityCode();
-			phone = acc.getPhoneNumber();
+			ManagerAccount  managerAccount = (ManagerAccount) model.getAccount();
+			name = managerAccount.getName();
+			identity_code = managerAccount.getIdentityCode();
+			phone = managerAccount.getPhoneNumber();
 			
 		}
 		
@@ -355,11 +355,6 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 	public User getModel() {return model;}
 	public BaseAccount getNewAccount() {return newAccount;}
 	public boolean isChangeRole() {return isChangeRole;}
-	
-//	public static void main(String[] args) {
-//		UpdateAccountForm form = new UpdateAccountForm(null);
-//		form.setVisible(true);
-//	}
 
 	public boolean areThereAnyEmptyStarField() {
 		
@@ -374,10 +369,9 @@ public class UpdateAccountForm extends JDialog implements FormBehaviour {
 	@Override
 	public void clear() {
 		for (JTextField field: textFields) {field.setText("");}
-		for (JTextField field: numericTextFields) {field.setText("");}
-		
+		for (JTextField field: numericTextFields) {field.setText("");}	
 	}
-
+	
 	@Override
 	public void close() {
 		clear();

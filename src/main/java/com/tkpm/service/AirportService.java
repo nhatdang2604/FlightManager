@@ -56,7 +56,8 @@ public enum AirportService {
 
 	public int deleteAirports(List<Integer> ids) {
 		
-		//Set null for transition airport, which has airport with the same id with the delete airports
+		// Set null for transition airport, which has airport with the same id with the delete airports
+		// To avoid delete a referenced foreign key
 		transitionService.removeAirportFieldWithGivenIds(ids);
 		
 		//Set null for transition airport, which has airport with the same id with the delete airports

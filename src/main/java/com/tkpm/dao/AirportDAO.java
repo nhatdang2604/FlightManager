@@ -80,6 +80,7 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
+			// Find the airport with specified ID to make sure it exists
 			Airport airport = session.get(Airport.class, id);
 			
 			if (null !=  airport) {
@@ -108,7 +109,8 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
-			//Get the list of airports
+			// Get the list of airports
+			// This equals to "select *"
 			airports = session.createQuery("from " + Airport.class.getName(), Airport.class).getResultList();
 			
 		} catch (Exception ex) {
@@ -132,6 +134,8 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
+			// Get airport with specified ID
+			// This will automatically find the correspondent table
 			airport = session.get(Airport.class, id);
 			
 		} catch (Exception ex) {
@@ -153,9 +157,11 @@ public enum AirportDAO {
 		try {
 			session.beginTransaction();
 			
+			// Using param to avoid sql jnjection
 			String param = "name";
 			String query = "from " + Airport.class.getName() + " a where a.name = :" + param;
 			
+			// Create query, execute, and receive the result
 			airport = session
 					.createQuery(query, Airport.class)
 					.setParameter(param, name)
@@ -195,10 +201,10 @@ public enum AirportDAO {
 			StringBuilder builder = new StringBuilder();
 			builder.append("(-1");	//Using -1 for dynamically without checking "," if there is only 1 element in ids 
 			for (String param: params) {
-				builder.append(", :" + param);
+				builder.append(", :" + param); 
 			}
 			builder.append(")");
-			String idSet = builder.toString();
+			String idSet = builder.toString(); 
 			
 			//Query to delete
 			String query = 
@@ -206,10 +212,15 @@ public enum AirportDAO {
 					"from " + Airport.class.getName() + " " + 
 					"where id in " + idSet;
 		
-			Query<Ticket> hql = session.createQuery(query);
+			// Create the query but not set the parameters for it yet
+			Query<Airport> hql = session.createQuery(query);
+			
+			// Set the list of parameters one by one to the query
 			for (int i = 0; i < size; ++i) {
 				hql = hql.setParameter(params.get(i), ids.get(i));
 			}
+			
+			// Execute the query
 			hql.executeUpdate();
 			
 			
